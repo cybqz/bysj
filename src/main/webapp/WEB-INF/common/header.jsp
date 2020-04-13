@@ -1,0 +1,41 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<style>
+    #header{
+        background: #333333;
+        height: 70px;
+        padding: 0 30px;
+        font-size: 24px;
+        color: white;
+        line-height: 70px;
+    }
+    .header_right_wrap{
+        position: absolute;
+        right: 0;
+        top:0;
+    }
+    .header_right{
+        font-size: 16px;
+        display: inline-block;
+        margin-right: 30px;
+        cursor: pointer;
+    }
+</style>
+<script>
+    function logout() {
+        var request = new Rquest(ctx, "/login/logout", null,
+            function (data) {
+                window.location.href = ctx;
+            }, function () {
+                console.log("error");
+            });
+        request.ajaxpost();
+    }
+</script>
+<div id="header">
+    工厂管理系统
+    <span class="header_right_wrap">
+        <span class="header_right">登陆信息</span>
+        <span class="header_right" onclick="logout();">退出</span>
+    </span>
+
+</div>

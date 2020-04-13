@@ -1,0 +1,85 @@
+.color_blue{
+    color: #0F5F7E;
+}
+.wrap{
+    display: flex;
+}
+#tab_wrap{
+    width: 15%;
+}
+#content{
+    flex: 1;
+    background: white;
+    color: black;
+    padding: 30px 60px;
+}
+#top_text{
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    padding: 0 30px;
+    position: relative;
+}
+.add_wrap{
+    position: absolute;
+    right: 0;
+    top:0;
+}
+.add{
+    color: white;
+    background: #0F5F7E;
+    display: inline-block;
+    width: 60px;
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
+}
+#list{
+    border-radius: 3px;
+    box-shadow: 0 0 3px #909090;
+    margin-top: 30px;
+}
+.ul_wrap{
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px #909090 solid;
+}
+.ul_wrap:last-child{
+    border-bottom: none;
+}
+.title{
+    background: #0F5F7E;
+    color: white;
+}
+.li_wrap{
+    flex: 1;
+    padding: 0 20px;
+    text-align: center;
+    font-size: 16px;
+    height: 60px;
+    line-height: 60px;
+}
+.opcity{
+    width: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    font-size: 16px;
+    height: 60px;
+}
+.edit,.delete{
+    flex: 1;
+    margin: 0 15px;
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+}
+.edit{
+    color: #0F5F7E;
+}
+.delete{
+    color: red;
+}

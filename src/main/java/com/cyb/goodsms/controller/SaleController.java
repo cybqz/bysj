@@ -39,13 +39,13 @@ public class SaleController extends BaseController {
 		return Constant.DEFAULT_PAGE_SALE;
 	}
 
-	@RequestMapping(Constant.SALE_ADD)
+	@RequestMapping(Constant.DEFAULT_ADD)
 	public String add(HttpServletRequest request) {
 		request.setAttribute("title", MODEL_NAME +"-新增");
-		return Constant.DEFAULT_PAGE_PREFIX +Constant.SALE + Constant.SALE_ADD;
+		return Constant.DEFAULT_PAGE_PREFIX +Constant.SALE + Constant.DEFAULT_ADD;
 	}
 
-	@PostMapping("/save")
+	@PostMapping(Constant.DEFAULT_SAVE)
 	@ResponseBody
 	public Tips save(CarBuyingPeople carBuyingPeople) {
 		super.validLogined();
@@ -61,7 +61,7 @@ public class SaleController extends BaseController {
 		return tips;
 	}
 
-	@PostMapping("/delete")
+	@PostMapping(Constant.DEFAULT_DELETE)
 	@ResponseBody
 	public Tips delete(String id) {
 		super.validLogined();
@@ -81,11 +81,11 @@ public class SaleController extends BaseController {
 		return tips;
 	}
 
-	@RequestMapping(Constant.SALE_UPDATE)
+	@RequestMapping(Constant.DEFAULT_UPDATE)
 	public String update(String id, HttpServletRequest request) {
 		request.setAttribute("title", MODEL_NAME +"-更新");
 		request.setAttribute("opreationId", id);
-		return Constant.DEFAULT_PAGE_PREFIX +Constant.SALE + Constant.SALE_UPDATE;
+		return Constant.DEFAULT_PAGE_PREFIX +Constant.SALE + Constant.DEFAULT_UPDATE;
 	}
 
 	@PostMapping("/doupdate")
@@ -110,7 +110,7 @@ public class SaleController extends BaseController {
 
 
 
-	@PostMapping("/detail")
+	@PostMapping(Constant.DEFAULT_DETAIL)
 	@ResponseBody
 	public Tips detail(String id) {
 
@@ -130,7 +130,7 @@ public class SaleController extends BaseController {
 		return tips;
 	}
 
-	@PostMapping("/page")
+	@PostMapping(Constant.DEFAULT_PAGE)
 	@ResponseBody
 	public Tips page(CarBuyingPeople carBuyingPeople, Pagenation pagenation) {
 		super.validLogined();
@@ -142,7 +142,7 @@ public class SaleController extends BaseController {
 		return tips;
 	}
 
-	@PostMapping("/count")
+	@PostMapping(Constant.DEFAULT_COUNT)
 	@ResponseBody
 	public Tips count(CarBuyingPeople carBuyingPeople) {
 		super.validLogined();

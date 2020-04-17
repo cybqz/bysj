@@ -39,13 +39,13 @@ public class CustomerInforController extends BaseController {
 		return Constant.DEFAULT_PAGE_CUSTOMER_INFO;
 	}
 
-	@RequestMapping(Constant.CUSTOMER_INFO_ADD)
+	@RequestMapping(Constant.DEFAULT_ADD)
 	public String add(HttpServletRequest request) {
 		request.setAttribute("title", MODEL_NAME +"-新增");
-		return Constant.DEFAULT_PAGE_PREFIX +Constant.CUSTOMER_INFO + Constant.CUSTOMER_INFO_ADD;
+		return Constant.DEFAULT_PAGE_PREFIX +Constant.CUSTOMER_INFO + Constant.DEFAULT_ADD;
 	}
 
-	@PostMapping("/save")
+	@PostMapping(Constant.DEFAULT_SAVE)
 	@ResponseBody
 	public Tips save(CustomerInfo customerInfo) {
 		super.validLogined();
@@ -61,7 +61,7 @@ public class CustomerInforController extends BaseController {
 		return tips;
 	}
 
-	@PostMapping("/delete")
+	@PostMapping(Constant.DEFAULT_DELETE)
 	@ResponseBody
 	public Tips delete(String id) {
 		super.validLogined();
@@ -81,11 +81,11 @@ public class CustomerInforController extends BaseController {
 		return tips;
 	}
 
-	@RequestMapping(Constant.CUSTOMER_INFO_UPDATE)
+	@RequestMapping(Constant.DEFAULT_UPDATE)
 	public String update(String id, HttpServletRequest request) {
 		request.setAttribute("title", MODEL_NAME +"-更新");
 		request.setAttribute("opreationId", id);
-		return Constant.DEFAULT_PAGE_PREFIX +Constant.CUSTOMER_INFO + Constant.CUSTOMER_INFO_UPDATE;
+		return Constant.DEFAULT_PAGE_PREFIX +Constant.CUSTOMER_INFO + Constant.DEFAULT_UPDATE;
 	}
 
 	@PostMapping("/doupdate")
@@ -108,7 +108,7 @@ public class CustomerInforController extends BaseController {
 		return tips;
 	}
 
-	@PostMapping("/detail")
+	@PostMapping(Constant.DEFAULT_DETAIL)
 	@ResponseBody
 	public Tips detail(String id) {
 
@@ -128,7 +128,7 @@ public class CustomerInforController extends BaseController {
 		return tips;
 	}
 
-	@PostMapping("/page")
+	@PostMapping(Constant.DEFAULT_PAGE)
 	@ResponseBody
 	public Tips page(CustomerInfo customerInfo, Pagenation pagenation) {
 
@@ -142,7 +142,7 @@ public class CustomerInforController extends BaseController {
 		return tips;
 	}
 
-	@PostMapping("/count")
+	@PostMapping(Constant.DEFAULT_COUNT)
 	@ResponseBody
 	public Tips count(CustomerInfo customerInfo) {
 		super.validLogined();

@@ -16,6 +16,7 @@
     <script src="${ctx}/js/cookie_util.js"></script>
     <script src="${ctx}/js/notice.js"></script>
     <script src="${ctx}/my/Request.js"></script>
+    <script src="${ctx}/my/Table.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             //加载列表数据并渲染
@@ -42,7 +43,7 @@
                 function (data) {
                     if(data && data.validate && data.data){
                         var column = [{customerName:'姓名'},{sex:'性别'},{phone:'电话'},{email:'邮箱'},{description:'描述'}];
-                        renderingTable('#list', column, data.data);
+                        new Table('#list', column, data.data).renderingTable();
                     }
                 }, function () {
                     console.log("error");

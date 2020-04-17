@@ -16,6 +16,7 @@
     <script src="${ctx}/js/cookie_util.js"></script>
     <script src="${ctx}/js/notice.js"></script>
     <script src="${ctx}/my/Request.js"></script>
+    <script src="${ctx}/my/Table.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             //加载列表数据并渲染
@@ -43,7 +44,7 @@
                     if(data && data.validate && data.data){
                         var column = [{buyingPeopleName:'姓名'},{phone:'电话'},{description:'描述'},
                             {buyName:'购买名称'},{price:'价格'},{category:'类别'},{profit:'利润'}];
-                        renderingTable('#list', column, data.data);
+                        new Table('#list', column, data.data).renderingTable();
                     }
                 }, function () {
                     console.log("error");

@@ -4,10 +4,7 @@ import com.cyb.authority.base.BaseController;
 import com.cyb.common.pagenation.Pagenation;
 import com.cyb.common.tips.Tips;
 import com.cyb.goodsms.common.Constant;
-import com.cyb.goodsms.dao.CarBuyingPeopleExample;
 import com.cyb.goodsms.dao.CustomerInfoMapper;
-import com.cyb.goodsms.dao.CustomerInfoExample;
-import com.cyb.goodsms.domain.CarBuyingPeople;
 import com.cyb.goodsms.domain.CustomerInfo;
 import com.cyb.goodsms.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -68,9 +65,7 @@ public class CustomerInforController extends BaseController {
 		if(isLogined){
 			tips = new Tips("删除失败", true, false);
 			if(StringUtils.isNotEmpty(id)){
-				CustomerInfoExample customerInfo = new CustomerInfoExample();
-				customerInfo.createCriteria().andIdEqualTo(id);
-				int count = customerInfoMapper.deleteByExample(customerInfo);
+				int count = customerInfoMapper.deleteById(id);
 				if(count > 0){
 					tips = new Tips("删除成功", true, true);
 				}
@@ -95,9 +90,7 @@ public class CustomerInforController extends BaseController {
 		if(isLogined){
 			tips = new Tips("更新失败", true, false);
 			if(StringUtils.isNotEmpty(customerInfo.getId())){
-				CustomerInfoExample customerInfoExample = new CustomerInfoExample();
-				customerInfoExample.createCriteria().andIdEqualTo(customerInfo.getId());
-				int count = customerInfoMapper.updateByExample(customerInfo, customerInfoExample);
+				int count = customerInfoMapper.updateById(customerInfo);
 				if(count > 0){
 					tips = new Tips("更新成功", true, true);
 				}
@@ -115,13 +108,10 @@ public class CustomerInforController extends BaseController {
 		super.validLogined();
 		if(isLogined) {
 			tips.setMsg("查询失败");
-			CustomerInfoExample customerInfoExample = new CustomerInfoExample();
-			CustomerInfoExample.Criteria criteria = customerInfoExample.createCriteria();
 			if(StringUtils.isNotEmpty(id)){
-				criteria.andIdEqualTo(id);
-				List<CustomerInfo> list = customerInfoMapper.selectByExample(customerInfoExample);
-				if(null != list && !list.isEmpty()){
-					tips = new Tips("查询成功",  true, list.get(0));
+				CustomerInfo customerInfo = customerInfoMapper.selectById(id);
+				if(null != customerInfo){
+					tips = new Tips("查询成功",  true, customerInfo);
 				}
 			}
 		}
@@ -134,10 +124,13 @@ public class CustomerInforController extends BaseController {
 
 		super.validLogined();
 		if(isLogined) {
-
-			CustomerInfoExample customerInfoExample = getCustomerInfoExample(customerInfo);
-			List<CustomerInfo> list = customerInfoMapper.selectByExample(customerInfoExample);
-			tips = new Tips("查询成功",  true, list);
+			int count = customerInfoMapper.countByExample(customerInfo);
+			if(count > 0){
+				pagenation.setDataCount(count);
+				List<CustomerInfo> list = customerInfoMapper.selectByExample(customerInfo, pagenation);
+				tips = new Tips("查询成功",  true, list);
+				tips.setPagenation(pagenation);
+			}
 		}
 		return tips;
 	}
@@ -147,19 +140,9 @@ public class CustomerInforController extends BaseController {
 	public Tips count(CustomerInfo customerInfo) {
 		super.validLogined();
 		if(isLogined) {
-			CustomerInfoExample customerInfoExample = getCustomerInfoExample(customerInfo);
-			int count = customerInfoMapper.countByExample(customerInfoExample);
+			int count = customerInfoMapper.countByExample(customerInfo);
 			tips = new Tips("查询成功",  true, count);
 		}
 		return tips;
-	}
-
-	private CustomerInfoExample getCustomerInfoExample(CustomerInfo customerInfo){
-		CustomerInfoExample customerInfoExample = new CustomerInfoExample();
-		CustomerInfoExample.Criteria criteria = customerInfoExample.createCriteria();
-		if(StringUtils.isNotEmpty(customerInfo.getCustomerName())){
-			criteria.andCustomerNameEqualTo(customerInfo.getCustomerName());
-		}
-		return customerInfoExample;
 	}
 }

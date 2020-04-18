@@ -3,13 +3,13 @@
  */
 var Rquest = (function(window) {
 
-    var Rquest = function(baseURL, methodURL, data, successCallback, errorCallback) {
-        return new Rquest.fn.init(baseURL, methodURL, data, successCallback, errorCallback);
+    var Rquest = function(baseURL, methodURL, data, async, successCallback, errorCallback) {
+        return new Rquest.fn.init(baseURL, methodURL, data, async, successCallback, errorCallback);
     }
 
     Rquest.fn = Rquest.prototype = {
         constructor: Rquest,
-        init: function(baseURL, methodURL, data, successCallback, errorCallback) {
+        init: function(baseURL, methodURL, data, async, successCallback, errorCallback) {
 
             if(!baseURL || baseURL.replace(/\s*/g,"") == ""){
                 baseURL = "";
@@ -29,6 +29,7 @@ var Rquest = (function(window) {
                         url:this.requestURL,
                         type:"post",
                         data:this.data,
+                        async: async,
                         dataType:"json",
                         success:function(data){
                             if(data.show && !data.validate){

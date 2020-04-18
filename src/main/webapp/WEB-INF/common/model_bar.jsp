@@ -30,7 +30,7 @@
         <span onclick="toStock();">库存管理</span>
     </div>
     <div class="tabText">
-        <span onclick="toStock();">员工管理</span>
+        <span onclick="toStaff();">员工管理</span>
     </div>
 </div>
 <script>
@@ -42,10 +42,10 @@
         window.location.href = ctx + "/sale/";
     }
     function toStock(){
-        tips("待实现")
+        window.location.href = ctx + "/stock/";
     }
 
     function toStaff() {
-        tips("待实现")
+        window.location.href = ctx + "/staff/";
     }
 </script>

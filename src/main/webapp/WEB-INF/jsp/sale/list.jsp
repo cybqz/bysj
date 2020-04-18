@@ -10,7 +10,7 @@
     <title>${title}</title>
     <link rel="stylesheet" type="text/css" href="${ctx}/css/noticejs.css" />
     <link rel="stylesheet" type="text/css" href="${ctx}/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="${ctx}/my/list.css">
+    <link rel="stylesheet" type="text/css" href="${ctx}/my/Table.css">
  	<script src="${ctx}/js/jquery.js"></script>
     <script src="${ctx}/js/pintuer.js"></script>
     <script src="${ctx}/js/cookie_util.js"></script>
@@ -23,7 +23,7 @@
             load(null);
 
             //获取总条数
-            var request = new Rquest(ctx, "/sale/count", null,
+            var request = new Rquest(ctx, "/sale/count", null, true,
                 function (data) {
                     if(data && data.validate && data.data){
                         $("#count").html(data.data);
@@ -39,17 +39,9 @@
         }
 
         function load(param) {
-            var request = new Rquest(ctx, "/sale/page", param,
-                function (data) {
-                    if(data && data.validate && data.data){
-                        var column = [{buyingPeopleName:'姓名'},{phone:'电话'},{description:'描述'},
-                            {buyName:'购买名称'},{price:'价格'},{category:'类别'},{profit:'利润'}];
-                        new Table('#list', column, data.data).renderingTable();
-                    }
-                }, function () {
-                    console.log("error");
-                });
-            request.ajaxpost();
+            var column = [{buyingPeopleName:'姓名'},{phone:'电话'},{description:'描述'},
+                {buyName:'购买名称'},{price:'价格'},{category:'类别'},{profit:'利润'}];
+            new Table('#list', column, param, ctx, "/sale/page").renderingTable();
         }
         function update(id){
 

@@ -66,13 +66,12 @@
 
 		$(document).ready(function () {
 
-			var request = new Rquest(ctx, "/user/getUser", null,
+			new Rquest(ctx, "/user/getUser", null, false,
 					function (data) {
 						if(data != null){
 							window.location.href = ctx + "/customerinfo/";
 						}
-					}, null);
-			request.ajaxpost();
+					}, null).ajaxpost();
 
 			/**
 			 * 注册
@@ -99,15 +98,14 @@
 					tips("密码输入不一致");
 					return false;
 				}
-				var request = new Rquest(ctx, "/register/register", {"userName":user1,"password":pass1},
+				new Rquest(ctx, "/register/register", {"userName":user1,"password":pass1}, false,
 						function (data) {
 							if(data.validate){
 								window.location.href = ctx + "/customerinfo/";
 							}
 						}, function () {
 							console.log("error");
-						});
-				request.ajaxpost();
+						}).ajaxpost();
 			});
 
 			/**
@@ -129,13 +127,12 @@
 				var check=true;//true通过检测，false未通过
 				//发送Ajax请求
 				if(check){
-					var request = new Rquest(ctx, "/login/login", {"userName":user,"password":pass},
+					new Rquest(ctx, "/login/login", {"userName":user,"password":pass}, false,
 							function (data) {
 								window.location.href = ctx + "/customerinfo/";
 							}, function () {
 								console.log("error");
-							});
-					request.ajaxpost();
+							}).ajaxpost();
 				}
 			});
 		});

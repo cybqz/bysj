@@ -1,5 +1,6 @@
 package com.cyb.goodsms.dao;
 
+import com.cyb.common.pagenation.Pagenation;
 import com.cyb.goodsms.domain.CustomerInfo;
 
 import java.util.List;
@@ -9,17 +10,15 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface CustomerInfoMapper {
-    int countByExample(CustomerInfoExample example);
+    int countByExample(CustomerInfo record);
 
-    int deleteByExample(CustomerInfoExample example);
+    int deleteById(String id);
 
     int insert(CustomerInfo record);
 
-    int insertSelective(CustomerInfo record);
+    CustomerInfo selectById(String id);
 
-    List<CustomerInfo> selectByExample(CustomerInfoExample example);
+    List<CustomerInfo> selectByExample(CustomerInfo record, Pagenation pagenation);
 
-    int updateByExampleSelective(@Param("record") CustomerInfo record, @Param("example") CustomerInfoExample example);
-
-    int updateByExample(@Param("record") CustomerInfo record, @Param("example") CustomerInfoExample example);
+    int updateById(@Param("record") CustomerInfo record);
 }

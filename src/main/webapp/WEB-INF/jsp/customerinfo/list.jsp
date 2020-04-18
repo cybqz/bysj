@@ -10,7 +10,7 @@
     <title>${title}</title>
     <link rel="stylesheet" type="text/css" href="${ctx}/css/noticejs.css" />
     <link rel="stylesheet" type="text/css" href="${ctx}/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="${ctx}/my/list.css">
+    <link rel="stylesheet" type="text/css" href="${ctx}/my/Table.css">
  	<script src="${ctx}/js/jquery.js"></script>
     <script src="${ctx}/js/pintuer.js"></script>
     <script src="${ctx}/js/cookie_util.js"></script>
@@ -20,10 +20,10 @@
     <script type="text/javascript">
         $(document).ready(function () {
             //加载列表数据并渲染
-            load(null);
+            load({});
 
             //获取总条数
-            var request = new Rquest(ctx, "/customerinfo/count", null,
+            var request = new Rquest(ctx, "/customerinfo/count", null, true,
                 function (data) {
                     if(data && data.validate && data.data){
                         $("#count").html(data.data);
@@ -39,16 +39,8 @@
         }
 
         function load(param) {
-            var request = new Rquest(ctx, "/customerinfo/page", param,
-                function (data) {
-                    if(data && data.validate && data.data){
-                        var column = [{customerName:'姓名'},{sex:'性别'},{phone:'电话'},{email:'邮箱'},{description:'描述'}];
-                        new Table('#list', column, data.data).renderingTable();
-                    }
-                }, function () {
-                    console.log("error");
-                });
-            request.ajaxpost();
+            var column = [{customerName:'姓名'},{sex:'性别'},{phone:'电话'},{email:'邮箱'},{description:'描述'}];
+            new Table('#list', column, param, ctx, "/customerinfo/page").renderingTable();
         }
         function update(id){
 
@@ -56,14 +48,17 @@
         }
         function remove(id){
 
-            var request = new Rquest(ctx, "/customerinfo/delete", {id:id},
+            new Rquest(ctx, "/customerinfo/delete", {id:id},
                 function (data) {
                     tips(data.msg);
                     load(null);
                 }, function () {
                     console.log("error");
-                });
-            request.ajaxpost();
+                }).ajaxpost();
+        }
+        
+        function pagenation_to_first() {
+
         }
     </script>
 </head>

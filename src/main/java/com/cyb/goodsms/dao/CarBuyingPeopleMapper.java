@@ -1,5 +1,6 @@
 package com.cyb.goodsms.dao;
 
+import com.cyb.common.pagenation.Pagenation;
 import com.cyb.goodsms.domain.CarBuyingPeople;
 
 import java.util.List;
@@ -9,17 +10,15 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface CarBuyingPeopleMapper {
-    int countByExample(CarBuyingPeopleExample example);
+    int countByExample(CarBuyingPeople record);
 
-    int deleteByExample(CarBuyingPeopleExample example);
+    int deleteById(String id);
 
     int insert(CarBuyingPeople record);
 
-    int insertSelective(CarBuyingPeople record);
+    CarBuyingPeople selectById(String id);
 
-    List<CarBuyingPeople> selectByExample(CarBuyingPeopleExample example);
+    List<CarBuyingPeople> selectByExample(CarBuyingPeople record, Pagenation pagenation);
 
-    int updateByExampleSelective(@Param("record") CarBuyingPeople record, @Param("example") CarBuyingPeopleExample example);
-
-    int updateByExample(@Param("record") CarBuyingPeople record, @Param("example") CarBuyingPeopleExample example);
+    int updateById(@Param("record") CarBuyingPeople record);
 }

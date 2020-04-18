@@ -22,13 +22,12 @@
 </style>
 <script>
     function logout() {
-        var request = new Rquest(ctx, "/login/logout", null,
+        new Rquest(ctx, "/login/logout", null, false,
             function (data) {
                 window.location.href = ctx;
             }, function () {
                 console.log("error");
-            });
-        request.ajaxpost();
+            }).ajaxpost();
     }
 </script>
 <div id="header">

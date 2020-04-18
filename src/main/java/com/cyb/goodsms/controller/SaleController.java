@@ -4,7 +4,6 @@ import com.cyb.authority.base.BaseController;
 import com.cyb.common.pagenation.Pagenation;
 import com.cyb.common.tips.Tips;
 import com.cyb.goodsms.common.Constant;
-import com.cyb.goodsms.dao.CarBuyingPeopleExample;
 import com.cyb.goodsms.dao.CarBuyingPeopleMapper;
 import com.cyb.goodsms.domain.CarBuyingPeople;
 import com.cyb.goodsms.utils.MyUtils;
@@ -68,9 +67,7 @@ public class SaleController extends BaseController {
 		if(isLogined){
 			tips = new Tips("删除失败", true, false);
 			if(StringUtils.isNotEmpty(id)){
-				CarBuyingPeopleExample carBuyingPeopleExample = new CarBuyingPeopleExample();
-				carBuyingPeopleExample.createCriteria().andIdEqualTo(id);
-				int count = carBuyingPeopleMapper.deleteByExample(carBuyingPeopleExample);
+				int count = carBuyingPeopleMapper.deleteById(id);
 				if(count > 0){
 					tips = new Tips("删除成功", true, true);
 				}
@@ -95,9 +92,8 @@ public class SaleController extends BaseController {
 		if(isLogined){
 			tips = new Tips("更新失败", true, false);
 			if(StringUtils.isNotEmpty(carBuyingPeople.getId())){
-				CarBuyingPeopleExample carBuyingPeopleExample = new CarBuyingPeopleExample();
-				carBuyingPeopleExample.createCriteria().andIdEqualTo(carBuyingPeople.getId());
-				int count = carBuyingPeopleMapper.updateByExample(carBuyingPeople, carBuyingPeopleExample);
+
+				int count = carBuyingPeopleMapper.updateById(carBuyingPeople);
 				if(count > 0){
 					tips = new Tips("更新成功", true, true);
 				}
@@ -117,13 +113,11 @@ public class SaleController extends BaseController {
 		super.validLogined();
 		if(isLogined) {
 			tips.setMsg("查询失败");
-			CarBuyingPeopleExample carBuyingPeopleExample = new CarBuyingPeopleExample();
-			CarBuyingPeopleExample.Criteria criteria = carBuyingPeopleExample.createCriteria();
 			if(StringUtils.isNotEmpty(id)){
-				criteria.andIdEqualTo(id);
-				List<CarBuyingPeople> list = carBuyingPeopleMapper.selectByExample(carBuyingPeopleExample);
-				if(null != list && !list.isEmpty()){
-					tips = new Tips("查询成功",  true, list.get(0));
+
+				CarBuyingPeople carBuyingPeople = carBuyingPeopleMapper.selectById(id);
+				if(null != carBuyingPeople){
+					tips = new Tips("查询成功",  true, carBuyingPeople);
 				}
 			}
 		}
@@ -135,9 +129,10 @@ public class SaleController extends BaseController {
 	public Tips page(CarBuyingPeople carBuyingPeople, Pagenation pagenation) {
 		super.validLogined();
 		if(isLogined) {
-			CarBuyingPeopleExample carBuyingPeopleExample = getCarBuyingPeopleExample(carBuyingPeople);
-			List<CarBuyingPeople> list = carBuyingPeopleMapper.selectByExample(carBuyingPeopleExample);
+
+			List<CarBuyingPeople> list = carBuyingPeopleMapper.selectByExample(carBuyingPeople, pagenation);
 			tips = new Tips("查询成功",  true, list);
+			tips.setPagenation(pagenation);
 		}
 		return tips;
 	}
@@ -147,19 +142,9 @@ public class SaleController extends BaseController {
 	public Tips count(CarBuyingPeople carBuyingPeople) {
 		super.validLogined();
 		if(isLogined) {
-			CarBuyingPeopleExample carBuyingPeopleExample = getCarBuyingPeopleExample(carBuyingPeople);
-			int count = carBuyingPeopleMapper.countByExample(carBuyingPeopleExample);
+			int count = carBuyingPeopleMapper.countByExample(carBuyingPeople);
 			tips = new Tips("查询成功",  true, count);
 		}
 		return tips;
-	}
-
-	private CarBuyingPeopleExample getCarBuyingPeopleExample(CarBuyingPeople carBuyingPeople){
-		CarBuyingPeopleExample carBuyingPeopleExample = new CarBuyingPeopleExample();
-		CarBuyingPeopleExample.Criteria criteria = carBuyingPeopleExample.createCriteria();
-		if(StringUtils.isNotEmpty(carBuyingPeople.getBuyName())){
-			criteria.andBuyNameEqualTo(carBuyingPeople.getBuyName());
-		}
-		return carBuyingPeopleExample;
 	}
 }

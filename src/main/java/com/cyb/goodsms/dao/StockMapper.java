@@ -1,6 +1,6 @@
 package com.cyb.goodsms.dao;
 
-import com.cyb.common.pagenation.Pagenation;
+import com.cyb.common.pagination.Pagination;
 import com.cyb.goodsms.domain.Stock;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface StockMapper {
 
     Stock selectById(String id);
 
-    List<Stock> selectByExample(Stock record, Pagenation pagenation);
+    List<Stock> selectByExample(Stock record, Pagination pagination);
 
     int updateById(@Param("record") Stock record);
 }

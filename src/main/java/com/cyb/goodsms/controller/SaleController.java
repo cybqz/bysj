@@ -1,7 +1,7 @@
 package com.cyb.goodsms.controller;
 
 import com.cyb.authority.base.BaseController;
-import com.cyb.common.pagenation.Pagenation;
+import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.goodsms.common.Constant;
 import com.cyb.goodsms.dao.CarBuyingPeopleMapper;
@@ -126,7 +126,7 @@ public class SaleController extends BaseController {
 
 	@PostMapping(Constant.DEFAULT_PAGE)
 	@ResponseBody
-	public Tips page(CarBuyingPeople carBuyingPeople, Pagenation pagenation) {
+	public Tips page(CarBuyingPeople carBuyingPeople, Pagination pagenation) {
 		super.validLogined();
 		if(isLogined) {
 

@@ -20,9 +20,12 @@
     *
     from staff where 1 = 1
     <if test="record.name != null" >
-      and name like concat('%',#{name, jdbcType=VARCHAR}, '%')
+      and name like concat('%',#{record.name, jdbcType=VARCHAR}, '%')
     </if>
     order by update_date_time desc, create_date_time desc
+    <if test="pagenation != null and pagenation.pageIndex != null and pagenation.pageSize != null">
+      limit #{pagenation.offset, jdbcType=INTEGER}, #{pagenation.pageSize, jdbcType=INTEGER}
+    </if>
   </select>
 
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">

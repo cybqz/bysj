@@ -1,6 +1,6 @@
 package com.cyb.goodsms.dao;
 
-import com.cyb.common.pagenation.Pagenation;
+import com.cyb.common.pagination.Pagination;
 import com.cyb.goodsms.domain.CustomerInfo;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface CustomerInfoMapper {
 
     CustomerInfo selectById(String id);
 
-    List<CustomerInfo> selectByExample(CustomerInfo record, Pagenation pagenation);
+    List<CustomerInfo> selectByExample(CustomerInfo record, Pagination pagination);
 
     int updateById(@Param("record") CustomerInfo record);
 }

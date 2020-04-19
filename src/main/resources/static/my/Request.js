@@ -31,6 +31,7 @@ var Rquest = (function(window) {
                         data:this.data,
                         async: async,
                         dataType:"json",
+                        //contentType: "application/json;charset=UTF-8",
                         success:function(data){
                             if(data.show && !data.validate){
                                 tips(data.msg);

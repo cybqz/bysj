@@ -22,8 +22,8 @@
       and customer_name like concat('%',#{record.customerName, jdbcType=VARCHAR}, '%')
     </if>
     order by update_date_time desc, create_date_time desc
-    <if test="pagenation != null and pagenation.pageIndex != null and pagenation.pageSize != null">
-      limit #{pagenation.pageSize, jdbcType=INTEGER} offset #{pagenation.pageIndex, jdbcType=INTEGER}
+    <if test="pagination != null and pagination.pageIndex != null and pagination.pageSize != null">
+      limit #{pagination.offset, jdbcType=INTEGER}, #{pagination.pageSize, jdbcType=INTEGER}
     </if>
   </select>
 

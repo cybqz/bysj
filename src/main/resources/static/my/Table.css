@@ -90,7 +90,7 @@
 .delete{
     color: red;
 }
-.table_pagenation{
+.table_pagination{
     width: 100%;
 }
 .pageWrap{
@@ -111,6 +111,16 @@
     border: 1px solid #0F5F7E;
     cursor: pointer;
 }
+.page_text_disable{
+    margin: 0 10px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    border: 1px solid #83888a;
+    background: #83888a;
+}
 .page_text_active,.page_text:hover{
     background: #0F5F7E;
     color: white;
@@ -120,9 +130,6 @@
 }
 .page_no{
     width: 30px;
-}
-.point_pre,.point_next{
-    display: none;
 }
 .page_total{
     margin: 0 30px;

@@ -15,14 +15,17 @@
     </constructor>
   </resultMap>
 
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cyb.goodsms.domain.Stock" >
+  <select id="selectByExample" resultMap="BaseResultMap">
     select
     *
     from stock where 1 = 1
     <if test="record.supplierName != null" >
-      and supplier_name like concat('%',#{supplierName, jdbcType=VARCHAR}, '%')
+      and supplier_name like concat('%',#{record.supplierName, jdbcType=VARCHAR}, '%')
     </if>
     order by update_date_time desc, create_date_time desc
+    <if test="pagenation != null and pagenation.pageIndex != null and pagenation.pageSize != null">
+      limit #{pagenation.offset, jdbcType=INTEGER}, #{pagenation.pageSize, jdbcType=INTEGER}
+    </if>
   </select>
 
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">

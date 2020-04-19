@@ -1,7 +1,7 @@
 package com.cyb.goodsms.controller;
 
 import com.cyb.authority.base.BaseController;
-import com.cyb.common.pagenation.Pagenation;
+import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.goodsms.common.Constant;
 import com.cyb.goodsms.dao.StaffMapper;
@@ -127,12 +127,12 @@ public class StaffController extends BaseController {
 
 	@PostMapping(Constant.DEFAULT_PAGE)
 	@ResponseBody
-	public Tips page(Staff staff, Pagenation pagenation) {
+	public Tips page(Staff staff, Pagination pagination) {
 		super.validLogined();
 		if(isLogined) {
-			List<Staff> list = staffMapper.selectByExample(staff, pagenation);
+			List<Staff> list = staffMapper.selectByExample(staff, pagination);
 			tips = new Tips("查询成功",  true, list);
-			tips.setPagenation(pagenation);
+			tips.setPagenation(pagination);
 		}
 		return tips;
 	}

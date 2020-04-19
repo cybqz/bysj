@@ -21,9 +21,12 @@
     *
     from car_buying_people where 1 = 1
     <if test="record.buyingPeopleName != null" >
-      and buying_people_name like concat('%',#{buyingPeopleName, jdbcType=VARCHAR}, '%')
+      and buying_people_name like concat('%',#{record.buyingPeopleName, jdbcType=VARCHAR}, '%')
     </if>
     order by update_date_time desc, create_date_time desc
+    <if test="pagenation != null and pagenation.pageIndex != null and pagenation.pageSize != null">
+      limit #{pagenation.offset, jdbcType=INTEGER}, #{pagenation.pageSize, jdbcType=INTEGER}
+    </if>
   </select>
 
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">

@@ -1,6 +1,6 @@
 package com.cyb.goodsms.dao;
 
-import com.cyb.common.pagenation.Pagenation;
+import com.cyb.common.pagination.Pagination;
 import com.cyb.goodsms.domain.Staff;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface StaffMapper {
 
     Staff selectById(String id);
 
-    List<Staff> selectByExample(Staff record, Pagenation pagenation);
+    List<Staff> selectByExample(Staff record, Pagination pagination);
 
     int updateById(@Param("record") Staff record);
 }

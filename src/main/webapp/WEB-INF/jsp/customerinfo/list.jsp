@@ -20,7 +20,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             //加载列表数据并渲染
-            load({});
+            load({customerInfo: {},pagination:{pageSize:1}});
 
             //获取总条数
             var request = new Rquest(ctx, "/customerinfo/count", null, true,
@@ -57,7 +57,7 @@
                 }).ajaxpost();
         }
         
-        function pagenation_to_first() {
+        function pagination_to_first() {
 
         }
     </script>

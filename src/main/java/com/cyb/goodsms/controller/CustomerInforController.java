@@ -1,7 +1,9 @@
 package com.cyb.goodsms.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.cyb.authority.base.BaseController;
-import com.cyb.common.pagenation.Pagenation;
+import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.goodsms.common.Constant;
 import com.cyb.goodsms.dao.CustomerInfoMapper;
@@ -9,9 +11,8 @@ import com.cyb.goodsms.domain.CustomerInfo;
 import com.cyb.goodsms.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -118,18 +119,20 @@ public class CustomerInforController extends BaseController {
 		return tips;
 	}
 
-	@PostMapping(Constant.DEFAULT_PAGE)
+	@PostMapping(value = Constant.DEFAULT_PAGE)
 	@ResponseBody
-	public Tips page(CustomerInfo customerInfo, Pagenation pagenation) {
-
+	public Tips page(String param) {
 		super.validLogined();
 		if(isLogined) {
+			JSONObject jsonObject = JSON.parseObject(param);
+			CustomerInfo customerInfo = jsonObject.getObject("customerInfo", CustomerInfo.class);
+			Pagination pagination = jsonObject.getObject("pagination", Pagination.class);
 			int count = customerInfoMapper.countByExample(customerInfo);
 			if(count > 0){
-				pagenation.setDataCount(count);
-				List<CustomerInfo> list = customerInfoMapper.selectByExample(customerInfo, pagenation);
+				pagination.setDataCount(count);
+				List<CustomerInfo> list = customerInfoMapper.selectByExample(customerInfo, pagination);
 				tips = new Tips("查询成功",  true, list);
-				tips.setPagenation(pagenation);
+				tips.setPagination(pagination);
 			}
 		}
 		return tips;

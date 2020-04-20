@@ -18,10 +18,10 @@
     <input id="goodsCategory" type="text" class="content">
 </div>
 <div class="list">
-    <span class="title">入库数量：</span>
+    <span class="title">库存数量：</span>
     <input id="stockInCount" type="text" class="content">
 </div>
 <div class="list">
-    <span class="title">备注：</span>
-    <input id="description" type="text" class="content">
+    <span class="title">汽车编号：</span>
+    <input id="carNo" type="text" class="content">
 </div>

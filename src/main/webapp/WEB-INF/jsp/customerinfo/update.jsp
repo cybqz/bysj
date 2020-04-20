@@ -19,7 +19,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            var request = new Rquest(ctx, "/customerinfo/detail", {id:opreationId},
+            var request = new Rquest(ctx, "/customerinfo/detail", {id:opreationId}, false,
                 function (data) {
                     if(data && data.validate && data.data){
                         $("#customerName").val(data.data['customerName']);

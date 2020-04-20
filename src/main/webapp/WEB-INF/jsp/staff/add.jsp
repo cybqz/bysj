@@ -19,14 +19,14 @@
     <script type="text/javascript">
         function save() {
             var param = {
+                no: $("#no").val(),
                 name: $("#name").val(),
                 phone: $("#phone").val(),
                 email: $("#email").val(),
-                sex: $("input[name='sex']:checked").val(),
                 department: $("#department").val(),
-                description: $("#description").val(),
+                sex: $("input[name='sex']:checked").val()
             };
-            var request = new Rquest(ctx, "/staff/save", param,
+            var request = new Rquest(ctx, "/staff/save", param, false,
                 function (data) {
                     if(data && data.validate){
                         window.location.href = ctx + "/staff/";

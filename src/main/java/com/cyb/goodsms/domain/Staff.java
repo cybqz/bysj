@@ -20,7 +20,7 @@ public class Staff {
 
     private String department;
 
-    private String description;
+    private String no;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
@@ -30,14 +30,14 @@ public class Staff {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateDateTime;
 
-    public Staff(String id, String name, String phone, String email, Integer sex, String department, String description, Date createDateTime, Date updateDateTime) {
+    public Staff(String id, String name, String phone, String email, Integer sex, String department, String no, Date createDateTime, Date updateDateTime) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.sex = sex;
         this.department = department;
-        this.description = description;
+        this.no = no;
         this.createDateTime = createDateTime;
         this.updateDateTime = updateDateTime;
     }

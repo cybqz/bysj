@@ -2,7 +2,7 @@
 
 <div class="header_title">${title}：</div>
 <div class="list">
-    <span class="title">姓名：</span>
+    <span class="title">客户姓名：</span>
     <input id="buyingPeopleName" type="text" class="content">
 </div>
 <div class="list">
@@ -28,4 +28,8 @@
 <div class="list">
     <span class="title">利润：</span>
     <input id="profit" type="number" class="content">
+</div>
+<div class="list">
+    <span class="title">员工编号：</span>
+    <input id="staffNo" type="text" class="content">
 </div>

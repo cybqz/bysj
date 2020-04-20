@@ -31,7 +31,7 @@
     }
 </script>
 <div id="header">
-    工厂管理系统
+    汽车销售管理系统
     <span class="header_right_wrap">
         <span class="header_right">登陆信息</span>
         <span class="header_right" onclick="logout();">退出</span>

@@ -19,14 +19,14 @@
     <script type="text/javascript">
         function save() {
             var param = {
+                carNo: $("#carNo").val(),
                 supplierName: $("#supplierName").val(),
                 supplierPhone: $("#supplierPhone").val(),
                 goodsName: $("#goodsName").val(),
                 goodsCategory: $("#goodsCategory").val(),
-                stockInCount: $("#stockInCount").val(),
-                description: $("#description").val(),
+                stockInCount: $("#stockInCount").val()
             };
-            var request = new Rquest(ctx, "/stock/save", param,
+            var request = new Rquest(ctx, "/stock/save", param, false,
                 function (data) {
                     if(data && data.validate){
                         window.location.href = ctx + "/stock/";

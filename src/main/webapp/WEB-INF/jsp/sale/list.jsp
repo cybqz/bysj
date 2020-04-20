@@ -20,18 +20,27 @@
     <script type="text/javascript">
         $(document).ready(function () {
             //加载列表数据并渲染
-            load(null);
+            load({carBuyingPeople: {},pagination:{pageSize:1}});
 
             //获取总条数
-            var request = new Rquest(ctx, "/sale/count", null, true,
+            new Rquest(ctx, "/sale/count", null, true,
                 function (data) {
                     if(data && data.validate && data.data){
                         $("#count").html(data.data);
                     }
                 }, function () {
                     console.log("error");
-                });
-            request.ajaxpost();
+                }).ajaxpost();
+
+            //搜索事件
+            $(".searchBtn").click(function () {
+                const buyingPeopleNameParam = $(".searchInput").val();
+                if(buyingPeopleNameParam == null || buyingPeopleNameParam === ''){
+                    tips("搜索条件不能为空");
+                    return;
+                }
+                load({carBuyingPeople: {buyingPeopleName: buyingPeopleNameParam},pagination:{pageSize:50}});
+            });
         })
         
         function add() {
@@ -39,8 +48,9 @@
         }
 
         function load(param) {
-            var column = [{buyingPeopleName:'姓名'},{phone:'电话'},{description:'描述'},
-                {buyName:'购买名称'},{price:'价格'},{category:'类别'},{profit:'利润'}];
+            var column = [{buyingPeopleName:'客户姓名'},{phone:'电话'},
+                {buyName:'购买名称'},{price:'价格'},{category:'类别'},{profit:'利润'},
+                {staffNo: '相关员工编号'}];
             new Table('#list', column, param, ctx, "/sale/page").renderingTable();
         }
         function update(id){
@@ -49,10 +59,10 @@
         }
         function remove(id){
 
-            var request = new Rquest(ctx, "/sale/delete", {id:id},
+            var request = new Rquest(ctx, "/sale/delete", {id:id}, false,
                 function (data) {
                     tips(data.msg);
-                    load(null);
+                    load({carBuyingPeople: {},pagination:{pageSize:50}});
                 }, function () {
                     console.log("error");
                 });
@@ -72,8 +82,12 @@
     <div  id="content">
         <!-- 表格的公共信息展示 -->
         <div id="top_text">
-             <span>
+             <span class="message_wrap">
                ${model}共 <span id="count" class="color_blue">0</span> 条
+            </span>
+            <span class="search_wrap">
+                <input class="searchInput" placeholder="请输入客户姓名" type="text"/>
+                <span class="searchBtn">搜索</span>
             </span>
             <span class="add_wrap">
                  <span id="add" class="add" onclick="add()">

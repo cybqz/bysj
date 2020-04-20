@@ -19,6 +19,38 @@
     font-size: 16px;
     padding: 0 30px;
     position: relative;
+    display: flex;
+    align-items: center;
+}
+.message_wrap{
+    flex: 1;
+}
+.search_wrap{
+    width: 50%;
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
+    margin-right: 100px;
+}
+.searchInput{
+    height: 40px;
+    flex: 1;
+    border:gainsboro 1px solid;
+    border-radius:  3px 0 0 3px;
+    padding: 15px 5px;
+
+}
+.searchBtn{
+    width: 60px;
+    display: flex;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border:#26a2ff 1px solid;
+    border-radius: 0 3px 3px 0;
+    color: white;
+    background: #0F5F7E;
+    cursor: pointer;
 }
 .add_wrap{
     position: absolute;
@@ -58,7 +90,6 @@
 }
 .table_content{
     max-height: 400px;
-    overflow-y: scroll;
 }
 .li_wrap{
     flex: 1;
@@ -67,6 +98,9 @@
     font-size: 16px;
     height: 60px;
     line-height: 60px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }
 .opcity{
     width: 180px;
@@ -83,6 +117,8 @@
     height: 30px;
     line-height: 30px;
     cursor: pointer;
+    display: inline-block;
+    text-align: center;
 }
 .edit{
     color: #0F5F7E;

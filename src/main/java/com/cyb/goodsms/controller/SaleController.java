@@ -1,5 +1,7 @@
 package com.cyb.goodsms.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.cyb.authority.base.BaseController;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
@@ -126,13 +128,15 @@ public class SaleController extends BaseController {
 
 	@PostMapping(Constant.DEFAULT_PAGE)
 	@ResponseBody
-	public Tips page(CarBuyingPeople carBuyingPeople, Pagination pagenation) {
+	public Tips page(String param) {
 		super.validLogined();
 		if(isLogined) {
-
-			List<CarBuyingPeople> list = carBuyingPeopleMapper.selectByExample(carBuyingPeople, pagenation);
+			JSONObject jsonObject = JSON.parseObject(param);
+			CarBuyingPeople carBuyingPeople = jsonObject.getObject("carBuyingPeople", CarBuyingPeople.class);
+			Pagination pagination = jsonObject.getObject("pagination", Pagination.class);
+			List<CarBuyingPeople> list = carBuyingPeopleMapper.selectByExample(carBuyingPeople, pagination);
 			tips = new Tips("查询成功",  true, list);
-			tips.setPagenation(pagenation);
+			tips.setPagination(pagination);
 		}
 		return tips;
 	}

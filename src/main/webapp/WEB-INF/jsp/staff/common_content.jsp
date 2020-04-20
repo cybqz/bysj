@@ -30,6 +30,6 @@
     <input id="department" type="text" class="content">
 </div>
 <div class="list">
-    <span class="title">备注：</span>
-    <input id="description" type="text" class="content">
+    <span class="title">编号：</span>
+    <input id="no" type="text" class="content">
 </div>

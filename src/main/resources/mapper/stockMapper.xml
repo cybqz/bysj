@@ -9,7 +9,7 @@
       <arg column="goods_name" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="goods_category" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="stock_in_count" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="carNo" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="create_date_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="update_date_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
@@ -23,8 +23,8 @@
       and supplier_name like concat('%',#{record.supplierName, jdbcType=VARCHAR}, '%')
     </if>
     order by update_date_time desc, create_date_time desc
-    <if test="pagenation != null and pagenation.pageIndex != null and pagenation.pageSize != null">
-      limit #{pagenation.offset, jdbcType=INTEGER}, #{pagenation.pageSize, jdbcType=INTEGER}
+    <if test="pagination != null and pagination.pageIndex != null and pagination.pageSize != null">
+      limit #{pagination.offset, jdbcType=INTEGER}, #{pagination.pageSize, jdbcType=INTEGER}
     </if>
   </select>
 
@@ -39,11 +39,11 @@
   <insert id="insert" parameterType="com.cyb.goodsms.domain.Stock" >
     insert into stock (id, supplier_name, supplier_phone, 
       goods_name, goods_category, stock_in_count, 
-      description, create_date_time, update_date_time
+      carNo, create_date_time, update_date_time
       )
     values (#{id,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{supplierPhone,jdbcType=VARCHAR}, 
       #{goodsName,jdbcType=VARCHAR}, #{goodsCategory,jdbcType=VARCHAR}, #{stockInCount,jdbcType=INTEGER}, 
-      #{description,jdbcType=VARCHAR}, #{createDateTime,jdbcType=TIMESTAMP}, #{updateDateTime,jdbcType=TIMESTAMP}
+      #{carNo,jdbcType=VARCHAR}, #{createDateTime,jdbcType=TIMESTAMP}, #{updateDateTime,jdbcType=TIMESTAMP}
       )
   </insert>
 
@@ -72,8 +72,8 @@
       <if test="record.stockInCount != null" >
         stock_in_count = #{record.stockInCount,jdbcType=INTEGER},
       </if>
-      <if test="record.description != null" >
-        description = #{record.description,jdbcType=VARCHAR},
+      <if test="record.carNo != null" >
+        carNo = #{record.carNo,jdbcType=VARCHAR},
       </if>
       <if test="record.createDateTime != null" >
         create_date_time = #{record.createDateTime,jdbcType=TIMESTAMP},
@@ -82,6 +82,6 @@
         update_date_time = #{record.updateDateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{record.id,jdbcType=VARCHAR},
+    where id = #{record.id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -20,10 +20,10 @@
     <script type="text/javascript">
         $(document).ready(function () {
             //加载列表数据并渲染
-            load(null);
+            load({staff: {},pagination:{pageSize:50}});
 
             //获取总条数
-            var request = new Rquest(ctx, "/staff/count", null,
+            var request = new Rquest(ctx, "/staff/count", null, false,
                 function (data) {
                     if(data && data.validate && data.data){
                         $("#count").html(data.data);
@@ -39,8 +39,8 @@
         }
 
         function load(param) {
-            var column = [{name:'姓名'},{sex:'性别'},{phone:'电话'},{email:'邮箱'},{department:'描述'},{description:'描述'}];
-            new Table('#list', column, param, ctx, "/customerinfo/page").renderingTable();
+            var column = [{name:'姓名'},{sex:'性别'},{phone:'电话'},{email:'邮箱'},{department:'部门'},{no:'编号'}];
+            new Table('#list', column, param, ctx, "/staff/page").renderingTable();
         }
         function update(id){
 
@@ -48,10 +48,10 @@
         }
         function remove(id){
 
-            var request = new Rquest(ctx, "/staff/delete", {id:id},
+            var request = new Rquest(ctx, "/staff/delete", {id:id}, false,
                 function (data) {
                     tips(data.msg);
-                    load(null);
+                    load({staff: {},pagination:{pageSize:50}});
                 }, function () {
                     console.log("error");
                 });

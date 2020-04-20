@@ -25,6 +25,8 @@ public class CarBuyingPeople {
 
     private BigDecimal profit;
 
+    private String staffNo;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createDateTime;
@@ -33,7 +35,8 @@ public class CarBuyingPeople {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateDateTime;
 
-    public CarBuyingPeople(String id, String buyingPeopleName, String phone, String description, String buyName, BigDecimal price, String category, BigDecimal profit, Date createDateTime, Date updateDateTime) {
+    public CarBuyingPeople(String id, String buyingPeopleName, String phone, String description, String buyName, BigDecimal price,
+                           String category, BigDecimal profit, String staffNo, Date createDateTime, Date updateDateTime) {
         this.id = id;
         this.buyingPeopleName = buyingPeopleName;
         this.phone = phone;
@@ -42,6 +45,7 @@ public class CarBuyingPeople {
         this.price = price;
         this.category = category;
         this.profit = profit;
+        this.staffNo = staffNo;
         this.createDateTime = createDateTime;
         this.updateDateTime = updateDateTime;
     }

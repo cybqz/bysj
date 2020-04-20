@@ -25,7 +25,7 @@
                 sex: $("input[name='sex']:checked").val(),
                 description: $("#description").val(),
             };
-            var request = new Rquest(ctx, "/customerinfo/save", param,
+            var request = new Rquest(ctx, "/customerinfo/save", param, false,
                 function (data) {
                     if(data && data.validate){
                         window.location.href = ctx + "/customerinfo/";

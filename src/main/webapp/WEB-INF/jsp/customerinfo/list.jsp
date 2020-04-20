@@ -48,10 +48,10 @@
         }
         function remove(id){
 
-            new Rquest(ctx, "/customerinfo/delete", {id:id},
+            new Rquest(ctx, "/customerinfo/delete", {id:id}, false,
                 function (data) {
                     tips(data.msg);
-                    load(null);
+                    load({customerInfo: {},pagination:{pageSize:50}});
                 }, function () {
                     console.log("error");
                 }).ajaxpost();

@@ -11,6 +11,7 @@
       <arg column="price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
       <arg column="category" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="profit" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="staffNo" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="create_date_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="update_date_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
@@ -24,8 +25,8 @@
       and buying_people_name like concat('%',#{record.buyingPeopleName, jdbcType=VARCHAR}, '%')
     </if>
     order by update_date_time desc, create_date_time desc
-    <if test="pagenation != null and pagenation.pageIndex != null and pagenation.pageSize != null">
-      limit #{pagenation.offset, jdbcType=INTEGER}, #{pagenation.pageSize, jdbcType=INTEGER}
+    <if test="pagination != null and pagination.pageIndex != null and pagination.pageSize != null">
+      limit #{pagination.offset, jdbcType=INTEGER}, #{pagination.pageSize, jdbcType=INTEGER}
     </if>
   </select>
 
@@ -40,11 +41,12 @@
   <insert id="insert" parameterType="com.cyb.goodsms.domain.CarBuyingPeople" >
     insert into car_buying_people (id, buying_people_name, phone, 
       description, buy_name, price, 
-      category, profit, create_date_time, 
+      category, profit, staffNo, create_date_time,
       update_date_time)
     values (#{id,jdbcType=VARCHAR}, #{buyingPeopleName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{buyName,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{category,jdbcType=VARCHAR}, #{profit,jdbcType=DECIMAL}, #{createDateTime,jdbcType=TIMESTAMP}, 
+      #{category,jdbcType=VARCHAR}, #{profit,jdbcType=DECIMAL}, #{staffNo, jdbcType=VARCHAR}
+      #{createDateTime,jdbcType=TIMESTAMP},
       #{updateDateTime,jdbcType=TIMESTAMP})
   </insert>
 
@@ -78,6 +80,9 @@
       </if>
       <if test="record.profit != null" >
         profit = #{record.profit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.staffNo != null" >
+        staffNo = #{record.staffNo,jdbcType=VARCHAR},
       </if>
       <if test="record.createDateTime != null" >
         create_date_time = #{record.createDateTime,jdbcType=TIMESTAMP},

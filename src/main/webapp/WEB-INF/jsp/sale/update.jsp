@@ -19,7 +19,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            var request = new Rquest(ctx, "/sale/detail", {id:opreationId},
+            var request = new Rquest(ctx, "/sale/detail", {id:opreationId}, false,
                 function (data) {
                     if(data && data.validate && data.data){
                         $("#buyingPeopleName").val(data.data['buyingPeopleName']);
@@ -29,6 +29,7 @@
                         $("#price").val(data.data['price']);
                         $("#category").val(data.data['category']);
                         $("#profit").val(data.data['profit']);
+                        $("#staffNo").val(data.data['staffNo']);
                     }
                 }, function () {
                     console.log("error");
@@ -45,8 +46,9 @@
                 price: $("#price").val(),
                 category: $("#category").val(),
                 profit: $("#profit").val(),
+                staffNo: $("#staffNo").val()
             };
-            var request = new Rquest(ctx, "/sale/doupdate", param,
+            var request = new Rquest(ctx, "/sale/doupdate", param, false,
                 function (data) {
                     if(data && data.validate){
                         window.location.href = ctx + "/sale/";

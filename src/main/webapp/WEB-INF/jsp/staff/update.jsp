@@ -19,15 +19,15 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            var request = new Rquest(ctx, "/staff/detail", {id:opreationId},
+            var request = new Rquest(ctx, "/staff/detail", {id:opreationId}, false,
                 function (data) {
                     if(data && data.validate && data.data){
+                        $("#no").val(data.data['no']);
                         $("#name").val(data.data['name']);
                         $("#phone").val(data.data['phone']);
                         $("#email").val(data.data['email']);
                         $("input[name='sex'][value="+data.data['sex']+"]").attr("checked",true);
                         $("#department").val(data.data['department']);
-                        $("#description").val(data.data['description']);
                     }
                 }, function () {
                     console.log("error");
@@ -37,14 +37,14 @@
         function doupdate() {
             var param = {
                 id: opreationId,
+                no: $("#no").val(),
                 name: $("#customerName").val(),
                 phone: $("#phone").val(),
                 email: $("#email").val(),
-                sex: $("input[name='sex']:checked").val(),
                 department: $("#department").val(),
-                description: $("#description").val(),
+                sex: $("input[name='sex']:checked").val()
             };
-            var request = new Rquest(ctx, "/staff/doupdate", param,
+            var request = new Rquest(ctx, "/staff/doupdate", param, false,
                 function (data) {
                     if(data && data.validate){
                         window.location.href = ctx + "/staff/";

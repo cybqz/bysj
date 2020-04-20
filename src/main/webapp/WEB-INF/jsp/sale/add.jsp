@@ -26,8 +26,9 @@
                 price: $("#price").val(),
                 category: $("#category").val(),
                 profit: $("#profit").val(),
+                staffNo: $("#staffNo").val()
             };
-            var request = new Rquest(ctx, "/sale/save", param,
+            var request = new Rquest(ctx, "/sale/save", param, false,
                 function (data) {
                     if(data && data.validate){
                         window.location.href = ctx + "/sale/";

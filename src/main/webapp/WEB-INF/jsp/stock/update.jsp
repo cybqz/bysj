@@ -19,7 +19,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            var request = new Rquest(ctx, "/stock/detail", {id:opreationId},
+            var request = new Rquest(ctx, "/stock/detail", {id:opreationId}, false,
                 function (data) {
                     if(data && data.validate && data.data){
                         $("#supplierName").val(data.data['supplierName']);
@@ -27,7 +27,7 @@
                         $("#goodsName").val(data.data['goodsName']);
                         $("#goodsCategory").val(data.data['goodsCategory']);
                         $("#stockInCount").val(data.data['stockInCount']);
-                        $("#description").val(data.data['description']);
+                        $("#carNo").val(data.data['carNo']);
                     }
                 }, function () {
                     console.log("error");
@@ -42,9 +42,9 @@
                 goodsName: $("#goodsName").val(),
                 goodsCategory: $("#goodsCategory").val(),
                 stockInCount: $("#stockInCount").val(),
-                description: $("#description").val(),
+                carNo: $("#carNo").val()
             };
-            var request = new Rquest(ctx, "/stock/doupdate", param,
+            var request = new Rquest(ctx, "/stock/doupdate", param, false,
                 function (data) {
                     if(data && data.validate){
                         window.location.href = ctx + "/stock/";

@@ -47,7 +47,7 @@ var Table = (function(window) {
                                     html_column += '<ul class="ul_wrap">';
                                     $.each(column, function(keyc, vc){
                                         $.each(vc, function(k, v){
-                                            html_column += '<li class="li_wrap">'+datav[k]+'</li>';
+                                            html_column += '<li class="li_wrap" title="'+datav[k]+'">'+datav[k]+'</li>';
                                         })
                                     })
                                     html_column += '<li class=" opcity">'+
@@ -63,12 +63,12 @@ var Table = (function(window) {
                     }).ajaxpost();
 
                 if(pagination == null){
-                    tips("分页信息错误");
+                    //tips("分页信息错误");
                 }
                 console.log(pagination);
                 const pageIndex = pagination != null ?pagination['pageIndex']:null;
                 const pageCount = pagination != null ?pagination['pageCount']:0;
-                html_pagination = html_pagination.replace("$pageCount$",pageCount)
+                html_pagination = html_pagination.replace("$pageCount$",(pageIndex + 1) +"/"+ pageCount)
 
                 if(pageCount>3){
                     var s = '';
@@ -76,6 +76,8 @@ var Table = (function(window) {
                         s += '<li class="page_text page_no">'+i+'</li>';
                     }
                     html_pagination = html_pagination.replace("$pagination$",s);
+                }else{
+                    html_pagination = html_pagination.replace("$pagination$",'');
                 }
 
                 html_column += '</div>';
@@ -118,17 +120,16 @@ var Table = (function(window) {
             },
             //下一页
             this.nextPage = function (pageIndex) {
-                param['pagination']['pageIndex'] = pageIndex + 1;
-                $("#page_next").click(
-                    function (event) {
+                $("#page_next").click([pageIndex],function (event) {
+                        param['pagination']['pageIndex'] = event.data[0] + 1;
                         new Table(element, column, param, baseurl, methodurl).renderingTable();
                     }
                 );
             },
             //上一页
             this.prePage = function (pageIndex) {
-                param['pagination']['pageIndex'] = pageIndex - 1;
-                $("#page_pre").click(function (event) {
+                $("#page_pre").click([pageIndex],function (event) {
+                    param['pagination']['pageIndex'] = event.data[0] - 1;
                         new Table(element, column, param, baseurl, methodurl).renderingTable();
                     }
                 );

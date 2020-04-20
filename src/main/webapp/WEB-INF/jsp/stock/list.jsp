@@ -20,18 +20,27 @@
     <script type="text/javascript">
         $(document).ready(function () {
             //加载列表数据并渲染
-            load(null);
+            load({stock: {},pagination:{pageSize:50}});
 
             //获取总条数
-            var request = new Rquest(ctx, "/stock/count", null,
+            new Rquest(ctx, "/stock/count", null, false,
                 function (data) {
                     if(data && data.validate && data.data){
                         $("#count").html(data.data);
                     }
                 }, function () {
                     console.log("error");
-                });
-            request.ajaxpost();
+                }).ajaxpost();
+
+            //搜索事件
+            $(".searchBtn").click(function () {
+                const supplierNameParam = $(".searchInput").val();
+                if(supplierNameParam == null || supplierNameParam === ''){
+                    tips("搜索条件不能为空");
+                    return;
+                }
+                load({stock: {supplierName: supplierNameParam},pagination:{pageSize:50}});
+            });
         })
         
         function add() {
@@ -39,8 +48,8 @@
         }
 
         function load(param) {
-            var column = [{supplierName:'供应商名称'},{supplierPhone:'供应商电话'},{goodsName:'商品名称'},{goodsCategory:'商品类别'},{stockInCount:'入库数量'},{description:'描述'}];
-            new Table('#list', column, param, ctx, "/customerinfo/page").renderingTable();
+            var column = [{supplierName:'供应商名称'},{supplierPhone:'供应商电话'},{goodsName:'商品名称'},{goodsCategory:'商品类别'},{stockInCount:'库存数量'},{carNo:'汽车编号'}];
+            new Table('#list', column, param, ctx, "/stock/page").renderingTable();
         }
         function update(id){
 
@@ -48,10 +57,10 @@
         }
         function remove(id){
 
-            var request = new Rquest(ctx, "/stock/delete", {id:id},
+            var request = new Rquest(ctx, "/stock/delete", {id:id}, false,
                 function (data) {
                     tips(data.msg);
-                    load(null);
+                    load({stock: {},pagination:{pageSize:50}});
                 }, function () {
                     console.log("error");
                 });
@@ -75,8 +84,12 @@
     <div  id="content">
         <!-- 表格的公共信息展示 -->
         <div id="top_text">
-             <span>
+             <span class="message_wrap">
                ${model}共 <span id="count" class="color_blue">0</span> 条
+            </span>
+            <span class="search_wrap">
+                <input class="searchInput" placeholder="输入供应商名称" type="text"/>
+                <span class="searchBtn">搜索</span>
             </span>
             <span class="add_wrap">
                  <span id="add" class="add" onclick="add()">

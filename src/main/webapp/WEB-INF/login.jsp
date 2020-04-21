@@ -68,9 +68,7 @@
 
 			new Rquest(ctx, "/user/getUser", null, false,
 					function (data) {
-						if(data != null){
-							window.location.href = ctx + "/customerinfo/";
-						}
+						toCustomerinfo(data);
 					}, null).ajaxpost();
 
 			/**
@@ -100,9 +98,7 @@
 				}
 				new Rquest(ctx, "/register/register", {"userName":user1,"password":pass1}, false,
 						function (data) {
-							if(data.validate){
-								window.location.href = ctx + "/customerinfo/";
-							}
+							toCustomerinfo(data);
 						}, function () {
 							console.log("error");
 						}).ajaxpost();
@@ -129,13 +125,19 @@
 				if(check){
 					new Rquest(ctx, "/login/login", {"userName":user,"password":pass}, false,
 							function (data) {
-								window.location.href = ctx + "/customerinfo/";
+								toCustomerinfo(data);
 							}, function () {
 								console.log("error");
 							}).ajaxpost();
 				}
 			});
 		});
+
+		function toCustomerinfo(data) {
+			if(data && data.validate){
+				window.location.href = ctx + "/customerinfo/";
+			}
+		}
 	</script>
 </body>
 </html>

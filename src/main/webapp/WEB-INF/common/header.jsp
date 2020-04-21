@@ -29,11 +29,16 @@
                 console.log("error");
             }).ajaxpost();
     }
+
+    function updatePassword() {
+        window.location.href = ctx + "/user/updatePassword";
+    }
 </script>
 <div id="header">
     汽车销售管理系统
     <span class="header_right_wrap">
-        <span class="header_right">登陆信息</span>
+        <span class="header_right" id="login_info">登陆信息</span>
+        <span class="header_right" onclick="updatePassword();">修改密码</span>
         <span class="header_right" onclick="logout();">退出</span>
     </span>
 

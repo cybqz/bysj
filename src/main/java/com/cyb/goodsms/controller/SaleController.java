@@ -134,9 +134,13 @@ public class SaleController extends BaseController {
 			JSONObject jsonObject = JSON.parseObject(param);
 			CarBuyingPeople carBuyingPeople = jsonObject.getObject("carBuyingPeople", CarBuyingPeople.class);
 			Pagination pagination = jsonObject.getObject("pagination", Pagination.class);
-			List<CarBuyingPeople> list = carBuyingPeopleMapper.selectByExample(carBuyingPeople, pagination);
-			tips = new Tips("查询成功",  true, list);
-			tips.setPagination(pagination);
+			int count = carBuyingPeopleMapper.countByExample(carBuyingPeople);
+			if(count > 0){
+				pagination.setDataCount(count);
+				List<CarBuyingPeople> list = carBuyingPeopleMapper.selectByExample(carBuyingPeople, pagination);
+				tips = new Tips("查询成功",  true, list);
+				tips.setPagination(pagination);
+			}
 		}
 		return tips;
 	}

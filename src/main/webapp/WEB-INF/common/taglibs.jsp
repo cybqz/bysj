@@ -8,11 +8,7 @@
 <c:set var="model" value="${pageContext.request.getAttribute('model')}"/>
 <c:set var="opreationId" value="${pageContext.request.getAttribute('opreationId')}"/>
 <script type="text/javascript">
-    var ctx = "${ctx}";
-    var model = "${model}";
-    var title = "${title}";
-    var opreationId = "${opreationId}";
-    var currentUser = null;
+    var ctx = "${ctx}", model = "${model}", title = "${title}", opreationId = "${opreationId}";
 
     document.onreadystatechange = function() {
         if(document.readyState == "complete"){
@@ -22,15 +18,17 @@
     }
 
     function loginedCheck(){
-        var request = new Rquest(ctx, "/user/getUser", null,
+        new Rquest(ctx, "/user/getUser", null, false,
             function (data) {
-                if(data != null){
-                    //window.location.href = ctx
+                if(data != null && data.userName){
+                    $("#login_info").text("欢迎：" + data.userName);
                 }
-            }, function () {
+            }, function (xhr, textStatus, errorThrown) {
+                console.log(xhr);
+                console.log(textStatus);
+                console.log(errorThrown);
                 //window.location.href = ctx
-            });
-        request.ajaxpost();
+            }).ajaxpost();
     }
 
     //全局提示

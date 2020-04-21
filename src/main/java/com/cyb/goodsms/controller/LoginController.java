@@ -55,16 +55,15 @@ public class LoginController extends BaseController {
 
 	/**
 	 * 登出
-	 * @param user
 	 * @return
 	 */
 	@RequestMapping(value="/logout")
 	@ResponseBody
-	public Tips logout (User user) {
+	public Tips logout () {
 		super.validLogined();
 		if(!isLogined){
 			return tips;
 		}
-		return loginService.logout(user);
+		return loginService.logout();
 	}
 }

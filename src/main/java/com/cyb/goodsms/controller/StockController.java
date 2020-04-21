@@ -133,9 +133,13 @@ public class StockController extends BaseController {
 			JSONObject jsonObject = JSON.parseObject(param);
 			Stock stock = jsonObject.getObject("stock", Stock.class);
 			Pagination pagination = jsonObject.getObject("pagination", Pagination.class);
-			List<Stock> list = stockMapper.selectByExample(stock, pagination);
-			tips = new Tips("查询成功",  true, list);
-			tips.setPagination(pagination);
+			int count = stockMapper.countByExample(stock);
+			if(count > 0) {
+				pagination.setDataCount(count);
+				List<Stock> list = stockMapper.selectByExample(stock, pagination);
+				tips = new Tips("查询成功",  true, list);
+				tips.setPagination(pagination);
+			}
 		}
 		return tips;
 	}

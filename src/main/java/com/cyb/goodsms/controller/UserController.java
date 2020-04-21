@@ -14,15 +14,20 @@ import com.cyb.authority.service.RolePermissionService;
 import com.cyb.authority.service.UserRoleService;
 import com.cyb.authority.service.UserService;
 import com.cyb.common.tips.Tips;
+import com.cyb.goodsms.common.Constant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import com.cyb.goodsms.vo.UserRolePermissionVO;
 import com.cyb.goodsms.vo.RolePermissionVO;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping(value="/user")
@@ -55,6 +60,25 @@ public class UserController extends BaseController {
 					tips.setMsg("修改失败！");
 				}
 			}
+		}
+		return tips;
+	}
+
+	@GetMapping("/updatePassword")
+	public String updatePassword (HttpServletRequest request) {
+		super.validLogined();
+		if(!isLogined) {
+			request.setAttribute("msg","请登录后再修改密码");
+		}
+		return Constant.DEFAULT_PAGE_PREFIX + "update_password";
+	}
+
+	@RequestMapping(value="/doUpdatePassword")
+	@ResponseBody
+	public Tips doUpdatePassword (@Param("password") String password, @Param("oldPassword")String oldPassword) {
+		super.validLogined();
+		if(isLogined) {
+			tips = userSerivce.updatePasswordById(currentLoginedUser.getId(), password, oldPassword, true);
 		}
 		return tips;
 	}

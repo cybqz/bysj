@@ -135,9 +135,13 @@ public class StaffController extends BaseController {
 			JSONObject jsonObject = JSON.parseObject(param);
 			Staff staff = jsonObject.getObject("staff", Staff.class);
 			Pagination pagination = jsonObject.getObject("pagination", Pagination.class);
-			List<Staff> list = staffMapper.selectByExample(staff, pagination);
-			tips = new Tips("查询成功",  true, list);
-			tips.setPagination(pagination);
+			int count = staffMapper.countByExample(staff);
+			if(count > 0) {
+				pagination.setDataCount(count);
+				List<Staff> list = staffMapper.selectByExample(staff, pagination);
+				tips = new Tips("查询成功",  true, list);
+				tips.setPagination(pagination);
+			}
 		}
 		return tips;
 	}

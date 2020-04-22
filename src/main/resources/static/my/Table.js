@@ -47,7 +47,16 @@ var Table = (function(window) {
                                     html_column += '<ul class="ul_wrap">';
                                     $.each(column, function(keyc, vc){
                                         $.each(vc, function(k, v){
-                                            html_column += '<li class="li_wrap" title="'+datav[k]+'">'+datav[k]+'</li>';
+
+                                            if(k === "sex"){
+                                                if(datav[k] == 2){
+                                                    html_column += '<li class="li_wrap">男</li>';
+                                                }else{
+                                                    html_column += '<li class="li_wrap">女</li>';
+                                                }
+                                            }else{
+                                                html_column += '<li class="li_wrap" title="'+datav[k]+'">'+datav[k]+'</li>';
+                                            }
                                         })
                                     })
                                     html_column += '<li class=" opcity">'+

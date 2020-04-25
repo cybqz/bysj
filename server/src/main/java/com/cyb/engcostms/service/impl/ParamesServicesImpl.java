@@ -3,6 +3,7 @@ package com.cyb.engcostms.service.impl;
 import javax.annotation.Resource;
 
 import com.cyb.engcostms.domain.Parames;
+import com.cyb.engcostms.utils.MyUtils;
 import org.springframework.stereotype.Service;
 import com.cyb.engcostms.dao.ParamesMapper;
 import com.cyb.engcostms.service.ParamesServices;
@@ -22,6 +23,7 @@ public class ParamesServicesImpl implements ParamesServices {
 
 	@Override
 	public int insert(Parames record) {
+		record.setId(MyUtils.getPrimaryKey());
 		return paramesMapper.insert(record);
 	}
 

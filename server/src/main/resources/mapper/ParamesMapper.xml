@@ -10,6 +10,14 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
 
+  <insert id="insert">
+    insert into parames
+        (id, `name`, `value`, `group`, `order`, remark)
+    values
+        (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR},
+         #{group,jdbcType=VARCHAR}, #{order,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+
   <select id="selectByParames" resultMap="BaseResultMap" parameterType="com.cyb.engcostms.domain.Parames">
     select *
     from parames p

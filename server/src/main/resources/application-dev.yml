@@ -4,21 +4,19 @@ web:
   upload-path: F:/log/
 
 server:
-   port: 9091
+   port: 9090
    tomcat:
      uri-encoding: UTF-8
-   servlet:
-     context-path: /goodsms
 spring:
   devtools:
     restart:
       enabled: true
   application:
-    name: goodsms
+    name: engcostms
   datasource:
     password: root
     username: root
-    url: jdbc:mysql://127.0.0.1:3306/goodsms?serverTimezone=GMT%2B8&useUnicode=true$characterEncoding=utf8
+    url: jdbc:mysql://127.0.0.1:3306/engcostms?serverTimezone=GMT%2B8&useUnicode=true$characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     #数据源其他配置

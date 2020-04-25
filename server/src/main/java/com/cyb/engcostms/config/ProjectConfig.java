@@ -18,12 +18,4 @@ public class ProjectConfig {
         });
         return factory;
     }
-
-    @Bean
-    public InternalResourceViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
-    }
 }

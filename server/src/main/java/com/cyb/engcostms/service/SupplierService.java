@@ -47,6 +47,13 @@ public interface SupplierService {
     Supplier detail(String id);
 
     /**
+     * 详情查询
+     * @param supplierId
+     * @return
+     */
+    Supplier detailBySupplierId(String supplierId);
+
+    /**
      * 列表查询
      * @param record
      * @return

@@ -155,7 +155,7 @@ public class MaterialController extends BaseController {
                         vo.setTypeName(parames.getName());
                     }
 
-                    Supplier supplier = supplierService.detail(data.getSupplierId());
+                    Supplier supplier = supplierService.detailBySupplierId(data.getSupplierId());
                     if(null != supplier){
                         vo.setSupplierName(supplier.getSupplierName());
                     }

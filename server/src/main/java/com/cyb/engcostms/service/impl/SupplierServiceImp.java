@@ -69,6 +69,17 @@ public class SupplierServiceImp implements SupplierService {
     }
 
     /**
+     * 详情查询
+     * @param supplierId
+     * @return
+     */
+    @Override
+    public Supplier detailBySupplierId(String supplierId) {
+
+        return supplierMapper.getByColumn("supplier_id", supplierId);
+    }
+
+    /**
      * 列表查询
      * @param record
      * @return

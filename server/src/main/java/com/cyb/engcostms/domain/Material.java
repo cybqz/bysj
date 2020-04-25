@@ -35,10 +35,10 @@ public class Material {
     private String materialName;
 
     /** 物料类型, 数据库字段：type */
-    private Integer type;
+    private String type;
 
-    /** 标准, 数据库字段：standrad */
-    private String standrad;
+    /** 标准, 数据库字段：standard */
+    private String standard;
 
     /** 是否停用1：已停用，0：未停用, 数据库字段：is_stop */
     private Integer isStop;

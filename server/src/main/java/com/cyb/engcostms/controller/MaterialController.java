@@ -5,14 +5,22 @@ import com.cyb.authority.base.BaseController;
 import com.cyb.common.tips.Tips;
 
 import com.cyb.engcostms.domain.Material;
+import com.cyb.engcostms.domain.Parames;
+import com.cyb.engcostms.domain.Supplier;
 import com.cyb.engcostms.service.MaterialService;
 
+import com.cyb.engcostms.service.ParamesServices;
+import com.cyb.engcostms.service.SupplierService;
+import com.cyb.engcostms.vo.MaterialVO;
+import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,8 +33,15 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/material")
 public class MaterialController extends BaseController {
+
     @Autowired
     private MaterialService materialService;
+
+    @Autowired
+    private ParamesServices paramesServices;
+
+    @Autowired
+    private SupplierService supplierService;
 
     /**
      * 新增
@@ -124,8 +139,30 @@ public class MaterialController extends BaseController {
         super.validLogined();
 
         if (isLogined) {
+            List<MaterialVO> resultList = null;
             List<Material> list = materialService.list(material);
-            tips.setData(list);
+            if(null != list && CollectionUtils.isNotEmpty(list)){
+
+                resultList = new ArrayList<>(list.size());
+
+                for(Material data : list){
+
+                    MaterialVO vo = new MaterialVO();
+                    BeanUtils.copyProperties(data, vo);
+
+                    Parames parames = paramesServices.selectByPrimaryKey(data.getType());
+                    if(null != parames){
+                        vo.setTypeName(parames.getName());
+                    }
+
+                    Supplier supplier = supplierService.detail(data.getSupplierId());
+                    if(null != supplier){
+                        vo.setSupplierName(supplier.getSupplierName());
+                    }
+                    resultList.add(vo);
+                }
+            }
+            tips.setData(resultList);
             tips.setMsg("查询成功");
         }
 

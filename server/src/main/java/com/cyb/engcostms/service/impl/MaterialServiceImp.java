@@ -1,23 +1,21 @@
 package com.cyb.engcostms.service.impl;
 
 import com.beastmybatis.core.query.Query;
-
 import com.beastmybatis.core.query.Sort;
 import com.cyb.engcostms.dao.MaterialMapper;
 import com.cyb.engcostms.domain.Material;
 import com.cyb.engcostms.service.MaterialService;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
 import javax.annotation.Resource;
 
 
 @Service("materialService")
 public class MaterialServiceImp implements MaterialService {
+
+    private static final String DEFAULT_NO = "00000";
     @Resource
     private MaterialMapper materialMapper;
 
@@ -29,13 +27,19 @@ public class MaterialServiceImp implements MaterialService {
     @Override
     public int save(Material record) {
         Query query = new Query();
-        query.orderby("create_date_time", Sort.ASC);
+        query.orderby("create_date_time", Sort.DESC);
         List<Material> materialList = materialMapper.list(query);
         if(null == materialList || CollectionUtils.isEmpty(materialList)){
             record.setMaterialId("00000");
         }else{
-            Integer materialId = Integer.valueOf(materialList.get(0).getMaterialId()) + 1;
-            record.setMaterialId(String.valueOf(materialId));
+            String materialId = String.valueOf(Integer.valueOf(materialList.get(0).getMaterialId()) + 1);
+            int diffLength = DEFAULT_NO.length() - materialId.length();
+            if(diffLength > 0){
+                for(int i= 0; i < diffLength; i++){
+                    materialId = "0" + materialId;
+                }
+            }
+            record.setMaterialId(materialId);
         }
         if(null == record.getIsStop()){
             record.setIsStop(0);
@@ -92,7 +96,8 @@ public class MaterialServiceImp implements MaterialService {
     @Override
     public List<Material> list(Material record) {
         Query query = new Query();
-
+        query.eq("type", record.getType());
+        query.eq("material_name", record.getMaterialName());
         return materialMapper.list(query);
     }
 }

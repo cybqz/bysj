@@ -13,6 +13,7 @@ import com.cyb.engcostms.service.ParamesServices;
 import com.cyb.engcostms.service.SupplierService;
 import com.cyb.engcostms.vo.MaterialVO;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -52,15 +53,27 @@ public class MaterialController extends BaseController {
     @PostMapping("/save")
     public Tips save(Material material) {
         super.validLogined();
-
         if (isLogined) {
-            int count = materialService.save(material);
 
-            if (count > 0) {
-                tips.setMsg("保存成功");
+            if(StringUtils.isEmpty(material.getType())){
+                tips.setMsg("物料类型不能为空");
+            }else if(StringUtils.isEmpty(material.getMaterialName())){
+                tips.setMsg("物料名称不能为空");
+            }else{
+                Material param = new Material();
+                param.setType(material.getType());
+                param.setMaterialName(material.getMaterialName());
+                List<Material> materialList = materialService.list(param);
+                if(CollectionUtils.isEmpty(materialList)){
+                    int count = materialService.save(material);
+                    if (count > 0) {
+                        tips.setMsg("保存成功");
+                    }
+                }else{
+                    tips.setMsg("相同物料已存在");
+                }
             }
         }
-
         return tips;
     }
 

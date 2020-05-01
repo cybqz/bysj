@@ -2,10 +2,15 @@ package com.cyb.engcostms.service.impl;
 
 import com.beastmybatis.core.query.Query;
 
+import com.beastmybatis.core.query.Sort;
+import com.cyb.engcostms.common.Constant;
 import com.cyb.engcostms.dao.SupplierMapper;
+import com.cyb.engcostms.domain.Material;
 import com.cyb.engcostms.domain.Supplier;
 import com.cyb.engcostms.service.SupplierService;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +30,22 @@ public class SupplierServiceImp implements SupplierService {
      */
     @Override
     public int save(Supplier record) {
+
+        Query query = new Query();
+        query.orderby("create_date_time", Sort.DESC);
+        List<Supplier> supplierList = supplierMapper.list(query);
+        if(null == supplierList || CollectionUtils.isEmpty(supplierList)){
+            record.setSupplierId(Constant.DEFAULT_NO);
+        }else{
+            String supplierId = String.valueOf(Integer.valueOf(supplierList.get(0).getSupplierId()) + 1);
+            int diffLength = Constant.DEFAULT_NO.length() - supplierId.length();
+            if(diffLength > 0){
+                for(int i= 0; i < diffLength; i++){
+                    supplierId = "0" + supplierId;
+                }
+            }
+            record.setSupplierId(supplierId);
+        }
         return supplierMapper.save(record);
     }
 
@@ -79,6 +100,15 @@ public class SupplierServiceImp implements SupplierService {
         return supplierMapper.getByColumn("supplier_id", supplierId);
     }
 
+    @Override
+    public Supplier getOne(Supplier record){
+        Query query = new Query();
+        if(StringUtils.isNotEmpty(record.getSupplierName())){
+            query.like("supplier_name", record.getSupplierName());
+        }
+        return supplierMapper.getByQuery(query);
+    }
+
     /**
      * 列表查询
      * @param record
@@ -87,7 +117,15 @@ public class SupplierServiceImp implements SupplierService {
     @Override
     public List<Supplier> list(Supplier record) {
         Query query = new Query();
-
+        if(StringUtils.isNotEmpty(record.getSupplierId())){
+            query.like("supplier_id", record.getSupplierId());
+        }
+        if(StringUtils.isNotEmpty(record.getSupplierName())){
+            query.like("supplier_name", record.getSupplierName());
+        }
+        if(StringUtils.isNotEmpty(record.getOriginPlace())){
+            query.like("origin_place", record.getOriginPlace());
+        }
         return supplierMapper.list(query);
     }
 }

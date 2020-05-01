@@ -2,10 +2,12 @@ package com.cyb.engcostms.service.impl;
 
 import com.beastmybatis.core.query.Query;
 import com.beastmybatis.core.query.Sort;
+import com.cyb.engcostms.common.Constant;
 import com.cyb.engcostms.dao.MaterialMapper;
 import com.cyb.engcostms.domain.Material;
 import com.cyb.engcostms.service.MaterialService;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +17,7 @@ import javax.annotation.Resource;
 @Service("materialService")
 public class MaterialServiceImp implements MaterialService {
 
-    private static final String DEFAULT_NO = "00000";
+
     @Resource
     private MaterialMapper materialMapper;
 
@@ -30,10 +32,10 @@ public class MaterialServiceImp implements MaterialService {
         query.orderby("create_date_time", Sort.DESC);
         List<Material> materialList = materialMapper.list(query);
         if(null == materialList || CollectionUtils.isEmpty(materialList)){
-            record.setMaterialId("00000");
+            record.setMaterialId(Constant.DEFAULT_NO);
         }else{
             String materialId = String.valueOf(Integer.valueOf(materialList.get(0).getMaterialId()) + 1);
-            int diffLength = DEFAULT_NO.length() - materialId.length();
+            int diffLength = Constant.DEFAULT_NO.length() - materialId.length();
             if(diffLength > 0){
                 for(int i= 0; i < diffLength; i++){
                     materialId = "0" + materialId;
@@ -75,6 +77,7 @@ public class MaterialServiceImp implements MaterialService {
      */
     @Override
     public int update(Material record) {
+        record.setUpdateDateTime(LocalDateTime.now());
         return materialMapper.update(record);
     }
 
@@ -89,6 +92,23 @@ public class MaterialServiceImp implements MaterialService {
     }
 
     /**
+     * 查询
+     * @param record
+     * @return
+     */
+    @Override
+    public Material getOne(Material record) {
+        Query query = new Query();
+        if(StringUtils.isNotEmpty(record.getType())){
+            query.eq("type", record.getType());
+        }
+        if(StringUtils.isNotEmpty(record.getMaterialName())){
+            query.eq("material_name", record.getMaterialName());
+        }
+        return materialMapper.getByQuery(query);
+    }
+
+    /**
      * 列表查询
      * @param record
      * @return
@@ -96,8 +116,13 @@ public class MaterialServiceImp implements MaterialService {
     @Override
     public List<Material> list(Material record) {
         Query query = new Query();
-        query.eq("type", record.getType());
-        query.eq("material_name", record.getMaterialName());
+        if(StringUtils.isNotEmpty(record.getType())){
+            query.eq("type", record.getType());
+        }
+        if(StringUtils.isNotEmpty(record.getMaterialName())){
+            query.like("material_name", record.getMaterialName());
+        }
+        query.orderby("material_id", Sort.ASC);
         return materialMapper.list(query);
     }
 }

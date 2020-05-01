@@ -47,6 +47,13 @@ public interface MaterialService {
     Material detail(String id);
 
     /**
+     * 查询
+     * @param material
+     * @return
+     */
+    Material getOne(Material material);
+
+    /**
      * 列表查询
      * @param record
      * @return

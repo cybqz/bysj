@@ -54,6 +54,13 @@ public interface SupplierService {
     Supplier detailBySupplierId(String supplierId);
 
     /**
+     * 单条查询
+     * @param record
+     * @return
+     */
+    Supplier getOne(Supplier record);
+
+    /**
      * 列表查询
      * @param record
      * @return

@@ -7,6 +7,7 @@ import com.cyb.common.tips.Tips;
 import com.cyb.engcostms.domain.Supplier;
 import com.cyb.engcostms.service.SupplierService;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -37,15 +38,22 @@ public class SupplierController extends BaseController {
     @PostMapping("/save")
     public Tips save(Supplier supplier) {
         super.validLogined();
-
         if (isLogined) {
-            int count = supplierService.save(supplier);
-
-            if (count > 0) {
-                tips.setMsg("保存成功");
+            tips.setValidate(false);
+            if(StringUtils.isNotEmpty(supplier.getSupplierName())){
+                Supplier existSupplier = supplierService.getOne(supplier);
+                if(null == existSupplier){
+                    int count = supplierService.save(supplier);
+                    if (count > 0) {
+                        tips = new Tips("保存成功", true);
+                    }
+                }else{
+                    tips.setMsg("供应商已存在");
+                }
+            }else{
+                tips.setMsg("供应商名称不能为空");
             }
         }
-
         return tips;
     }
 
@@ -56,14 +64,10 @@ public class SupplierController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/deleteById")
-    public Tips deleteById(
-        @RequestParam(value = "id", required = true)
-    String id) {
+    public Tips deleteById(@RequestParam(value = "id") String id) {
         super.validLogined();
-
         if (isLogined) {
             int count = supplierService.deleteById(id);
-
             if (count > 0) {
                 tips.setMsg("删除成功");
             }
@@ -81,15 +85,12 @@ public class SupplierController extends BaseController {
     @PostMapping("/update")
     public Tips update(Supplier supplier) {
         super.validLogined();
-
         if (isLogined) {
             int count = supplierService.update(supplier);
-
             if (count > 0) {
                 tips.setMsg("更新成功");
             }
         }
-
         return tips;
     }
 
@@ -103,13 +104,11 @@ public class SupplierController extends BaseController {
     public Tips detail(@RequestParam(value = "id", required = true)
     String id) {
         super.validLogined();
-
         if (isLogined) {
             Supplier supplier = supplierService.detail(id);
             tips.setData(supplier);
             tips.setMsg("查询成功");
         }
-
         return tips;
     }
 
@@ -122,13 +121,11 @@ public class SupplierController extends BaseController {
     @GetMapping("/list")
     public Tips list(Supplier supplier) {
         super.validLogined();
-
         if (isLogined) {
             List<Supplier> list = supplierService.list(supplier);
             tips.setData(list);
             tips.setMsg("查询成功");
         }
-
         return tips;
     }
 }

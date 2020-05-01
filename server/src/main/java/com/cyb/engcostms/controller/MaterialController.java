@@ -54,7 +54,7 @@ public class MaterialController extends BaseController {
     public Tips save(Material material) {
         super.validLogined();
         if (isLogined) {
-
+            tips.setValidate(false);
             if(StringUtils.isEmpty(material.getType())){
                 tips.setMsg("物料类型不能为空");
             }else if(StringUtils.isEmpty(material.getMaterialName())){
@@ -63,11 +63,11 @@ public class MaterialController extends BaseController {
                 Material param = new Material();
                 param.setType(material.getType());
                 param.setMaterialName(material.getMaterialName());
-                List<Material> materialList = materialService.list(param);
-                if(CollectionUtils.isEmpty(materialList)){
+                Material existMaterial = materialService.getOne(material);
+                if(null == existMaterial){
                     int count = materialService.save(material);
                     if (count > 0) {
-                        tips.setMsg("保存成功");
+                        tips = new Tips("保存成功", true);
                     }
                 }else{
                     tips.setMsg("相同物料已存在");

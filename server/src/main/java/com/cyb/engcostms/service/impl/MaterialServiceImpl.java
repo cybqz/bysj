@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 
 
 @Service("materialService")
-public class MaterialServiceImp implements MaterialService {
+public class MaterialServiceImpl implements MaterialService {
 
 
     @Resource
@@ -99,6 +99,9 @@ public class MaterialServiceImp implements MaterialService {
     @Override
     public Material getOne(Material record) {
         Query query = new Query();
+        if(StringUtils.isNotEmpty(record.getMaterialId())){
+            query.eq("material_id", record.getMaterialId());
+        }
         if(StringUtils.isNotEmpty(record.getType())){
             query.eq("type", record.getType());
         }

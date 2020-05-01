@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 
 /**
- * 物料表
+ * 物料表VO
  * @author generation
  */
 @Data

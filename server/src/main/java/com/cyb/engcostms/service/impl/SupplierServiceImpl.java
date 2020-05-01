@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 
 
 @Service("supplierService")
-public class SupplierServiceImp implements SupplierService {
+public class SupplierServiceImpl implements SupplierService {
     @Resource
     private SupplierMapper supplierMapper;
 
@@ -103,6 +103,9 @@ public class SupplierServiceImp implements SupplierService {
     @Override
     public Supplier getOne(Supplier record){
         Query query = new Query();
+        if(StringUtils.isNotEmpty(record.getSupplierId())){
+            query.like("supplier_id", record.getSupplierId());
+        }
         if(StringUtils.isNotEmpty(record.getSupplierName())){
             query.like("supplier_name", record.getSupplierName());
         }

@@ -69,4 +69,11 @@ public interface EnquiryService {
      * @return
      */
     List<Enquiry> newestList(String materialName, Pagination pagination);
+
+    /**
+     * 最新列表总数查询
+     * @param materialName
+     * @return
+     */
+    int newestListCount(String materialName);
 }

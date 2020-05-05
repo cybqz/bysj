@@ -146,11 +146,16 @@ public class EnquiryController extends BaseController {
         super.validLogined();
         tipsPagination.convertFromTips(tips);
         if (isLogined) {
-            List<Enquiry> list = enquiryService.newestList(materialName, pagination);
-            List<EnquiryVO> voList = setVO(list);
             Pagination<EnquiryVO> resultPagination = new Pagination<EnquiryVO>();
-            resultPagination.setDatas(voList);
+            int total = enquiryService.newestListCount(materialName);
+
+            if(total > 0){
+                List<Enquiry> list = enquiryService.newestList(materialName, pagination);
+                List<EnquiryVO> voList = setVO(list);
+                resultPagination.setDatas(voList);
+            }
             tipsPagination.setPagination(resultPagination);
+            resultPagination.setTotal(total);
             tipsPagination.setMsg("查询成功");
         }
         return tipsPagination;

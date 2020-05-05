@@ -15,4 +15,6 @@ import java.util.List;
 public interface EnquiryMapper extends CrudMapper<Enquiry, String> {
 
     List<Enquiry> newestList(@Param("materialName") String materialName, @Param("pagination") Pagination pagination);
+
+    int newestListCount(@Param("materialName") String materialName);
 }

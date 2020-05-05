@@ -118,4 +118,14 @@ public class EnquiryServiceImpl implements EnquiryService {
     public List<Enquiry> newestList(String materialName, Pagination pagination) {
         return  enquiryMapper.newestList(materialName, pagination);
     }
+
+    /**
+     * 最新列表总数查询
+     * @param materialName
+     * @return
+     */
+    @Override
+    public int newestListCount(String materialName) {
+        return  enquiryMapper.newestListCount(materialName);
+    }
 }

@@ -1,5 +1,6 @@
 package com.cyb.engcostms.service;
 
+import com.cyb.common.pagination.Pagination;
 import com.cyb.engcostms.domain.Supplier;
 
 import java.util.List;
@@ -61,9 +62,10 @@ public interface SupplierService {
     Supplier getOne(Supplier record);
 
     /**
-     * 列表查询
+     * 分页列表查询
      * @param record
+     * @param pagination
      * @return
      */
-    List<Supplier> list(Supplier record);
+    Pagination<Supplier> page(Supplier record, Pagination pagination);
 }

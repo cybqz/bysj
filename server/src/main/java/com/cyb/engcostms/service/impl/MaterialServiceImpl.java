@@ -1,7 +1,9 @@
 package com.cyb.engcostms.service.impl;
 
+import com.cyb.common.pagination.Pagination;
 import com.beastmybatis.core.query.Query;
 import com.beastmybatis.core.query.Sort;
+import com.beastmybatis.core.util.MapperUtil;
 import com.cyb.engcostms.common.Constant;
 import com.cyb.engcostms.dao.MaterialMapper;
 import com.cyb.engcostms.domain.Material;
@@ -112,13 +114,17 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     /**
-     * 列表查询
+     * 分页列表查询
      * @param record
+     * @param pagination
      * @return
      */
     @Override
-    public List<Material> list(Material record) {
+    public Pagination<Material> page(Material record, Pagination pagination) {
         Query query = new Query();
+        query.setQueryAll(false);
+        query.page(pagination.getPageIndex(), pagination.getLimit());
+
         if(StringUtils.isNotEmpty(record.getType())){
             query.eq("type", record.getType());
         }
@@ -126,6 +132,7 @@ public class MaterialServiceImpl implements MaterialService {
             query.like("material_name", record.getMaterialName());
         }
         query.orderby("material_id", Sort.ASC);
-        return materialMapper.list(query);
+        Pagination<Material> result = MapperUtil.query(materialMapper, query);
+        return result;
     }
 }

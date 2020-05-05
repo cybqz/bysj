@@ -1,14 +1,13 @@
 package com.cyb.engcostms.controller;
 
 import com.cyb.authority.base.BaseController;
-
+import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
-
+import com.cyb.common.tips.TipsPagination;
 import com.cyb.engcostms.domain.Material;
 import com.cyb.engcostms.domain.Parames;
 import com.cyb.engcostms.domain.Supplier;
 import com.cyb.engcostms.service.MaterialService;
-
 import com.cyb.engcostms.service.ParamesServices;
 import com.cyb.engcostms.service.SupplierService;
 import com.cyb.engcostms.vo.MaterialVO;
@@ -16,11 +15,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,20 +138,24 @@ public class MaterialController extends BaseController {
     }
 
     /**
-     * 列表查询
+     * 分页列表查询
      * @param material
+     * @param pagination
      * @return
      */
     @ResponseBody
-    @GetMapping("/list")
-    public Tips list(Material material) {
-        super.validLogined();
+    @GetMapping("/page")
+    public TipsPagination<Material> page(Material material, Pagination pagination) {
 
+        TipsPagination<Material> tipsPagination = new TipsPagination<>();
+        super.validLogined();
+        tipsPagination.convertFromTips(tips);
         if (isLogined) {
             List<MaterialVO> resultList = null;
-            List<Material> list = materialService.list(material);
-            if(null != list && CollectionUtils.isNotEmpty(list)){
+            Pagination<Material> result = materialService.page(material, pagination);
+            if(null != result && CollectionUtils.isNotEmpty(result.getDatas())){
 
+                List<Material> list = result.getDatas();
                 resultList = new ArrayList<>(list.size());
 
                 for(Material data : list){
@@ -175,10 +175,9 @@ public class MaterialController extends BaseController {
                     resultList.add(vo);
                 }
             }
-            tips.setData(resultList);
-            tips.setMsg("查询成功");
+            tipsPagination.setPagination(result);
+            tipsPagination.setMsg("查询成功");
         }
-
-        return tips;
+        return tipsPagination;
     }
 }

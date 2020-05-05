@@ -1,20 +1,15 @@
 package com.cyb.engcostms.controller;
 
 import com.cyb.authority.base.BaseController;
-
+import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
-
+import com.cyb.common.tips.TipsPagination;
 import com.cyb.engcostms.domain.Supplier;
 import com.cyb.engcostms.service.SupplierService;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 /**
@@ -113,19 +108,22 @@ public class SupplierController extends BaseController {
     }
 
     /**
-     * 列表查询
+     * 分页列表查询
      * @param supplier
+     * @param pagination
      * @return
      */
     @ResponseBody
-    @GetMapping("/list")
-    public Tips list(Supplier supplier) {
+    @GetMapping("/page")
+    public TipsPagination<Supplier> page(Supplier supplier, Pagination pagination) {
+        TipsPagination<Supplier> tipsPagination = new TipsPagination<Supplier>();
         super.validLogined();
+        tipsPagination.convertFromTips(tips);
         if (isLogined) {
-            List<Supplier> list = supplierService.list(supplier);
-            tips.setData(list);
-            tips.setMsg("查询成功");
+            Pagination<Supplier> result = supplierService.page(supplier, pagination);
+            tipsPagination.setPagination(result);
+            tipsPagination.setMsg("查询成功");
         }
-        return tips;
+        return tipsPagination;
     }
 }

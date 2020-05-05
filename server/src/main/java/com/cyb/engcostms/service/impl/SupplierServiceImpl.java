@@ -3,6 +3,8 @@ package com.cyb.engcostms.service.impl;
 import com.beastmybatis.core.query.Query;
 
 import com.beastmybatis.core.query.Sort;
+import com.beastmybatis.core.util.MapperUtil;
+import com.cyb.common.pagination.Pagination;
 import com.cyb.engcostms.common.Constant;
 import com.cyb.engcostms.dao.SupplierMapper;
 import com.cyb.engcostms.domain.Material;
@@ -115,11 +117,14 @@ public class SupplierServiceImpl implements SupplierService {
     /**
      * 列表查询
      * @param record
+     * @param pagination
      * @return
      */
     @Override
-    public List<Supplier> list(Supplier record) {
+    public Pagination<Supplier> page(Supplier record, Pagination pagination) {
         Query query = new Query();
+        query.setQueryAll(false);
+        query.page(pagination.getPageIndex(), pagination.getLimit());
         if(StringUtils.isNotEmpty(record.getSupplierId())){
             query.like("supplier_id", record.getSupplierId());
         }
@@ -129,6 +134,6 @@ public class SupplierServiceImpl implements SupplierService {
         if(StringUtils.isNotEmpty(record.getOriginPlace())){
             query.like("origin_place", record.getOriginPlace());
         }
-        return supplierMapper.list(query);
+        return MapperUtil.query(supplierMapper, query);
     }
 }

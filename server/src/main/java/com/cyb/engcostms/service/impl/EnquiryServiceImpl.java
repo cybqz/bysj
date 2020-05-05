@@ -1,8 +1,12 @@
 package com.cyb.engcostms.service.impl;
 
 import com.beastmybatis.core.query.Query;
+import com.beastmybatis.core.query.Sort;
+import com.beastmybatis.core.util.MapperUtil;
+import com.cyb.common.pagination.Pagination;
 import com.cyb.engcostms.dao.EnquiryMapper;
 import com.cyb.engcostms.domain.Enquiry;
+import com.cyb.engcostms.domain.Material;
 import com.cyb.engcostms.service.EnquiryService;
 import com.cyb.engcostms.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -87,12 +91,31 @@ public class EnquiryServiceImpl implements EnquiryService {
     }
 
     /**
-     * 最新列表查询
+     * 分页列表查询
      * @param record
+     * @param pagination
      * @return
      */
     @Override
-    public List<Enquiry> list(Enquiry record) {
-        return  enquiryMapper.newestList(record);
+    public Pagination<Enquiry> page(Enquiry record, Pagination pagination) {
+        Query query = new Query();
+        query.setQueryAll(false);
+        query.page(pagination.getPageIndex(), pagination.getLimit());
+        if(StringUtils.isNotEmpty(record.getBelongId())){
+            query.eq("belong_id", record.getBelongId());
+        }
+        query.orderby("create_date_time", Sort.DESC);
+        return MapperUtil.query(enquiryMapper, query);
+    }
+
+    /**
+     * 最新列表查询
+     * @param materialName
+     * @param pagination
+     * @return
+     */
+    @Override
+    public List<Enquiry> newestList(String materialName, Pagination pagination) {
+        return  enquiryMapper.newestList(materialName, pagination);
     }
 }

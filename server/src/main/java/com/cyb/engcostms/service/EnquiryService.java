@@ -1,5 +1,6 @@
 package com.cyb.engcostms.service;
 
+import com.cyb.common.pagination.Pagination;
 import com.cyb.engcostms.domain.Enquiry;
 
 import java.util.List;
@@ -54,9 +55,18 @@ public interface EnquiryService {
     Enquiry getOne(Enquiry record);
 
     /**
-     * 列表查询
+     * 分页列表查询
      * @param record
+     * @param pagination
      * @return
      */
-    List<Enquiry> list(Enquiry record);
+    Pagination<Enquiry> page(Enquiry record, Pagination pagination);
+
+    /**
+     * 分页最新列表查询
+     * @param materialName
+     * @param pagination
+     * @return
+     */
+    List<Enquiry> newestList(String materialName, Pagination pagination);
 }

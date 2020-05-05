@@ -3,6 +3,8 @@ package com.cyb.engcostms.service;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.engcostms.domain.Material;
 
+import java.util.List;
+
 
 /**
  * Material服务层
@@ -51,6 +53,13 @@ public interface MaterialService {
      * @return
      */
     Material getOne(Material material);
+
+    /**
+     * 列表查询
+     * @param record
+     * @return
+     */
+    List<Material> list(Material record);
 
     /**
      * 分页列表查询

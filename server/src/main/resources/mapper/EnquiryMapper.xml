@@ -4,8 +4,17 @@
 <mapper namespace="com.cyb.engcostms.dao.EnquiryMapper">
     <!-- 根据条件查询最新记录 -->
     <select id="newestList" resultMap="baseResultMap">
-        select * from enquiry where create_date_time in (
+        select e.* from enquiry e
+        left join material m on e.material_id = m.material_id
+        where e.create_date_time in (
             select max(create_date_time) from enquiry group by belong_id
         )
+        <if test="materialName != null">
+            and m.material_name like concat('%',#{materialName}, '%')
+        </if>
+        order by e.material_id desc
+        <if test="pagination.pageIndex != null and pagination.limit">
+            limit #{pagination.pageIndex, jdbcType = INTEGER}, #{pagination.limit, jdbcType = INTEGER}
+        </if>
     </select>
 </mapper>

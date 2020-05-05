@@ -2,8 +2,10 @@ package com.cyb.engcostms.controller;
 
 import com.cyb.authority.base.BaseController;
 
+import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 
+import com.cyb.common.tips.TipsPagination;
 import com.cyb.engcostms.dao.MaterialMapper;
 import com.cyb.engcostms.dao.SupplierMapper;
 import com.cyb.engcostms.domain.Enquiry;
@@ -16,6 +18,7 @@ import com.cyb.engcostms.service.EnquiryService;
 import com.cyb.engcostms.service.MaterialService;
 import com.cyb.engcostms.service.SupplierService;
 import com.cyb.engcostms.vo.EnquiryVO;
+import com.cyb.engcostms.vo.MaterialVO;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -75,12 +78,10 @@ public class EnquiryController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/deleteById")
-    public Tips deleteById(@RequestParam(value = "id")
-    String id) {
+    public Tips deleteById(@RequestParam(value = "id")String id) {
         super.validLogined();
         if (isLogined) {
             int count = enquiryService.deleteById(id);
-
             if (count > 0) {
                 tips.setMsg("删除成功");
             }
@@ -133,42 +134,52 @@ public class EnquiryController extends BaseController {
     }
 
     /**
-     * 列表查询
-     * @param enquiry
+     * 分页列表查询
+     * @param materialName
+     * @param pagination
      * @return
      */
     @ResponseBody
-    @GetMapping("/list")
-    public Tips list(Enquiry enquiry) {
+    @GetMapping("/page")
+    public TipsPagination<EnquiryVO> page(String materialName, Pagination pagination) {
+        TipsPagination<EnquiryVO> tipsPagination = new TipsPagination<EnquiryVO>();
         super.validLogined();
+        tipsPagination.convertFromTips(tips);
         if (isLogined) {
-            List<Enquiry> list = enquiryService.list(enquiry);
+            List<Enquiry> list = enquiryService.newestList(materialName, pagination);
             List<EnquiryVO> voList = setVO(list);
-            tips.setData(voList);
-            tips.setMsg("查询成功");
+            Pagination<EnquiryVO> resultPagination = new Pagination<EnquiryVO>();
+            resultPagination.setDatas(voList);
+            tipsPagination.setPagination(resultPagination);
+            tipsPagination.setMsg("查询成功");
         }
-        return tips;
+        return tipsPagination;
     }
 
     /**
-     * 历史列表查询
+     * 分页历史列表查询
      * @param enquiry
      * @return
      */
     @ResponseBody
-    @GetMapping("/historylist")
-    public Tips historylist(Enquiry enquiry) {
+    @GetMapping("/historypage")
+    public TipsPagination<EnquiryVO> historypage(Enquiry enquiry, Pagination pagination) {
+        TipsPagination<EnquiryVO> tipsPagination = new TipsPagination<EnquiryVO>();
         super.validLogined();
+        tipsPagination.convertFromTips(tips);
         if (isLogined) {
             if(StringUtils.isEmpty(enquiry.getBelongId())){
                 tips.setMsg("所属ID不能为空");
             }
-            List<Enquiry> list = enquiryService.list(enquiry);
-            List<EnquiryVO> voList = setVO(list);
-            tips.setData(voList);
-            tips.setMsg("查询成功");
+            Pagination<Enquiry> result = enquiryService.page(enquiry, pagination);
+            Pagination<EnquiryVO> paginationResult = new Pagination<EnquiryVO>();
+            BeanUtils.copyProperties(result, paginationResult, "data");
+            List<EnquiryVO> voList = setVO(result.getDatas());
+            paginationResult.setDatas(voList);
+            tipsPagination.setPagination(paginationResult);
+            tipsPagination.setMsg("查询成功");
         }
-        return tips;
+        return tipsPagination;
     }
 
     private List<EnquiryVO> setVO(List<Enquiry> list){

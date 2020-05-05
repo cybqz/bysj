@@ -80,7 +80,7 @@ public class MaterialServiceImpl implements MaterialService {
     @Override
     public int update(Material record) {
         record.setUpdateDateTime(LocalDateTime.now());
-        return materialMapper.update(record);
+        return materialMapper.updateIgnoreNull(record);
     }
 
     /**
@@ -111,6 +111,24 @@ public class MaterialServiceImpl implements MaterialService {
             query.eq("material_name", record.getMaterialName());
         }
         return materialMapper.getByQuery(query);
+    }
+
+    /**
+     * 列表查询
+     * @param record
+     * @return
+     */
+    @Override
+    public List<Material> list(Material record) {
+        Query query = new Query();
+        if(StringUtils.isNotEmpty(record.getType())){
+            query.eq("type", record.getType());
+        }
+        if(StringUtils.isNotEmpty(record.getMaterialName())){
+            query.like("material_name", record.getMaterialName());
+        }
+        query.orderby("material_id", Sort.ASC);
+        return materialMapper.list(query);
     }
 
     /**

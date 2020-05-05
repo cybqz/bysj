@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author CYB
  */
-@SpringBootApplication(scanBasePackages = {"com.cyb.*"})
+@SpringBootApplication(scanBasePackages = {"com.cyb.*", "com.beastmybatis.core.*"})
 @MapperScan({"com.cyb.engcostms.dao"})
 public class EngCostMSApplication {
 

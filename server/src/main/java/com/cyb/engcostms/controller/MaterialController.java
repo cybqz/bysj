@@ -80,19 +80,15 @@ public class MaterialController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/deleteById")
-    public Tips deleteById(
-        @RequestParam(value = "id", required = true)
-    String id) {
+    public Tips deleteById(@RequestParam(value = "id")String id) {
         super.validLogined();
-
         if (isLogined) {
+            tips.setValidate(false);
             int count = materialService.deleteById(id);
-
             if (count > 0) {
-                tips.setMsg("删除成功");
+                tips = new Tips("删除成功", true);
             }
         }
-
         return tips;
     }
 
@@ -105,15 +101,18 @@ public class MaterialController extends BaseController {
     @PostMapping("/update")
     public Tips update(Material material) {
         super.validLogined();
-
         if (isLogined) {
-            int count = materialService.update(material);
-
-            if (count > 0) {
-                tips.setMsg("更新成功");
+            tips.setValidate(false);
+            Material existMaterial = materialService.getOne(material);
+            if(null == existMaterial){
+                int count = materialService.update(material);
+                if (count > 0) {
+                    tips = new Tips("更新成功", true);
+                }
+            }else{
+                tips.setMsg("相同物料已存在");
             }
         }
-
         return tips;
     }
 
@@ -124,16 +123,32 @@ public class MaterialController extends BaseController {
      */
     @ResponseBody
     @GetMapping("/detail")
-    public Tips detail(@RequestParam(value = "id", required = true)
-    String id) {
+    public Tips detail(@RequestParam(value = "id")String id) {
         super.validLogined();
-
         if (isLogined) {
             Material material = materialService.detail(id);
             tips.setData(material);
             tips.setMsg("查询成功");
         }
+        return tips;
+    }
 
+    /**
+     * 列表查询
+     * @param material
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/list")
+    public Tips list(Material material) {
+        super.validLogined();
+
+        if (isLogined) {
+            List<Material> list = materialService.list(material);
+            List<MaterialVO> resultList = setVO(list);
+            tips.setData(resultList);
+            tips.setMsg("查询成功");
+        }
         return tips;
     }
 
@@ -145,39 +160,47 @@ public class MaterialController extends BaseController {
      */
     @ResponseBody
     @GetMapping("/page")
-    public TipsPagination<Material> page(Material material, Pagination pagination) {
+    public TipsPagination<MaterialVO> page(Material material, Pagination pagination) {
 
-        TipsPagination<Material> tipsPagination = new TipsPagination<>();
+        TipsPagination<MaterialVO> tipsPagination = new TipsPagination<>();
         super.validLogined();
         tipsPagination.convertFromTips(tips);
         if (isLogined) {
-            List<MaterialVO> resultList = null;
             Pagination<Material> result = materialService.page(material, pagination);
             if(null != result && CollectionUtils.isNotEmpty(result.getDatas())){
 
-                List<Material> list = result.getDatas();
-                resultList = new ArrayList<>(list.size());
-
-                for(Material data : list){
-
-                    MaterialVO vo = new MaterialVO();
-                    BeanUtils.copyProperties(data, vo);
-
-                    Parames parames = paramesServices.selectByPrimaryKey(data.getType());
-                    if(null != parames){
-                        vo.setTypeName(parames.getName());
-                    }
-
-                    Supplier supplier = supplierService.detailBySupplierId(data.getSupplierId());
-                    if(null != supplier){
-                        vo.setSupplierName(supplier.getSupplierName());
-                    }
-                    resultList.add(vo);
-                }
+                Pagination<MaterialVO> paginationResult = new Pagination<MaterialVO>();
+                BeanUtils.copyProperties(result, paginationResult, "data");
+                List<MaterialVO> resultList = setVO(result.getDatas());
+                paginationResult.setDatas(resultList);
+                tipsPagination.setPagination(paginationResult);
             }
-            tipsPagination.setPagination(result);
             tipsPagination.setMsg("查询成功");
         }
         return tipsPagination;
+    }
+
+    private List<MaterialVO> setVO(List<Material> list){
+        List<MaterialVO> resultList = null;
+        if(null != list && CollectionUtils.isNotEmpty(list)){
+            resultList = new ArrayList<>(list.size());
+            for(Material data : list){
+
+                MaterialVO vo = new MaterialVO();
+                BeanUtils.copyProperties(data, vo);
+
+                Parames parames = paramesServices.selectByPrimaryKey(data.getType());
+                if(null != parames){
+                    vo.setTypeName(parames.getName());
+                }
+
+                Supplier supplier = supplierService.detailBySupplierId(data.getSupplierId());
+                if(null != supplier){
+                    vo.setSupplierName(supplier.getSupplierName());
+                }
+                resultList.add(vo);
+            }
+        }
+        return resultList;
     }
 }

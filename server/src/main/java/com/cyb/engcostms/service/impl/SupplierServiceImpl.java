@@ -15,6 +15,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -48,6 +49,7 @@ public class SupplierServiceImpl implements SupplierService {
             }
             record.setSupplierId(supplierId);
         }
+        record.setCreateDateTime(LocalDateTime.now());
         return supplierMapper.save(record);
     }
 
@@ -78,6 +80,7 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public int update(Supplier record) {
+        record.setUpdateDateTime(LocalDateTime.now());
         return supplierMapper.update(record);
     }
 
@@ -106,12 +109,32 @@ public class SupplierServiceImpl implements SupplierService {
     public Supplier getOne(Supplier record){
         Query query = new Query();
         if(StringUtils.isNotEmpty(record.getSupplierId())){
+            query.eq("supplier_id", record.getSupplierId());
+        }
+        if(StringUtils.isNotEmpty(record.getSupplierName())){
+            query.eq("supplier_name", record.getSupplierName());
+        }
+        return supplierMapper.getByQuery(query);
+    }
+
+    /**
+     * 列表查询
+     * @param record
+     * @return
+     */
+    @Override
+    public List<Supplier> list(Supplier record) {
+        Query query = new Query();
+        if(StringUtils.isNotEmpty(record.getSupplierId())){
             query.like("supplier_id", record.getSupplierId());
         }
         if(StringUtils.isNotEmpty(record.getSupplierName())){
             query.like("supplier_name", record.getSupplierName());
         }
-        return supplierMapper.getByQuery(query);
+        if(StringUtils.isNotEmpty(record.getOriginPlace())){
+            query.like("origin_place", record.getOriginPlace());
+        }
+        return supplierMapper.list(query);
     }
 
     /**

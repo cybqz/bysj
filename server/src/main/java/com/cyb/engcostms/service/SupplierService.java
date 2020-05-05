@@ -62,6 +62,13 @@ public interface SupplierService {
     Supplier getOne(Supplier record);
 
     /**
+     * 列表查询
+     * @param record
+     * @return
+     */
+    List<Supplier> list(Supplier record);
+
+    /**
      * 分页列表查询
      * @param record
      * @param pagination

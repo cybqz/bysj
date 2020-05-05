@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 /**
  * Supplier控制层
@@ -62,9 +64,10 @@ public class SupplierController extends BaseController {
     public Tips deleteById(@RequestParam(value = "id") String id) {
         super.validLogined();
         if (isLogined) {
+            tips.setValidate(false);
             int count = supplierService.deleteById(id);
             if (count > 0) {
-                tips.setMsg("删除成功");
+                tips = new Tips("删除成功", true);
             }
         }
 
@@ -81,9 +84,15 @@ public class SupplierController extends BaseController {
     public Tips update(Supplier supplier) {
         super.validLogined();
         if (isLogined) {
-            int count = supplierService.update(supplier);
-            if (count > 0) {
-                tips.setMsg("更新成功");
+            tips.setValidate(false);
+            Supplier existSupplier = supplierService.getOne(supplier);
+            if(null == existSupplier){
+                int count = supplierService.update(supplier);
+                if (count > 0) {
+                    tips = new Tips("更新成功", true);
+                }
+            }else{
+                tips.setMsg("供应商已存在");
             }
         }
         return tips;
@@ -102,6 +111,23 @@ public class SupplierController extends BaseController {
         if (isLogined) {
             Supplier supplier = supplierService.detail(id);
             tips.setData(supplier);
+            tips.setMsg("查询成功");
+        }
+        return tips;
+    }
+
+    /**
+     * 列表查询
+     * @param supplier
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/list")
+    public Tips list(Supplier supplier) {
+        super.validLogined();
+        if (isLogined) {
+            List<Supplier> list = supplierService.list(supplier);
+            tips.setData(list);
             tips.setMsg("查询成功");
         }
         return tips;

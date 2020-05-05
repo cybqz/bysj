@@ -49,6 +49,11 @@ mybatis:
 logging:
   level:
     com:
-      cyb:
-        blogserver:
-          dao: debug
+      cyb: debug
+
+com:
+  beastmybatis:
+    core:
+      datetime:
+        columnCreateDateTime: create_date_time
+        columnUpdateDateTime: update_date_time

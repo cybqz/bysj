@@ -116,16 +116,21 @@ public class MaterialServiceImpl implements MaterialService {
     /**
      * 列表查询
      * @param record
+     * @param likeMaterialName
      * @return
      */
     @Override
-    public List<Material> list(Material record) {
+    public List<Material> list(Material record, boolean likeMaterialName) {
         Query query = new Query();
         if(StringUtils.isNotEmpty(record.getType())){
             query.eq("type", record.getType());
         }
         if(StringUtils.isNotEmpty(record.getMaterialName())){
-            query.like("material_name", record.getMaterialName());
+            if(likeMaterialName){
+                query.like("material_name", record.getMaterialName());
+            }else{
+                query.eq("material_name", record.getMaterialName());
+            }
         }
         query.orderby("material_id", Sort.ASC);
         return materialMapper.list(query);

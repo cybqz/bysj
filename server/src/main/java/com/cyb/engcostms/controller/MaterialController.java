@@ -144,10 +144,42 @@ public class MaterialController extends BaseController {
         super.validLogined();
 
         if (isLogined) {
-            List<Material> list = materialService.list(material);
+            List<Material> list = materialService.list(material, true);
             List<MaterialVO> resultList = setVO(list);
             tips.setData(resultList);
             tips.setMsg("查询成功");
+        }
+        return tips;
+    }
+
+    /**
+     * 列表查询-根据物料名称查询供应商
+     * @param materialName
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/getSuppListByMaterialName")
+    public Tips getSuppListByMaterialName(@RequestParam("materialName") String materialName) {
+        super.validLogined();
+
+        if (isLogined) {
+            tips.setValidate(false);
+            if(StringUtils.isNotEmpty(materialName)){
+                List<Supplier> supplierList = null;
+                Material material = new Material();
+                material.setMaterialName(materialName);
+                List<Material> list = materialService.list(material, false);
+                if(CollectionUtils.isNotEmpty(list)){
+                    supplierList = new ArrayList<Supplier>(list.size());
+                    for(Material m : list){
+                        Supplier supplier = supplierService.detailBySupplierId(m.getSupplierId());
+                        supplierList.add(supplier);
+                    }
+                }
+                tips = new Tips("查询成功", true, supplierList);
+            }else{
+                tips.setMsg("物料名称不能为空");
+            }
         }
         return tips;
     }

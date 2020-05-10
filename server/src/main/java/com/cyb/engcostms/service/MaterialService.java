@@ -57,9 +57,10 @@ public interface MaterialService {
     /**
      * 列表查询
      * @param record
+     * @param likeMaterialName
      * @return
      */
-    List<Material> list(Material record);
+    List<Material> list(Material record, boolean likeMaterialName);
 
     /**
      * 分页列表查询

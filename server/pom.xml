@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>cyb-spring-boot-stater-parent</groupId>
+        <groupId>cyb.spring.boot.stater.parent</groupId>
         <artifactId>parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.cyb</groupId>
+    <groupId>cyb</groupId>
     <artifactId>engcostms-server</artifactId>
     <version>0.0.1</version>
     <name>engcostms-server</name>
@@ -40,7 +40,6 @@
             <optional>true</optional>
         </dependency>
 
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -58,20 +57,20 @@
         </dependency>
 
         <dependency>
-            <groupId>cyb-spring-boot-stater-authority</groupId>
+            <groupId>cyb.spring.boot.stater.authority</groupId>
             <artifactId>authority</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>beast-mybatis</groupId>
-            <artifactId>beast-mybatis-core</artifactId>
+            <groupId>beast.mybatis</groupId>
+            <artifactId>core</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>beast-mybatis</groupId>
-            <artifactId>beast-mybatis-spring-boot-starter</artifactId>
+            <groupId>beast.mybatis</groupId>
+            <artifactId>spring-boot-starter</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

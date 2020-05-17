@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cyb.authority.base.BaseController;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
+import com.cyb.common.tips.TipsPagination;
 import com.cyb.goodsms.common.Constant;
 import com.cyb.goodsms.dao.CarBuyingPeopleMapper;
 import com.cyb.goodsms.domain.CarBuyingPeople;
@@ -128,21 +129,25 @@ public class SaleController extends BaseController {
 
 	@PostMapping(Constant.DEFAULT_PAGE)
 	@ResponseBody
-	public Tips page(String param) {
+	public TipsPagination<CarBuyingPeople> page(String param) {
+		TipsPagination<CarBuyingPeople> tipsPagination = new TipsPagination<CarBuyingPeople>();
 		super.validLogined();
+		tipsPagination.convertFromTips(tips);
 		if(isLogined) {
 			JSONObject jsonObject = JSON.parseObject(param);
 			CarBuyingPeople carBuyingPeople = jsonObject.getObject("carBuyingPeople", CarBuyingPeople.class);
 			Pagination pagination = jsonObject.getObject("pagination", Pagination.class);
 			int count = carBuyingPeopleMapper.countByExample(carBuyingPeople);
 			if(count > 0){
-				pagination.setDataCount(count);
 				List<CarBuyingPeople> list = carBuyingPeopleMapper.selectByExample(carBuyingPeople, pagination);
-				tips = new Tips("查询成功",  true, list);
-				tips.setPagination(pagination);
+				pagination.setDatas(list);
+				pagination.setTotal(count);
+				tipsPagination.setPagination(pagination);
+				tipsPagination.setValidate(true);
+				tipsPagination.setMsg("查询成功");
 			}
 		}
-		return tips;
+		return tipsPagination;
 	}
 
 	@PostMapping(Constant.DEFAULT_COUNT)

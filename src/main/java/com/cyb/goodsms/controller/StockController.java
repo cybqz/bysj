@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cyb.authority.base.BaseController;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
+import com.cyb.common.tips.TipsPagination;
 import com.cyb.goodsms.common.Constant;
 import com.cyb.goodsms.dao.StockMapper;
 import com.cyb.goodsms.domain.Stock;
@@ -127,21 +128,25 @@ public class StockController extends BaseController {
 
 	@PostMapping(Constant.DEFAULT_PAGE)
 	@ResponseBody
-	public Tips page(String param) {
+	public TipsPagination<Stock> page(String param) {
+		TipsPagination<Stock> tipsPagination = new TipsPagination<Stock>();
 		super.validLogined();
+		tipsPagination.convertFromTips(tips);
 		if(isLogined) {
 			JSONObject jsonObject = JSON.parseObject(param);
 			Stock stock = jsonObject.getObject("stock", Stock.class);
 			Pagination pagination = jsonObject.getObject("pagination", Pagination.class);
 			int count = stockMapper.countByExample(stock);
 			if(count > 0) {
-				pagination.setDataCount(count);
 				List<Stock> list = stockMapper.selectByExample(stock, pagination);
-				tips = new Tips("查询成功",  true, list);
-				tips.setPagination(pagination);
+				pagination.setDatas(list);
+				pagination.setTotal(count);
+				tipsPagination.setPagination(pagination);
+				tipsPagination.setValidate(true);
+				tipsPagination.setMsg("查询成功");
 			}
 		}
-		return tips;
+		return tipsPagination;
 	}
 
 	@PostMapping(Constant.DEFAULT_COUNT)

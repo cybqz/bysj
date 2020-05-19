@@ -41,11 +41,10 @@
   <insert id="insert" parameterType="com.cyb.goodsms.domain.CarBuyingPeople" >
     insert into car_buying_people (id, buying_people_name, phone, 
       description, buy_name, price, 
-      category, profit, staffNo, create_date_time,
-      update_date_time)
+      category, profit, staffNo, create_date_time, update_date_time)
     values (#{id,jdbcType=VARCHAR}, #{buyingPeopleName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{buyName,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{category,jdbcType=VARCHAR}, #{profit,jdbcType=DECIMAL}, #{staffNo, jdbcType=VARCHAR}
+      #{description,jdbcType=VARCHAR}, #{buyName,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
+      #{category,jdbcType=VARCHAR}, #{profit,jdbcType=DECIMAL}, #{staffNo, jdbcType=VARCHAR},
       #{createDateTime,jdbcType=TIMESTAMP},
       #{updateDateTime,jdbcType=TIMESTAMP})
   </insert>

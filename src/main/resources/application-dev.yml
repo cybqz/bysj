@@ -13,6 +13,10 @@ spring:
   devtools:
     restart:
       enabled: true
+  mvc:
+    view:
+      prefix: /WEB-INF/
+      suffix: .jsp
   application:
     name: goodsms
   datasource:

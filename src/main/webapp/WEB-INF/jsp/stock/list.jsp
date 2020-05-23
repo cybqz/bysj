@@ -20,7 +20,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             //加载列表数据并渲染
-            load({stock: {},pagination:{pageSize:50}});
+            load({stock: {},pagination:{limit:50}});
 
             //获取总条数
             new Rquest(ctx, "/stock/count", null, false,
@@ -39,7 +39,7 @@
                     tips("搜索条件不能为空");
                     return;
                 }
-                load({stock: {supplierName: supplierNameParam},pagination:{pageSize:50}});
+                load({stock: {supplierName: supplierNameParam},pagination:{limit:50}});
             });
         })
         
@@ -60,7 +60,7 @@
             var request = new Rquest(ctx, "/stock/delete", {id:id}, false,
                 function (data) {
                     tips(data.msg);
-                    load({stock: {},pagination:{pageSize:50}});
+                    load({stock: {},pagination:{limit:50}});
                 }, function () {
                     console.log("error");
                 });

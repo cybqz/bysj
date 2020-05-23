@@ -20,7 +20,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             //加载列表数据并渲染
-            load({carBuyingPeople: {},pagination:{pageSize:1}});
+            load({carBuyingPeople: {},pagination:{limit:1}});
 
             //获取总条数
             new Rquest(ctx, "/sale/count", null, true,
@@ -39,7 +39,7 @@
                     tips("搜索条件不能为空");
                     return;
                 }
-                load({carBuyingPeople: {buyingPeopleName: buyingPeopleNameParam},pagination:{pageSize:50}});
+                load({carBuyingPeople: {buyingPeopleName: buyingPeopleNameParam},pagination:{limit:50}});
             });
         })
         
@@ -62,7 +62,7 @@
             var request = new Rquest(ctx, "/sale/delete", {id:id}, false,
                 function (data) {
                     tips(data.msg);
-                    load({carBuyingPeople: {},pagination:{pageSize:50}});
+                    load({carBuyingPeople: {},pagination:{limit:50}});
                 }, function () {
                     console.log("error");
                 });

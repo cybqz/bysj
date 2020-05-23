@@ -35,9 +35,9 @@ var Table = (function(window) {
                 //加载数据，拼接表格行
                 new Rquest(baseurl, methodurl, {param:JSON.stringify(this.param)}, false,
                     function (response) {
-                        if(response && response.validate && response.data){
+                        if(response && response.validate && response.pagination){
 
-                            var data = response.data;
+                            var data = response.pagination.datas;
                             pagination = response.pagination;
                             if(data.length == 0){
                                 html_column = '<ul class="ul_wrap no_content">暂无数据</ul></div>';

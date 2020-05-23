@@ -23,8 +23,8 @@
       and name like concat('%',#{record.name, jdbcType=VARCHAR}, '%')
     </if>
     order by update_date_time desc, create_date_time desc
-    <if test="pagination != null and pagination.pageIndex != null and pagination.pageSize != null">
-      limit #{pagination.offset, jdbcType=INTEGER}, #{pagination.pageSize, jdbcType=INTEGER}
+    <if test="pagination != null and pagination.pageIndex != null and pagination.limit != null">
+      limit #{pagination.pageIndex, jdbcType=INTEGER}, #{pagination.limit, jdbcType=INTEGER}
     </if>
   </select>
 

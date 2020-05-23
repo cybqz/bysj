@@ -20,7 +20,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             //加载列表数据并渲染
-            load({staff: {},pagination:{pageSize:50}});
+            load({staff: {},pagination:{limit:50}});
 
             //获取总条数
             var request = new Rquest(ctx, "/staff/count", null, false,
@@ -51,7 +51,7 @@
             var request = new Rquest(ctx, "/staff/delete", {id:id}, false,
                 function (data) {
                     tips(data.msg);
-                    load({staff: {},pagination:{pageSize:50}});
+                    load({staff: {},pagination:{limit:50}});
                 }, function () {
                     console.log("error");
                 });

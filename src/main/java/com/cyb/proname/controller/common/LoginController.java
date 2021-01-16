@@ -5,11 +5,12 @@ import com.cyb.authority.base.BaseController;
 import com.cyb.authority.domain.User;
 import com.cyb.authority.service.LoginService;
 import com.cyb.common.tips.Tips;
-import com.cyb.proname.constant.Constant;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.cyb.proname.constant.SysCfgConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
 
 /**
  * 用户登录控制层
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value="/login")
 public class LoginController extends BaseController {
 	
-	@Autowired
+	@Resource
 	private LoginService loginService;
 
 	/**
@@ -50,7 +51,7 @@ public class LoginController extends BaseController {
 			tips.setMsg("不能重复登陆");
 			return tips;
 		}
-		return loginService.adminLogin(user, Constant.ROLE_ADMIN);
+		return loginService.adminLogin(user, SysCfgConstant.ROLE_ADMIN);
 	}
 
 	/**

@@ -9,12 +9,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @TableName(value = "model")
-public class Model {
+public class Model implements Serializable {
 
     @TableId(value = "id")
     private String id;

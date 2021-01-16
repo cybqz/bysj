@@ -16,7 +16,7 @@
     <script src="${ctx}/js/pintuer.js"></script>
     <script src="${ctx}/js/cookie_util.js"></script>
 	<script src="${ctx}/js/notice.js"></script>
-	<script src="${ctx}/my/Request.js"></script>
+	<script src="${ctx}/my/BeastRequest.js"></script>
 </head>
 <body>
 	<div class="jq22-container" style="padding-top:10px">
@@ -27,11 +27,11 @@
 				<div class="login-form">
 					<div class="sign-in-htm">
 						<div class="group">
-							<label for="user" class="label">Username</label>
+							<label for="user" class="label">用户名</label>
 							<input id="user" type="text" class="input">
 						</div>
 						<div class="group">
-							<label for="pass" class="label">Password</label>
+							<label for="pass" class="label">密码</label>
 							<input id="pass" type="password" class="input" data-type="password">
 						</div>
 						<div class="group">
@@ -39,17 +39,17 @@
 						</div>
 						<div class="hr"></div>
 					</div>
-					<div class="sign-up-htm">
+					<div class="register-htm">
 						<div class="group">
-							<label for="user" class="label">Username</label>
+							<label for="user" class="label">用户名</label>
 							<input id="user1" name="user1" type="text" class="input">
 						</div>
 						<div class="group">
-							<label for="pass" class="label">Password</label>
+							<label for="pass" class="label">密码</label>
 							<input id="pass1" name="pass1" type="password" class="input" data-type="password"/>
 						</div>
 						<div class="group">
-							<label for="pass" class="label">Repeat Password</label>
+							<label for="pass" class="label">确认密码</label>
 							<input id="rep_pass1" type="password" class="input" data-type="password">
 						</div>
 						<div class="group">
@@ -66,10 +66,10 @@
 
 		$(document).ready(function () {
 
-			new Rquest(ctx, "/user/getUser", null, false,
+			new BeastRequest(ctx, "/user/getUser", null, false,
 					function (data) {
-						toCustomerInfo(data);
-					}, null).ajaxpost();
+						toIndexPage(data);
+					}, null).ajaxPost();
 
 			/**
 			 * 注册
@@ -77,17 +77,17 @@
 			$("#register").click(function () {
 
 				//获取请求参数
-				var user1 = $("#user1").val();
+				let user1 = $("#user1").val();
 				if(user1==null || user1==""){
 					tips("请输入用户名");
 					return false;
 				}
-				var pass1 = $("#pass1").val();
+				let pass1 = $("#pass1").val();
 				if(pass1==null || pass1==""){
 					tips("请输入密码");
 					return false;
 				}
-				var rep_pass1 =$("#rep_pass1").val();
+				let rep_pass1 =$("#rep_pass1").val();
 				if(rep_pass1==null || rep_pass1==""){
 					tips("请确认密码");
 					return false;
@@ -96,46 +96,44 @@
 					tips("密码输入不一致");
 					return false;
 				}
-				new Rquest(ctx, "/register/register", {"userName":user1,"password":pass1}, false,
+				new BeastRequest(ctx, "/register/register", {"userName":user1,"password":pass1}, false,
 						function (data) {
-							toCustomerInfo(data);
+							toIndexPage(data);
 						}, function () {
 							console.log("error");
-						}).ajaxpost();
+						}).ajaxPost();
 			});
 
 			/**
 			 * 登陆
 			 */
 			$("#login").click(function () {
+
 				//获取请求参数
-				var user =$("#user").val();
+				let user =$("#user").val();
 				if(user==null || user==""){
 					tips("请输入用户名");
 					return false;
 				}
-				var pass = $("#pass").val();
+				let pass = $("#pass").val();
 				if(pass==null || pass==""){
 					tips("请输入密码");
 					return false;
 				}
 				//检查参数格式
-				var check=true;//true通过检测，false未通过
 				//发送Ajax请求
-				if(check){
-					new Rquest(ctx, "/login/login", {"userName":user,"password":pass}, false,
-							function (data) {
-								toCustomerInfo(data);
-							}, function () {
-								console.log("error");
-							}).ajaxpost();
-				}
+				new BeastRequest(ctx, "/login/login", {"userName":user,"password":pass}, false,
+						function (data) {
+							toIndexPage(data);
+						}, function () {
+							console.log("error");
+						}).ajaxPost();
 			});
 		});
 
-		function toCustomerInfo(data) {
+		function toIndexPage(data) {
 			if(data && data.validate){
-				window.location.href = ctx + "/customerinfo/";
+				window.location.href = ctx + "/model/";
 			}
 		}
 	</script>

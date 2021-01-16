@@ -29,7 +29,7 @@ input, button {
 	background:rgba(40,57,101,.9);
 }
 .login-html .sign-in-htm,
-.login-html .sign-up-htm{
+.login-html .register-htm{
 	top:0;
 	left:0;
 	right:0;
@@ -155,7 +155,7 @@ input, button {
 	    -ms-transform:rotate(0);
 	        transform:rotate(0);
 }
-.login-html .sign-up:checked + .tab + .login-form .sign-up-htm{
+.login-html .sign-up:checked + .tab + .login-form .register-htm{
 	-webkit-transform:rotate(0);
 	    -ms-transform:rotate(0);
 	        transform:rotate(0);

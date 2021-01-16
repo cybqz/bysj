@@ -6,19 +6,23 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <c:set var="title" value="${pageContext.request.getAttribute('title')}"/>
 <c:set var="model" value="${pageContext.request.getAttribute('model')}"/>
-<c:set var="opreationId" value="${pageContext.request.getAttribute('opreationId')}"/>
+<c:set var="operationId" value="${pageContext.request.getAttribute('operationId')}"/>
 <script type="text/javascript">
-    var ctx = "${ctx}", model = "${model}", title = "${title}", opreationId = "${opreationId}";
+    let ctx = "${ctx}";
+    let model = "${model}";
+    let title = "${title}";
+    let modelUrl = "${modelUrl}";
+    let operationId = "${operationId}";
 
     document.onreadystatechange = function() {
         if(document.readyState == "complete"){
             //登陆状态全局校验
-            loginedCheck();
+            loginSuccessCheck();
         }
     }
 
-    function loginedCheck(){
-        new Rquest(ctx, "/user/getUser", null, false,
+    function loginSuccessCheck(){
+        new BeastRequest(ctx, "/user/getUser", null, false,
             function (data) {
                 if(data != null && data.userName){
                     $("#login_info").text("欢迎：" + data.userName);
@@ -28,7 +32,7 @@
                 console.log(textStatus);
                 console.log(errorThrown);
                 //window.location.href = ctx
-            }).ajaxpost();
+            }).ajaxPost();
     }
 
     //全局提示

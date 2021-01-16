@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author CYB
  */
 @SpringBootApplication(scanBasePackages = {"com.cyb.*"})
-@MapperScan({"com.cyb.proname.dao"})
+@MapperScan({"com.cyb.proname.mapper"})
 public class ApplicationRun {
 
     public static void main(String[] args) {

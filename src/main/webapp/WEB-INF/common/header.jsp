@@ -22,12 +22,12 @@
 </style>
 <script>
     function logout() {
-        new Rquest(ctx, "/login/logout", null, false,
+        new BeastRequest(ctx, "/login/logout", null, false,
             function (data) {
                 window.location.href = ctx;
             }, function () {
                 console.log("error");
-            }).ajaxpost();
+            }).ajaxPost();
     }
 
     function updatePassword() {

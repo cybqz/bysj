@@ -15,25 +15,44 @@
     <script src="${ctx}/js/pintuer.js"></script>
     <script src="${ctx}/js/cookie_util.js"></script>
     <script src="${ctx}/js/notice.js"></script>
-    <script src="${ctx}/my/Request.js"></script>
+    <script src="${ctx}/my/BeastRequest.js"></script>
     <script type="text/javascript">
-        function save() {
-            var param = {
+        $(document).ready(function () {
+
+            var request = new BeastRequest(ctx, "/customerinfo/detail", {id:operationId}, false,
+                function (data) {
+                    if(data && data.validate && data.data){
+                        $("#customerName").val(data.data['customerName']);
+                        $("#phone").val(data.data['phone']);
+                        $("#email").val(data.data['email']);
+                        $("input[name='sex'][value="+data.data['sex']+"]").attr("checked",true);
+                        $("#description").val(data.data['description']);
+                    }
+                }, function () {
+                    console.log("error");
+                });
+            request.ajaxPost();
+        });
+        function doUpdate() {
+            let param = {
+                id: operationId,
                 customerName: $("#customerName").val(),
                 phone: $("#phone").val(),
                 email: $("#email").val(),
                 sex: $("input[name='sex']:checked").val(),
                 description: $("#description").val(),
             };
-            var request = new Rquest(ctx, "/customerinfo/save", param, false,
+            var request = new BeastRequest(ctx, "/customerinfo/doUpdate", param, false,
                 function (data) {
                     if(data && data.validate){
                         window.location.href = ctx + "/customerinfo/";
                     }
-                }, function () {
-                    console.log("error");
+                }, function (xhr, textStatus, errorThrown) {
+                    console.log(xhr);
+                    console.log(textStatus);
+                    console.log(errorThrown);
                 });
-            request.ajaxpost();
+            request.ajaxPost();
         }
         
         function cancel() {
@@ -49,7 +68,7 @@
     <%@include file="common_content.jsp"%>
     <div class="button_wrap">
         <span class="button_text cancel" onclick="cancel();">取消</span>
-        <span class="button_text save" onclick="save();">保存</span>
+        <span class="button_text save" onclick="doUpdate();">保存</span>
     </div>
 </div>
 </body>

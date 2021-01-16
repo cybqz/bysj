@@ -15,52 +15,8 @@
     <script src="${ctx}/js/pintuer.js"></script>
     <script src="${ctx}/js/cookie_util.js"></script>
     <script src="${ctx}/js/notice.js"></script>
-    <script src="${ctx}/my/Request.js"></script>
+    <script src="${ctx}/my/BeastRequest.js"></script>
     <script src="${ctx}/my/Table.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            //加载列表数据并渲染
-            load({customerInfo: {},pagination:{limit:50}});
-
-            //获取总条数
-            var request = new Rquest(ctx, "/customerinfo/count", null, true,
-                function (data) {
-                    if(data && data.validate && data.data){
-                        $("#count").html(data.data);
-                    }
-                }, function () {
-                    console.log("error");
-                });
-            request.ajaxpost();
-        })
-        
-        function add() {
-            window.location.href = ctx + "/customerinfo/add"
-        }
-
-        function load(param) {
-            var column = [{customerName:'姓名'},{sex:'性别'},{phone:'电话'},{email:'邮箱'},{description:'描述'}];
-            new Table('#list', column, param, ctx, "/customerinfo/page").renderingTable();
-        }
-        function update(id){
-
-            window.location.href = ctx + "/customerinfo/update?id=" + id;
-        }
-        function remove(id){
-
-            new Rquest(ctx, "/customerinfo/delete", {id:id}, false,
-                function (data) {
-                    tips(data.msg);
-                    load({customerInfo: {},pagination:{limit:50}});
-                }, function () {
-                    console.log("error");
-                }).ajaxpost();
-        }
-        
-        function pagination_to_first() {
-
-        }
-    </script>
 </head>
 <body>
 <!-- 引入头部 -->
@@ -90,10 +46,52 @@
 
 </div>
 </body>
-<script>
+<script type="text/javascript">
     window.onload=function modify(){
-        var s=document.body.clientHeight-70;
+        let s=document.body.clientHeight-70;
         document.getElementById("tab_wrap").style.height=s;
+    }
+
+    $(document).ready(function () {
+        //加载列表数据并渲染
+        load({customerInfo: {},pagination:{limit:50}});
+
+        //获取总条数
+        let request = new BeastRequest(ctx, modelUrl + "/count", null, true,
+            function (data) {
+                if(data && data.validate && data.data){
+                    $("#count").html(data.data);
+                }
+            }, function () {
+                console.log("error");
+            });
+        request.ajaxPost();
+    })
+
+    function add() {
+        window.location.href = ctx + modelUrl + "/add"
+    }
+
+    function load(param) {
+        let column = [{customerName:'姓名'},{sex:'性别'},{phone:'电话'},{email:'邮箱'},{description:'描述'}];
+        new Table('#list', column, param, ctx, modelUrl + "/page").renderingTable();
+    }
+    function update(id){
+
+        window.location.href = ctx + modelUrl + "/update?id=" + id;
+    }
+    function remove(id){
+
+        new BeastRequest(ctx, modelUrl + "/delete", {id:id}, false,
+            function (data) {
+                tips(data.msg);
+                load({customerInfo: {},pagination:{limit:50}});
+            }, function () {
+                console.log("error");
+            }).ajaxPost();
+    }
+
+    function pagination_to_first() {
     }
 </script>
 </html>

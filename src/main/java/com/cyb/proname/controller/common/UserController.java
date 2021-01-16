@@ -14,7 +14,7 @@ import com.cyb.authority.service.RolePermissionService;
 import com.cyb.authority.service.UserRoleService;
 import com.cyb.authority.service.UserService;
 import com.cyb.common.tips.Tips;
-import com.cyb.proname.constant.Constant;
+import com.cyb.proname.constant.SysCfgConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -70,7 +70,7 @@ public class UserController extends BaseController {
 		if(!isLogined) {
 			request.setAttribute("msg","请登录后再修改密码");
 		}
-		return Constant.DEFAULT_PAGE_PREFIX + "update_password";
+		return SysCfgConstant.DEFAULT_PAGE_PREFIX + "update_password";
 	}
 
 	@RequestMapping(value="/doUpdatePassword")

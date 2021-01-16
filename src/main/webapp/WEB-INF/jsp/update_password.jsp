@@ -15,7 +15,7 @@
     <script src="${ctx}/js/pintuer.js"></script>
     <script src="${ctx}/js/cookie_util.js"></script>
     <script src="${ctx}/js/notice.js"></script>
-    <script src="${ctx}/my/Request.js"></script>
+    <script src="${ctx}/my/BeastRequest.js"></script>
     <style>
         .userWrap{
             padding: 60px;
@@ -67,7 +67,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            new Rquest(ctx, "/user/getUser", null, false,
+            new BeastRequest(ctx, "/user/getUser", null, false,
                 function (data) {
                     if(data != null && data.userName){
                         $("#user_name").val(data.userName);
@@ -76,9 +76,9 @@
                     console.log(xhr);
                     console.log(textStatus);
                     console.log(errorThrown);
-                }).ajaxpost();
+                }).ajaxPost();
         });
-        function doupdate() {
+        function doUpdate() {
 
             const confirm_password = $("#confirm_password").val();
             const old_password = $("#old_password").val();
@@ -103,7 +103,7 @@
                 "password": password,
                 "oldPassword": old_password
             };
-            var request = new Rquest(ctx, "/user/doUpdatePassword", param, false,
+            var request = new BeastRequest(ctx, "/user/doUpdatePassword", param, false,
                 function (data) {
                     if(data && data.validate){
                         window.location.href = ctx + "/";
@@ -113,7 +113,7 @@
                     console.log(textStatus);
                     console.log(errorThrown);
                 });
-            request.ajaxpost();
+            request.ajaxPost();
         }
         
         function cancel() {
@@ -144,7 +144,7 @@
     </div>
     <div class="user_div">
         <span class="userBtn" onclick="cancel();">取消</span>
-        <span class="userBtn userConfirm" onclick="doupdate();">确认</span>
+        <span class="userBtn userConfirm" onclick="doUpdate();">确认</span>
     </div>
 </div>
 </body>

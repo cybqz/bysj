@@ -1,14 +1,14 @@
 /**
  * 请求封装类
  */
-var Rquest = (function(window) {
+let BeastRequest = (function(window) {
 
-    var Rquest = function(baseURL, methodURL, data, async, successCallback, errorCallback) {
-        return new Rquest.fn.init(baseURL, methodURL, data, async, successCallback, errorCallback);
+    let BestRequest = function(baseURL, methodURL, data, async, successCallback, errorCallback) {
+        return new BestRequest.fn.init(baseURL, methodURL, data, async, successCallback, errorCallback);
     }
 
-    Rquest.fn = Rquest.prototype = {
-        constructor: Rquest,
+    BestRequest.fn = BestRequest.prototype = {
+        constructor: BestRequest,
         init: function(baseURL, methodURL, data, async, successCallback, errorCallback) {
 
             if(!baseURL || baseURL.replace(/\s*/g,"") == ""){
@@ -20,17 +20,24 @@ var Rquest = (function(window) {
 
             this.requestURL = baseURL + methodURL;
             this.data = data;
+            this.async = async;
+            this.dataType = "txt";
 
-            this.ajaxpost= function () {
+            this.ajaxPost= function () {
 
                 if(this.requestURL && this.requestURL.replace(/\s*/g,"") != ""){
-                    console.log("Rquest:  " + this.requestURL +"  with:  " + JSON.stringify(this.data));
+                    let jsonData = null;
+                    if(null != this.data){
+                        this.dataType = "json";
+                        jsonData = JSON.stringify(this.data)
+                    }
+                    console.log("BestRequest:  " + this.requestURL +"  with:  " + jsonData);
                     $.ajax({
                         url:this.requestURL,
                         type:"post",
-                        data:this.data,
-                        async: async,
-                        dataType:"json",
+                        data:jsonData,
+                        async: this.async,
+                        dataType:this.dataType,
                         //contentType: "application/json;charset=UTF-8",
                         success:function(data){
                             if(data.show && !data.validate){
@@ -48,12 +55,12 @@ var Rquest = (function(window) {
                         }
                     })
                 }else{
-                    console.log("Rquest url is empty");
+                    console.log("BestRequest url is empty");
                 }
             }
         }
     }
 
-    Rquest.fn.init.prototype = Rquest.fn;
-    return Rquest;
+    BestRequest.fn.init.prototype = BestRequest.fn;
+    return BestRequest;
 })();

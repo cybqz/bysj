@@ -2,13 +2,14 @@ package com.cyb.proname.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cyb.authority.base.BaseController;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
-import com.cyb.proname.constant.Constant;
-import com.cyb.proname.dao.ModelService;
+import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.domain.Model;
+import com.cyb.proname.service.ModelService;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -22,10 +23,11 @@ import java.util.List;
  * 客户信息管理Controller
  */
 @Controller
-@RequestMapping(value= "/"+Constant.MODEL)
+@RequestMapping(value= "/model")
 public class ModelController extends BaseController {
 
-	private final static String MODEL_NAME = "客户信息管理";
+	private final static String MODEL_URL = "/model";
+	private final static String MODEL_NAME = "模板模块管理";
 
 	@Resource
 	private ModelService modelService;
@@ -33,17 +35,18 @@ public class ModelController extends BaseController {
 	@RequestMapping("/")
 	public String index(HttpServletRequest request) {
 		request.setAttribute("model", MODEL_NAME);
+		request.setAttribute("modelUrl", MODEL_URL);
 		request.setAttribute("title", MODEL_NAME +"-列表");
-		return Constant.DEFAULT_PAGE_CUSTOMER_INFO;
+		return SysCfgConstant.DEFAULT_PAGE_PREFIX + MODEL_URL + SysCfgConstant.DEFAULT_LIST_PAGE_SUFFIX;
 	}
 
-	@RequestMapping(Constant.DEFAULT_ADD)
+	@RequestMapping(SysCfgConstant.METHOD_URL_ADD)
 	public String add(HttpServletRequest request) {
 		request.setAttribute("title", MODEL_NAME +"-新增");
-		return Constant.DEFAULT_PAGE_PREFIX +Constant.MODEL + Constant.DEFAULT_ADD;
+		return SysCfgConstant.DEFAULT_PAGE_PREFIX + MODEL_URL + SysCfgConstant.METHOD_URL_ADD;
 	}
 
-	@PostMapping(Constant.DEFAULT_SAVE)
+	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
 	@ResponseBody
 	public Tips save(Model customerInfo) {
 		super.validLogined();
@@ -59,7 +62,7 @@ public class ModelController extends BaseController {
 		return tips;
 	}
 
-	@PostMapping(Constant.DEFAULT_DELETE)
+	@PostMapping(SysCfgConstant.METHOD_URL_DELETE)
 	@ResponseBody
 	public Tips delete(String id) {
 		super.validLogined();
@@ -77,22 +80,22 @@ public class ModelController extends BaseController {
 		return tips;
 	}
 
-	@RequestMapping(Constant.DEFAULT_UPDATE)
+	@RequestMapping(SysCfgConstant.METHOD_URL_UPDATE)
 	public String update(String id, HttpServletRequest request) {
 		request.setAttribute("title", MODEL_NAME +"-更新");
-		request.setAttribute("opreationId", id);
-		return Constant.DEFAULT_PAGE_PREFIX +Constant.MODEL + Constant.DEFAULT_UPDATE;
+		request.setAttribute("operationId", id);
+		return SysCfgConstant.DEFAULT_PAGE_PREFIX + MODEL_URL + SysCfgConstant.METHOD_URL_UPDATE;
 	}
 
-	@PostMapping("/doupdate")
+	@PostMapping(SysCfgConstant.METHOD_URL_DO_UPDATE)
 	@ResponseBody
-	public Tips doupdate(Model customerInfo) {
+	public Tips doUpdate(Model customerInfo) {
 		super.validLogined();
 		if(isLogined){
 			tips = new Tips("更新失败", true, false);
 			if(StringUtils.isNotEmpty(customerInfo.getId())){
-				int count = modelService.updateById(customerInfo);
-				if(count > 0){
+				boolean success = modelService.updateById(customerInfo);
+				if(success){
 					tips = new Tips("更新成功", true, true);
 				}
 			}else{
@@ -102,7 +105,7 @@ public class ModelController extends BaseController {
 		return tips;
 	}
 
-	@PostMapping(Constant.DEFAULT_DETAIL)
+	@PostMapping(SysCfgConstant.METHOD_URL_DETAIL)
 	@ResponseBody
 	public Tips detail(String id) {
 
@@ -119,7 +122,7 @@ public class ModelController extends BaseController {
 		return tips;
 	}
 
-	@PostMapping(value = Constant.DEFAULT_PAGE)
+	@PostMapping(value = SysCfgConstant.METHOD_URL_PAGE)
 	@ResponseBody
 	public TipsPagination<Model> page(String param) {
 		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
@@ -129,10 +132,10 @@ public class ModelController extends BaseController {
 			JSONObject jsonObject = JSON.parseObject(param);
 			Model customerInfo = jsonObject.getObject("customerInfo", Model.class);
 			Pagination pagination = jsonObject.getObject("pagination", Pagination.class);
-			int count = modelService.countByExample(customerInfo);
+			int count = modelService.count(customerInfo);
 			if(count > 0){
-				List<Model> list = modelService.selectByExample(customerInfo, pagination);
-				pagination.setDatas(list);
+				IPage<Model> page = modelService.selectPage(customerInfo, pagination);
+				pagination.setDatas(page.getRecords());
 				pagination.setTotal(count);
 				tipsPagination.setPagination(pagination);
 				tipsPagination.setValidate(true);
@@ -142,12 +145,12 @@ public class ModelController extends BaseController {
 		return tipsPagination;
 	}
 
-	@PostMapping(Constant.DEFAULT_COUNT)
+	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
 	public Tips count(Model customerInfo) {
 		super.validLogined();
 		if(isLogined) {
-			int count = modelService.countByExample(customerInfo);
+			int count = modelService.count(customerInfo);
 			tips = new Tips("查询成功",  true, count);
 		}
 		return tips;

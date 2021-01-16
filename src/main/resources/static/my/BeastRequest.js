@@ -1,0 +1,66 @@
+/**
+ * 请求封装类
+ */
+let BeastRequest = (function(window) {
+
+    let BestRequest = function(baseURL, methodURL, data, async, successCallback, errorCallback) {
+        return new BestRequest.fn.init(baseURL, methodURL, data, async, successCallback, errorCallback);
+    }
+
+    BestRequest.fn = BestRequest.prototype = {
+        constructor: BestRequest,
+        init: function(baseURL, methodURL, data, async, successCallback, errorCallback) {
+
+            if(!baseURL || baseURL.replace(/\s*/g,"") == ""){
+                baseURL = "";
+            }
+            if(!methodURL || methodURL.replace(/\s*/g,"") == ""){
+                methodURL = "";
+            }
+
+            this.requestURL = baseURL + methodURL;
+            this.data = data;
+            this.async = async;
+            this.dataType = "txt";
+
+            this.ajaxPost= function () {
+
+                if(this.requestURL && this.requestURL.replace(/\s*/g,"") != ""){
+                    let jsonData = null;
+                    if(null != this.data){
+                        this.dataType = "json";
+                        jsonData = JSON.stringify(this.data)
+                    }
+                    console.log("BestRequest:  " + this.requestURL +"  with:  " + jsonData);
+                    $.ajax({
+                        url:this.requestURL,
+                        type:"post",
+                        data:jsonData,
+                        async: this.async,
+                        dataType:this.dataType,
+                        //contentType: "application/json;charset=UTF-8",
+                        success:function(data){
+                            if(data.show && !data.validate){
+                                tips(data.msg);
+                            }
+                            successCallback(data);
+                        },
+                        error:function(xhr, textStatus, errorThrown){
+                            console.log(xhr);
+                            console.log(textStatus);
+                            console.log(errorThrown);
+                            if(null != errorCallback){
+                                errorCallback(xhr, textStatus, errorThrown);
+                            }
+                        }
+                    })
+                }else{
+                    console.log("BestRequest url is empty");
+                }
+            }
+        }
+    }
+
+    BestRequest.fn.init.prototype = BestRequest.fn;
+    return BestRequest;
+})();

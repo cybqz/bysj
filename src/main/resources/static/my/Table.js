@@ -33,7 +33,7 @@ var Table = (function(window) {
                 html_head += '<li class=" opcity">操作</li></ul></div>';
 
                 //加载数据，拼接表格行
-                new Rquest(baseurl, methodurl, {param:JSON.stringify(this.param)}, false,
+                new BeastRequest(baseurl, methodurl, {param:JSON.stringify(this.param)}, false,
                     function (response) {
                         if(response && response.validate && response.pagination){
 
@@ -69,7 +69,7 @@ var Table = (function(window) {
                     },
                     function () {
                         console.log("error");
-                    }).ajaxpost();
+                    }).ajaxPost();
 
                 if(pagination == null){
                     //tips("分页信息错误");
@@ -80,8 +80,8 @@ var Table = (function(window) {
                 html_pagination = html_pagination.replace("$pageCount$",(pageIndex + 1) +"/"+ pageCount)
 
                 if(pageCount>3){
-                    var s = '';
-                    for(var i = pageIndex + 2; i < pageCount; i++){
+                    let s = '';
+                    for(let i = pageIndex + 2; i < pageCount; i++){
                         s += '<li class="page_text page_no">'+i+'</li>';
                     }
                     html_pagination = html_pagination.replace("$pagination$",s);
@@ -97,17 +97,19 @@ var Table = (function(window) {
                 $(element).html('');
                 $(element).append(html_head).append(html_column).append(html_pagination);
 
+                if(null != pagination){
 
-                if (pagination.isFirstPage) {
+                    if (pagination.isFirstPage) {
 
-                    //禁用上一页,启用下一页
-                    $("#page_pre").unbind('click').removeClass("page_text").addClass("page_text_disable");
-                    this.nextPage(pageIndex);
-                } else if(pagination.isLasePage) {
+                        //禁用上一页,启用下一页
+                        $("#page_pre").unbind('click').removeClass("page_text").addClass("page_text_disable");
+                        this.nextPage(pageIndex);
+                    } else if(pagination.isLasePage) {
 
-                    //禁用下一页,启用上一页
-                    $("#page_next").unbind('click').removeClass("page_text").addClass("page_text_disable");
-                    this.prePage(pageIndex);
+                        //禁用下一页,启用上一页
+                        $("#page_next").unbind('click').removeClass("page_text").addClass("page_text_disable");
+                        this.prePage(pageIndex);
+                    }
                 } else{
                     this.prePage(pageIndex);
                     this.nextPage(pageIndex);

@@ -7,6 +7,7 @@ import com.cyb.authority.service.LoginService;
 import com.cyb.common.tips.Tips;
 import com.cyb.proname.constant.SysCfgConstant;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
  * 用户登录控制层
  */
 @Controller
+@ResponseBody
 @RequestMapping(value="/login")
 public class LoginController extends BaseController {
 	
@@ -28,8 +30,7 @@ public class LoginController extends BaseController {
 	 * @return Tips
 	 */
 	@RequestMapping(value="/login")
-	@ResponseBody
-	public Tips login (User user) {
+	public Tips login (@RequestBody User user) {
 		super.validLogined();
 		if(isLogined){
 			tips.setMsg("不能重复登陆");
@@ -43,9 +44,8 @@ public class LoginController extends BaseController {
 	 * @param user
 	 * @return Tips
 	 */
-	@RequestMapping(value="/adminlogin")
-	@ResponseBody
-	public Tips adminLogin (User user) {
+	@RequestMapping(value="/adminLogin")
+	public Tips adminLogin (@RequestBody User user) {
 		super.validLogined();
 		if(isLogined){
 			tips.setMsg("不能重复登陆");
@@ -59,7 +59,6 @@ public class LoginController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/logout")
-	@ResponseBody
 	public Tips logout () {
 		super.validLogined();
 		if(!isLogined){

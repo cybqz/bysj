@@ -31,14 +31,20 @@ let BeastRequest = (function(window) {
                         this.dataType = "json";
                         jsonData = JSON.stringify(this.data)
                     }
-                    console.log("BestRequest:  " + this.requestURL +"  with:  " + jsonData);
+                    console.log("request: " + this.requestURL +"  with:  " + jsonData);
                     $.ajax({
                         url:this.requestURL,
                         type:"post",
                         data:jsonData,
                         async: this.async,
                         dataType:this.dataType,
-                        //contentType: "application/json;charset=UTF-8",
+                        contentType: "application/json;charset=UTF-8",
+                        beforeSend: function (XHR){
+                            //console.log("request before:  " + XHR);
+                        },
+                        complete: function (XHR, TS){
+                            console.log("request complete");
+                        },
                         success:function(data){
                             if(data.show && !data.validate){
                                 tips(data.msg);
@@ -46,9 +52,7 @@ let BeastRequest = (function(window) {
                             successCallback(data);
                         },
                         error:function(xhr, textStatus, errorThrown){
-                            console.log(xhr);
-                            console.log(textStatus);
-                            console.log(errorThrown);
+                            console.log("request error:  " + textStatus);
                             if(null != errorCallback){
                                 errorCallback(xhr, textStatus, errorThrown);
                             }

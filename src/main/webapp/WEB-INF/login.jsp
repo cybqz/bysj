@@ -77,26 +77,26 @@
 			$("#register").click(function () {
 
 				//获取请求参数
-				let user1 = $("#user1").val();
-				if(user1==null || user1==""){
+				let user = $("#user1").val();
+				if(user==null || user==""){
 					tips("请输入用户名");
 					return false;
 				}
-				let pass1 = $("#pass1").val();
-				if(pass1==null || pass1==""){
+				let pass = $("#pass1").val();
+				if(pass==null || pass==""){
 					tips("请输入密码");
 					return false;
 				}
-				let rep_pass1 =$("#rep_pass1").val();
-				if(rep_pass1==null || rep_pass1==""){
+				let rep_pass =$("#rep_pass1").val();
+				if(rep_pass==null || rep_pass==""){
 					tips("请确认密码");
 					return false;
 				}
-				if(pass1!=rep_pass1){
+				if(pass!=rep_pass){
 					tips("密码输入不一致");
 					return false;
 				}
-				new BeastRequest(ctx, "/register/register", {"userName":user1,"password":pass1}, false,
+				new BeastRequest(ctx, "/register/register", {"userName":user,"password":pass}, false,
 						function (data) {
 							toIndexPage(data);
 						}, function () {

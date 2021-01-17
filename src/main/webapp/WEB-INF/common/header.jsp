@@ -27,6 +27,7 @@
                 window.location.href = ctx;
             }, function () {
                 console.log("error");
+                window.location.href = ctx;
             }).ajaxPost();
     }
 

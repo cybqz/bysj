@@ -19,12 +19,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            var request = new BeastRequest(ctx, "/customerinfo/detail", {id:operationId}, false,
+            let request = new BeastRequest(ctx, modelUrl + "/detail", {id:operationId}, false,
                 function (data) {
                     if(data && data.validate && data.data){
-                        $("#customerName").val(data.data['customerName']);
-                        $("#phone").val(data.data['phone']);
-                        $("#email").val(data.data['email']);
+                        $("#name").val(data.data['name']);
+                        $("#age").val(data.data['age']);
                         $("input[name='sex'][value="+data.data['sex']+"]").attr("checked",true);
                         $("#description").val(data.data['description']);
                     }
@@ -36,16 +35,15 @@
         function doUpdate() {
             let param = {
                 id: operationId,
-                customerName: $("#customerName").val(),
-                phone: $("#phone").val(),
-                email: $("#email").val(),
+                name: $("#name").val(),
+                age: $("#age").val(),
                 sex: $("input[name='sex']:checked").val(),
                 description: $("#description").val(),
             };
-            var request = new BeastRequest(ctx, "/customerinfo/doUpdate", param, false,
+            let request = new BeastRequest(ctx, modelUrl + "/doUpdate", param, false,
                 function (data) {
                     if(data && data.validate){
-                        window.location.href = ctx + "/customerinfo/";
+                        window.location.href = ctx + modelUrl + "/";
                     }
                 }, function (xhr, textStatus, errorThrown) {
                     console.log(xhr);
@@ -56,7 +54,7 @@
         }
         
         function cancel() {
-            window.location.href = ctx + "/customerinfo/";
+            window.location.href = ctx + modelUrl + "/";
         }
     </script>
 </head>

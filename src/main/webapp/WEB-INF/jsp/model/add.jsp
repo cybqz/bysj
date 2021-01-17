@@ -18,17 +18,16 @@
     <script src="${ctx}/my/BeastRequest.js"></script>
     <script type="text/javascript">
         function save() {
-            var param = {
-                customerName: $("#customerName").val(),
-                phone: $("#phone").val(),
-                email: $("#email").val(),
+            let param = {
+                name: $("#name").val(),
+                age: $("#age").val(),
                 sex: $("input[name='sex']:checked").val(),
                 description: $("#description").val(),
             };
-            var request = new BeastRequest(ctx, "/customerinfo/save", param, false,
+            let request = new BeastRequest(ctx, modelUrl + "/save", param, false,
                 function (data) {
                     if(data && data.validate){
-                        window.location.href = ctx + "/customerinfo/";
+                        window.location.href = ctx + modelUrl + "/";
                     }
                 }, function () {
                     console.log("error");
@@ -37,7 +36,7 @@
         }
         
         function cancel() {
-            window.location.href = ctx + "/customerinfo/";
+            window.location.href = ctx + modelUrl + "/";
         }
     </script>
 </head>

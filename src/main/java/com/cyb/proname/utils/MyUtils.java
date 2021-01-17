@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 
 public class MyUtils {
@@ -46,8 +47,13 @@ public class MyUtils {
 		return UUID.randomUUID().toString();
 	}
 
+	/**
+	 * @Author 陈迎博
+	 * @Title 获取当前日期
+	 * @Description
+	 * @Date 2021/1/17
+	 */
 	public static LocalDate getLocalDate(){
-
 		return LocalDate.now();
 	}
 
@@ -59,6 +65,13 @@ public class MyUtils {
 	public static String getFileTypeByFullName(String fullName){
 		if(!StringUtils.isEmpty(fullName)){
 			return fullName.substring(fullName.lastIndexOf("."), fullName.length());
+		}
+		return null;
+	}
+
+	public static String getByJSONObject(JSONObject object, String key){
+		if(null != object && object.containsKey(key) && StringUtils.isNotBlank(object.getString(key))){
+			return object.getString(key);
 		}
 		return null;
 	}

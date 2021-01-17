@@ -19,32 +19,30 @@
     <script src="${ctx}/my/Table.js"></script>
 </head>
 <body>
-<!-- 引入头部 -->
-<%@include file="../../common/header.jsp"%>
+    <!-- 引入头部 -->
+    <%@include file="../../common/header.jsp"%>
 
-<div class="wrap">
-    <div  id="tab_wrap">
-        <!-- 引入模块导航栏 -->
-        <%@include file="../../common/model_bar.jsp"%>
-    </div>
-    <div  id="content">
-        <!-- 表格的公共信息展示 -->
-        <div id="top_text">
-             <span>
-               ${model}共 <span id="count" class="color_blue">0</span> 条
-            </span>
-            <span class="add_wrap">
-                 <span id="add" class="add" onclick="add()">
-                    添加
-                 </span>
-            </span>
+    <div class="wrap">
+        <div  id="tab_wrap">
+            <!-- 引入模块导航栏 -->
+            <%@include file="../../common/model_bar.jsp"%>
         </div>
-        <!-- 表格内容展示-->
-        <div id="list"></div>
-
+        <div  id="content">
+            <!-- 表格的公共信息展示 -->
+            <div id="top_text">
+                 <span>
+                   ${model}共 <span id="count" class="color_blue">0</span> 条
+                </span>
+                <span class="add_wrap">
+                     <span id="add" class="add" onclick="add()">
+                        添加
+                     </span>
+                </span>
+            </div>
+            <!-- 表格内容展示-->
+            <div id="list"></div>
+        </div>
     </div>
-
-</div>
 </body>
 <script type="text/javascript">
     window.onload=function modify(){
@@ -54,10 +52,10 @@
 
     $(document).ready(function () {
         //加载列表数据并渲染
-        load({customerInfo: {},pagination:{limit:50}});
+        loadTable({model: {},pagination:{limit:5}});
 
         //获取总条数
-        let request = new BeastRequest(ctx, modelUrl + "/count", null, true,
+        let request = new BeastRequest(ctx, modelUrl + "/count", {}, true,
             function (data) {
                 if(data && data.validate && data.data){
                     $("#count").html(data.data);
@@ -72,8 +70,11 @@
         window.location.href = ctx + modelUrl + "/add"
     }
 
-    function load(param) {
-        let column = [{customerName:'姓名'},{sex:'性别'},{phone:'电话'},{email:'邮箱'},{description:'描述'}];
+    function loadTable(param) {
+        let column = [{key:'name',title:'姓名'},
+                      {key:'sex',title:'性别',format:function (value) {return value == 1?'男':'女';}},
+                      {key:'age',title:'年龄'},
+                      {key:'description',title:'描述'}];
         new Table('#list', column, param, ctx, modelUrl + "/page").renderingTable();
     }
     function update(id){
@@ -85,7 +86,7 @@
         new BeastRequest(ctx, modelUrl + "/delete", {id:id}, false,
             function (data) {
                 tips(data.msg);
-                load({customerInfo: {},pagination:{limit:50}});
+                loadTable({model: {},pagination:{limit:5}});
             }, function () {
                 console.log("error");
             }).ajaxPost();

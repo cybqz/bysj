@@ -28,7 +28,6 @@ public class Model implements Serializable {
     private Integer age;
 
     @TableField(value = "sex")
-    @EnumValue()
     private SexEnum sex;
 
     @TableField(value = "description")

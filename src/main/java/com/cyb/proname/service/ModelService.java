@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.proname.domain.Model;
 import com.cyb.proname.mapper.ModelMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
@@ -60,9 +61,13 @@ public class ModelService extends ServiceImpl<ModelMapper,Model> {
      */
     public int count(Model record) {
 
-        LambdaQueryWrapper<Model> queryWrapper = new LambdaQueryWrapper<Model>();
-        queryWrapper.like(true, Model::getName, record.getName());
-        return modelMapper.selectCount(queryWrapper);
+        LambdaQueryWrapper<Model> queryWrapper = null;
+        if(null != record){
+            queryWrapper = new LambdaQueryWrapper<Model>();
+            queryWrapper.like(StringUtils.isNotBlank(record.getName()), Model::getName, record.getName());
+        }
+        Integer result = modelMapper.selectCount(queryWrapper);
+        return result == null? 0: result.intValue();
     }
 
     /**
@@ -83,10 +88,16 @@ public class ModelService extends ServiceImpl<ModelMapper,Model> {
      */
     public IPage<Model> selectPage(Model record, Pagination pagination) {
 
-        LambdaQueryWrapper<Model> queryWrapper = new LambdaQueryWrapper<Model>();
-        queryWrapper.like(true, Model::getName, record.getName());
+        LambdaQueryWrapper<Model> queryWrapper = queryWrapper = new LambdaQueryWrapper<Model>();
+        queryWrapper.orderByDesc(Model::getCreateDateTime);
+        if(null != record){
+            queryWrapper = queryWrapper.like(StringUtils.isNotBlank(record.getName()), Model::getName, record.getName());
+        }
 
-        Page page = new Page(pagination.getPageIndex(), pagination.getPageCount());
+        Page page = null;
+        if(null != pagination){
+            page = new Page(pagination.getPageIndex(), pagination.getLimit());
+        }
         return modelMapper.selectPage(page, queryWrapper);
     }
 }

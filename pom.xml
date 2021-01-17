@@ -9,9 +9,10 @@
     </parent>
 
     <groupId>com.cyb</groupId>
-    <artifactId>goodsms</artifactId>
+    <artifactId>templates</artifactId>
     <version>0.0.1</version>
     <name>templates</name>
+
     <description>templates project for SpringBoot and JSP</description>
 
     <properties>

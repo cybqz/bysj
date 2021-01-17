@@ -22,7 +22,7 @@ spring:
   datasource:
     username: root
     password: 123456
-    url: jdbc:mysql://192.168.1.4:3306/templates?serverTimezone=GMT%2B8&useUnicode=true$characterEncoding=utf8
+    url: jdbc:mysql://192.168.1.8:3306/templates?serverTimezone=GMT%2B8&useUnicode=true$characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     #数据源其他配置
@@ -52,6 +52,12 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#配置枚举 支持通配符 * 或者 ; 分割
+mybatis-plus:
+  type-enums-package: com.cyb.*
+  configuration:
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
 
 logging:
   level:

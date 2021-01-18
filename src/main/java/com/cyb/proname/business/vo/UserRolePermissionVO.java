@@ -1,4 +1,4 @@
-package com.cyb.proname.vo;
+package com.cyb.proname.business.vo;
 
 import com.cyb.authority.domain.User;
 import lombok.Data;

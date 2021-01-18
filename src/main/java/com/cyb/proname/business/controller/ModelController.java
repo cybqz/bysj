@@ -1,4 +1,4 @@
-package com.cyb.proname.controller;
+package com.cyb.proname.business.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -7,8 +7,8 @@ import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
 import com.cyb.proname.constant.SysCfgConstant;
-import com.cyb.proname.domain.Model;
-import com.cyb.proname.service.ModelService;
+import com.cyb.proname.business.domain.Model;
+import com.cyb.proname.business.service.ModelService;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;

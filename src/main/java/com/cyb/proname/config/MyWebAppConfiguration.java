@@ -3,7 +3,6 @@ package com.cyb.proname.config;
 import com.cyb.proname.interceptor.MyInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -29,8 +28,8 @@ public class MyWebAppConfiguration extends WebMvcConfigurationSupport {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         log.info("UPLOAD_PATH:" + uploadPath);
-        registry.addResourceHandler(V_PATH + "**")
-                .addResourceLocations("file:///" + uploadPath);
+        /*registry.addResourceHandler(V_PATH + "**")
+                .addResourceLocations("file:///" + uploadPath);*/
 
         //默认访问static文件
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
@@ -45,6 +44,7 @@ public class MyWebAppConfiguration extends WebMvcConfigurationSupport {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
         InterceptorRegistration registration = registry.addInterceptor(new MyInterceptor());
 
         //所有路径都被拦截

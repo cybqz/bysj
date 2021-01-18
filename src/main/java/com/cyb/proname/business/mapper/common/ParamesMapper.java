@@ -1,6 +1,6 @@
-package com.cyb.proname.mapper.common;
+package com.cyb.proname.business.mapper.common;
 
-import com.cyb.proname.domain.common.Param;
+import com.cyb.proname.business.domain.common.Param;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;

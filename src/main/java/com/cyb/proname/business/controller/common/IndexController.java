@@ -1,4 +1,4 @@
-package com.cyb.proname.controller.common;
+package com.cyb.proname.business.controller.common;
 
 import com.cyb.authority.base.BaseController;
 import org.springframework.stereotype.Controller;

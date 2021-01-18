@@ -1,12 +1,12 @@
-package com.cyb.proname.service;
+package com.cyb.proname.business.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cyb.common.pagination.Pagination;
-import com.cyb.proname.domain.Model;
-import com.cyb.proname.mapper.ModelMapper;
+import com.cyb.proname.business.domain.Model;
+import com.cyb.proname.business.mapper.ModelMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;

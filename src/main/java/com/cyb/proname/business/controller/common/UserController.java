@@ -1,4 +1,4 @@
-package com.cyb.proname.controller.common;
+package com.cyb.proname.business.controller.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import com.cyb.proname.vo.UserRolePermissionVO;
-import com.cyb.proname.vo.RolePermissionVO;
+import com.cyb.proname.business.vo.UserRolePermissionVO;
+import com.cyb.proname.business.vo.RolePermissionVO;
 
 import javax.servlet.http.HttpServletRequest;
 

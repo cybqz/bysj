@@ -1,4 +1,4 @@
-package com.cyb.proname.vo;
+package com.cyb.proname.business.vo;
 
 import lombok.Data;
 

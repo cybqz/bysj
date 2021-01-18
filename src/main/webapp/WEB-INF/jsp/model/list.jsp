@@ -10,6 +10,7 @@
     <title>${title}</title>
     <link rel="stylesheet" type="text/css" href="${ctx}/css/noticejs.css" />
     <link rel="stylesheet" type="text/css" href="${ctx}/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="${ctx}/my/Search.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/my/Table.css">
  	<script src="${ctx}/js/jquery.js"></script>
     <script src="${ctx}/js/pintuer.js"></script>
@@ -30,8 +31,8 @@
         <div  id="content">
             <!-- 表格的公共信息展示 -->
             <div id="top_text">
-                 <span>
-                   ${model}共 <span id="count" class="color_blue">0</span> 条
+                 <span class="title">
+                   ${model}共 &nbsp;<span id="count" class="color_blue">0</span>&nbsp; 条
                 </span>
                 <span class="add_wrap">
                      <span id="add" class="add" onclick="add()">
@@ -52,7 +53,7 @@
 
     $(document).ready(function () {
         //加载列表数据并渲染
-        loadTable({model: {},pagination:{limit:5}});
+        loadTable({model: {},pagination:{limit:8}});
 
         //获取总条数
         let request = new BeastRequest(ctx, modelUrl + "/count", {}, true,
@@ -86,7 +87,7 @@
         new BeastRequest(ctx, modelUrl + "/delete", {id:id}, false,
             function (data) {
                 tips(data.msg);
-                loadTable({model: {},pagination:{limit:5}});
+                loadTable({model: {},pagination:{limit:8}});
             }, function () {
                 console.log("error");
             }).ajaxPost();

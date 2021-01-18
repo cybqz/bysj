@@ -1,4 +1,4 @@
-package com.cyb.proname.controller.common;
+package com.cyb.proname.business.controller.common;
 
 import java.util.UUID;
 import javax.servlet.http.HttpSession;
@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 import com.cyb.authority.domain.User;
 import com.cyb.authority.service.UserService;
 import com.cyb.common.tips.Tips;
-import com.cyb.proname.vo.UserCreateVO;
+import com.cyb.proname.business.vo.UserCreateVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

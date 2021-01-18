@@ -1,4 +1,4 @@
-package com.cyb.proname.domain;
+package com.cyb.proname.business.domain;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableField;

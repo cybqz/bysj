@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cyb.proname.mapper.common.ParamesMapper">
-  <resultMap id="BaseResultMap" type="com.cyb.proname.domain.common.Param">
+<mapper namespace="com.cyb.proname.business.mapper.common.ParamesMapper">
+  <resultMap id="BaseResultMap" type="com.cyb.proname.business.domain.common.Param">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="value" jdbcType="VARCHAR" property="value" />
@@ -10,7 +10,7 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
 
-  <select id="selectByParames" resultMap="BaseResultMap" parameterType="com.cyb.proname.domain.common.Param">
+  <select id="selectByParames" resultMap="BaseResultMap" parameterType="com.cyb.proname.business.domain.common.Param">
     select *
     from parames p
     where 1 = 1

@@ -1,4 +1,4 @@
-package com.cyb.proname.domain.common;
+package com.cyb.proname.business.domain.common;
 
 import lombok.Data;
 

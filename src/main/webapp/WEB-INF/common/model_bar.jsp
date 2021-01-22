@@ -21,31 +21,25 @@
 </style>
 <div id="model_bar">
     <div class="tabText">
-        <span onclick="toCustomerInfo();">客户管理</span>
+        <span onclick="toModel();">示例管理</span>
     </div>
     <div class="tabText">
-        <span onclick="toSale();">销售管理</span>
+        <span onclick="toUserManage();">用户管理</span>
     </div>
     <div class="tabText">
-        <span onclick="toStock();">库存管理</span>
-    </div>
-    <div class="tabText">
-        <span onclick="toStaff();">员工管理</span>
+        <span onclick="toPermissionManage();">权限管理</span>
     </div>
 </div>
 <script>
-    function toCustomerInfo(){
-        window.location.href = ctx + "/customerinfo/";
+    function toModel(){
+        window.location.href = ctx + "/model/";
     }
 
-    function toSale() {
-        window.location.href = ctx + "/sale/";
-    }
-    function toStock(){
-        window.location.href = ctx + "/stock/";
+    function toUserManage(){
+        window.location.href = ctx + "/userManage/";
     }
 
-    function toStaff() {
-        window.location.href = ctx + "/staff/";
+    function toPermissionManage() {
+        window.location.href = ctx + "/PermissionManage/";
     }
 </script>

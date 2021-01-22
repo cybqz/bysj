@@ -44,17 +44,6 @@ public class ModelService extends ServiceImpl<ModelMapper,Model> {
 
     /**
      * @Author 陈迎博
-     * @Title 根据主键更新一条数据
-     * @Description
-     * @Date 2021/1/16
-     */
-    public boolean updateById(Model record) {
-        int count = modelMapper.updateById(record);
-        return count > 0;
-    }
-
-    /**
-     * @Author 陈迎博
      * @Title 根据条件查询总数
      * @Description 根据条件查询总数
      * @Date 2021/1/16

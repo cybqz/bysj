@@ -1,9 +1,9 @@
 package com.cyb.proname.business.controller.common;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
 import com.cyb.authority.base.BaseController;
 import com.cyb.authority.domain.Permission;
 import com.cyb.authority.domain.RolePermission;
@@ -16,8 +16,8 @@ import com.cyb.authority.service.UserService;
 import com.cyb.common.tips.Tips;
 import com.cyb.proname.constant.SysCfgConstant;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import com.cyb.proname.business.vo.UserRolePermissionVO;
 import com.cyb.proname.business.vo.RolePermissionVO;
-
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -53,8 +52,8 @@ public class UserController extends BaseController {
 				tips.setMsg("用户名称不能为空！");
 			}else {
 				currentLoginedUser.setIntroduce(param.getIntroduce());
-				int count = userSerivce.updateByPrimaryKey(currentLoginedUser);
-				if(count > 0) {
+				boolean success = userSerivce.updateById(currentLoginedUser);
+				if(success) {
 					tips = new Tips("修改成功！", true);
 				}else {
 					tips.setMsg("修改失败！");
@@ -123,13 +122,13 @@ public class UserController extends BaseController {
 					RolePermissionVO rolePermissionVO = RolePermissionVO.toRolePermissionVO(userRole);
 					
 					//查询当前角色的权限
-					List<RolePermission> rolePermissions = rolePermissionService.selectByRoleId(userRole.getRoleId());
+					List<RolePermission> rolePermissions = rolePermissionService.selectListByRoleIds(Arrays.asList(userRole.getRoleId()));
 					if(rolePermissions != null && rolePermissions.size() > 0) {
 						List<Permission> permissions = new ArrayList<Permission>();
 						for(RolePermission rolePermission : rolePermissions) {
 							
 							//查询权限
-							Permission permission = permissionService.selectByPrimaryKey(rolePermission.getPermissionId());
+							Permission permission = permissionService.selectById(rolePermission.getPermissionId());
 							permissions.add(permission);
 						}
 						rolePermissionVO.setPermissions(permissions);

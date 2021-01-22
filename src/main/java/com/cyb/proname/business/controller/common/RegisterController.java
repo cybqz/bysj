@@ -1,6 +1,7 @@
 package com.cyb.proname.business.controller.common;
 
 import java.util.UUID;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import com.cyb.authority.domain.User;
@@ -14,12 +15,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * @Author 陈迎博
+ * @Description 用户注册控制层
+ * @Date 2021/1/22
+ */
 @Controller
 @RequestMapping(value="/register")
 public class RegisterController {
 	
-	@Autowired
-	private UserService userSerivce;
+	@Resource
+	private UserService userService;
 	
 	@RequestMapping(value="/register")
 	@ResponseBody
@@ -32,7 +38,7 @@ public class RegisterController {
 					(sex == 0 || sex == 1)) {
 				{
 					//检查用户名是否存在
-					User userTemp = userSerivce.selectByUserName(username);
+					User userTemp = userService.selectByUserName(username);
 					if(null != userTemp) {
 						tips.setMsg("用户已存在！");
 					}else {
@@ -41,7 +47,7 @@ public class RegisterController {
 						BeanUtils.copyProperties(userCreate, user);
 						String userId = UUID.randomUUID().toString();
 						user.setId(userId);
-						int count = userSerivce.insert(user, url);
+						int count = userService.insert(user, url);
 						if(count > 0) {
 							tips = new Tips("注册成功", true);
 						}

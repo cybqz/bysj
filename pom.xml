@@ -25,13 +25,9 @@
     <dependencies>
         <!-- 引入SpringBoot相关 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <groupId>cyb.spring.boot.stater.common</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -39,35 +35,11 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- 引入MyBatis、MyBatisPlus相关 -->
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.4.0</version>
-        </dependency>
-
         <!-- 引入权限相关 -->
         <dependency>
             <groupId>cyb.spring.boot.stater.authority</groupId>
             <artifactId>authority</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <!-- 引入DB相关 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.17</version>
+            <version>2.0-SNAPSHOT</version>
         </dependency>
 
         <!-- 添加Servlet依赖模块 -->

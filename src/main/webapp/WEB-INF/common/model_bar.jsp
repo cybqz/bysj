@@ -60,7 +60,6 @@
                         <ul>
                             <li><a href="javascript:;" parentAIndex = "2" url= "/permissionManage" onclick="toModelIndex(this);"><span>权限管理</span></a></li>
                             <li><a href="javascript:;" parentAIndex = "2" url= "/roleManage" onclick="toModelIndex(this);"><span>角色管理</span></a></li>
-                            <li><a href="javascript:;" parentAIndex = "2" url= "/userRoleManage" onclick="toModelIndex(this);"><span>用户角色管理</span></a></li>
                         </ul>
                     </li>
                     <li class="lsm-sidebar-item">

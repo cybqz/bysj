@@ -3,34 +3,39 @@
  */
 let Table = (function(window) {
 
-    let Table = function(element, column, param, baseurl, methodUrl) {
-        return new Table.fn.init(element, column, param, baseurl, methodUrl);
+    let Table = function(element, option, param, baseurl, methodUrl) {
+        return new Table.fn.init(element, option, param, baseurl, methodUrl);
     }
 
     Table.fn = Table.prototype = {
         constructor: Table,
-        init: function(element, column, param, baseurl, methodUrl) {
+        init: function(element, option, param, baseurl, methodUrl) {
 
             this.param = param;
+            let columns = option.columns;
+            let operation = option.operation;
+            if(!operation.width){
+                operation.width = '180px;';
+            }
             //渲染表格
             this.renderingTable= function () {
 
                 //清空历史数据
                 $(".table_content").html("");
-                let html_head = '<div class="table_header"><ul class="ul_wrap">',
-                    html_column = '<div class="table_content">',
-                    html_pagination = '<div class="table_pagination"><ul class="pageWrap">\n' +
+                let html_head = '<div class="table_header"><ul class="ul_wrap">';
+                let html_column = '<div class="table_content">';
+                let html_pagination = '<div class="table_pagination"><ul class="pageWrap">\n' +
                         '<li class="page_text " id="page_pre">上一页</li>\n' +
                         '$pagination$' +
                         '<li class="page_text " id="page_next">下一页</li>\n' +
-                        '<li class="page_total ">共<span class="total_num">$pageCount$</span>页</li></ul></div>',
-                    pagination = null;
+                        '<li class="page_total ">共<span class="total_num">$pageCount$</span>页</li></ul></div>';
+                let pagination = null;
 
                 //设置表格Title
-                $.each(column, function(keyc, vc){
+                $.each(columns, function(keyc, vc){
                     html_head += '<li class="li_wrap">'+vc['title']+'</li>';
                 })
-                html_head += '<li class="operation">操作</li></ul></div>';
+                html_head += '<li class="operation" style="width: '+operation.width+';">操作</li></ul></div>';
 
                 //加载数据，拼接表格行
                 new BeastRequest(baseurl, methodUrl, this.param, false,
@@ -42,22 +47,27 @@ let Table = (function(window) {
                             if(data.length == 0){
                                 html_column = '<ul class="ul_wrap no_content">暂无数据</ul></div>';
                             }else{
+
                                 $.each(data, function(dkey, dv){
 
+                                    //生成表格行数据内容部分
                                     html_column += '<ul class="ul_wrap">';
-                                    $.each(column, function(ckey, cv){
+                                    $.each(columns, function(ckey, cv){
 
+                                        let value = dv[cv['key']];
                                         if(cv.format){
-                                            let value = cv.format(dv[cv['key']]);
-                                            html_column += '<li class="li_wrap" title="'+dv[cv['title']]+'">'+value+'</li>';
-                                        }else{
-                                            html_column += '<li class="li_wrap" title="'+dv[cv['title']]+'">'+dv[cv['key']]+'</li>';
+                                            value = cv.format(dv[cv['key']]);
                                         }
-                                    })
-                                    html_column += '<li class="operation">'+
-                                        '<span class="edit" value="" onclick="update(\''+dv['id']+'\');">修改</span>'+
-                                        '<span class="delete" onclick="remove(\''+dv['id']+'\');">删除</span>'+
-                                        '</li></ul>';
+                                        html_column += '<li class="li_wrap" title="'+value+'">'+value+'</li>';
+                                    });
+
+                                    //生成表格行操作部分
+                                    let html_operation = '';
+                                    $.each(operation.menus, function (k, v){
+                                        html_operation += '<span class="'+v.class+'" value="" onclick="'+v.funName+'(\''+dv['id']+'\');">'+v.title+'</span>';
+                                    });
+
+                                    html_column += '<li class="operation" style="width: '+operation.width+';">'+ html_operation + '</li></ul>';
                                 });
                             }
                         }
@@ -108,7 +118,7 @@ let Table = (function(window) {
                 $(".page_no").click(function () {
                     const pageIndex = parseInt($(this).text());
                     param['pagination']['pageIndex'] = pageIndex - 1;
-                    new Table(element, column, param, baseurl, methodurl).renderingTable();
+                    new Table(element, option, param, baseurl, methodurl).renderingTable();
 
                     $(".page_no").each(function (k,v) {
                         if(pageIndex - 1 == k){
@@ -123,7 +133,7 @@ let Table = (function(window) {
             this.nextPage = function (pageIndex) {
                 $("#page_next").click([pageIndex],function (event) {
                         param['pagination']['pageIndex'] = event.data[0] + 1;
-                        new Table(element, column, param, baseurl, methodUrl).renderingTable();
+                        new Table(element, option, param, baseurl, methodUrl).renderingTable();
                     }
                 );
             },
@@ -131,7 +141,7 @@ let Table = (function(window) {
             this.prePage = function (pageIndex) {
                 $("#page_pre").click([pageIndex],function (event) {
                     param['pagination']['pageIndex'] = event.data[0] - 1;
-                        new Table(element, column, param, baseurl, methodUrl).renderingTable();
+                        new Table(element, option, param, baseurl, methodUrl).renderingTable();
                     }
                 );
             }

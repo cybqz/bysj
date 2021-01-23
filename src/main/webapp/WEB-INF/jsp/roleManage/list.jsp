@@ -72,9 +72,13 @@
     }
 
     function loadTable(param) {
-        let column = [{key:'name',title:'名称'},
+        let columns = [{key:'name',title:'名称'},
                       {key:'remarks',title:'备注'}];
-        new Table('#list', column, param, ctx, modelUrl + "/page").renderingTable();
+        let operation = {width: '160px',
+            menus:[{title: '修改',funName: 'update',class: 'edit'},
+                {title: '删除',funName: 'remove',class: 'delete'}]};
+        let option = {columns: columns, operation: operation};
+        new Table('#list', option, param, ctx, modelUrl + "/page").renderingTable();
     }
     function update(id){
 

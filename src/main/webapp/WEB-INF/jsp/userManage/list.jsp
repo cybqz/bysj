@@ -72,13 +72,19 @@
     }
 
     function loadTable(param) {
-        let column = [{key:'name',title:'姓名'},
+        let columns = [{key:'name',title:'姓名'},
                       {key:'userName',title:'用户名'},
                       {key:'sex',title:'性别',format:function (value) {return value == 1?'男':'女';}},
                       {key:'phone',title:'手机号'},
                       {key:'email',title:'邮箱'},
                       {key:'introduce',title:'介绍'}];
-        new Table('#list', column, param, ctx, modelUrl + "/page").renderingTable();
+        let operation = {width: '220px',
+                         menus:[{title: '修改',funName: 'update',class: 'edit'},
+                                {title: '删除',funName: 'remove',class: 'delete'},
+                                {title: '编辑权限',funName: 'updateAuthority',class: 'edit'}]};
+        let option = {columns: columns, operation: operation};
+
+        new Table('#list', option, param, ctx, modelUrl + "/page").renderingTable();
     }
     function update(id){
 

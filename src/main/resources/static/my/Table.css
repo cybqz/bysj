@@ -28,11 +28,10 @@
     font-size: larger;
 }
 .table_header > .ul_wrap > .operation{
-    width: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    padding: 2px;
     font-size: larger;
 }
 
@@ -68,19 +67,16 @@
     white-space: nowrap;
 }
 .table_content > .ul_wrap > .operation{
-    width: 180px;
-    display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0;
+    padding: 2px;
     background-color: #E7ECF0;
     font-size: large;
 }
 .edit,.delete{
-    flex: 1;
-    margin: 0 15px;
-    height: 30px;
-    line-height: 30px;
+    margin: 0 10px;
+    height: 50px;
+    line-height: 50px;
     cursor: pointer;
     display: inline-block;
     text-align: center;

@@ -1,16 +1,15 @@
-package com.cyb.proname.business.controller.common;
+package com.cyb.proname.business.controller.authority;
 
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cyb.authority.base.BaseController;
-import com.cyb.authority.domain.User;
-import com.cyb.authority.service.UserService;
+import com.cyb.authority.domain.Role;
+import com.cyb.authority.service.RoleService;
+import com.cyb.authority.service.RoleService;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
 import com.cyb.proname.business.domain.Model;
-import com.cyb.proname.business.service.ModelService;
 import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,22 +22,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 
 /**
  * @Author 陈迎博
- * @Description 用户管理控制层
+ * @Description 角色管理控制层
  * @Date 2021/1/22
  */
 @Controller
-@RequestMapping(value= "/userManage")
-public class UserManageController extends BaseController {
+@RequestMapping(value= "/roleManage")
+public class RoleManageController extends BaseController {
 
-	private final static String MODEL_URL = "/userManage";
-	private final static String MODEL_NAME = "用户管理";
+	private final static String MODEL_URL = "/roleManage";
+	private final static String MODEL_NAME = "角色管理";
 
 	@Resource
-	private UserService userService;
+	private RoleService roleService;
 
 	@RequestMapping("/")
 	public String index(HttpServletRequest request) {
@@ -57,20 +55,19 @@ public class UserManageController extends BaseController {
 
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
 	@ResponseBody
-	public Tips save(@RequestBody User user, HttpSession session) {
+	public Tips save(@RequestBody Role role, HttpSession session) {
 		super.validLogined();
 		if(isLogined){
 			tips = new Tips("新增失败", true, false);
-			User userTemp = userService.selectByUserName(user.getUserName());
-			if(null == userTemp){
-				user.setId(MyUtils.getPrimaryKey());
-				String url = session.getServletContext().getRealPath("/");
-				int count = userService.insert(user, url);
+			Role roleTemp = roleService.selectByName(role.getName());
+			if(null == roleTemp){
+				role.setId(MyUtils.getPrimaryKey());
+				int count = roleService.insert(role);
 				if(count > 0){
 					tips = new Tips("新增成功", true, true);
 				}
 			}
-			tips.setMsg("用户已存在");
+			tips.setMsg("权限已存在");
 		}
 		return tips;
 	}
@@ -83,7 +80,7 @@ public class UserManageController extends BaseController {
 			tips = new Tips("删除失败", true, false);
 			String id = MyUtils.getByJSONObject(param, "id");
 			if(StringUtils.isNotEmpty(id)){
-				int count = userService.deleteById(id);
+				int count = roleService.deleteById(id);
 				if(count > 0){
 					tips = new Tips("删除成功", true, true);
 				}
@@ -104,12 +101,12 @@ public class UserManageController extends BaseController {
 
 	@PostMapping(SysCfgConstant.METHOD_URL_DO_UPDATE)
 	@ResponseBody
-	public Tips doUpdate(@RequestBody User user) {
+	public Tips doUpdate(@RequestBody Role role) {
 		super.validLogined();
 		if(isLogined){
 			tips = new Tips("更新失败", true, false);
-			if(StringUtils.isNotEmpty(user.getId())){
-				boolean success = userService.updateById(user);
+			if(StringUtils.isNotEmpty(role.getId())){
+				boolean success = roleService.updateById(role);
 				if(success){
 					tips = new Tips("更新成功", true, true);
 				}
@@ -129,9 +126,9 @@ public class UserManageController extends BaseController {
 			tips.setMsg("查询失败");
 			String id = MyUtils.getByJSONObject(param, "id");
 			if(StringUtils.isNotEmpty(id)){
-				User user = userService.selectById(id);
-				if(null != user){
-					tips = new Tips("查询成功",  true, user);
+				Role role = roleService.selectById(id);
+				if(null != role){
+					tips = new Tips("查询成功",  true, role);
 				}
 			}
 		}
@@ -145,11 +142,11 @@ public class UserManageController extends BaseController {
 		super.validLogined();
 		tipsPagination.convertFromTips(tips);
 		if(isLogined) {
-			User user = param.getObject("user", User.class);
+			Role role = param.getObject("role", Role.class);
 			Pagination pagination = param.getObject("pagination", Pagination.class);
-			int count = userService.selectCount(user);
+			int count = roleService.selectCount(role);
 			if(count > 0){
-				IPage<User> page = userService.selectPage(user, pagination);
+				IPage<Role> page = roleService.selectPage(role, pagination);
 				pagination.setDatas(page.getRecords());
 				pagination.setTotal(count);
 				tipsPagination.setPagination(pagination);
@@ -162,10 +159,10 @@ public class UserManageController extends BaseController {
 
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
-	public Tips count(@RequestBody User user) {
+	public Tips count(@RequestBody Role role) {
 		super.validLogined();
 		if(isLogined) {
-			int count = userService.selectCount(user);
+			int count = roleService.selectCount(role);
 			tips = new Tips("查询成功",  true, count);
 		}
 		return tips;

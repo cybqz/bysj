@@ -31,6 +31,7 @@ a{text-decoration:none;}
 .lsm-sidebar-item>a:before{content: "";position: absolute;left: 0px;width: 2px;height: 40px;background: #34A0CE;opacity:0;transition: all .3s;}
 .lsm-container ul:first-child>li.lsm-sidebar-item>a:before{height: 55px;}
 .lsm-sidebar .lsm-sidebar-icon{font-size: 20px;position: absolute;margin-left:-1px;}
+
 /* 此处修改导航图标 可自定义iconfont 替换*/
 .icon_1::after{content: "\e62b";}
 .icon_2::after{content: "\e669";}

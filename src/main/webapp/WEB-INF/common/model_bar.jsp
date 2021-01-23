@@ -46,18 +46,18 @@
                         </ul>
                     </li>--%>
                     <li class="lsm-sidebar-item">
-                        <a href="javascript:;" onclick="toUserManage();"><i class="my-icon lsm-sidebar-icon icon_2"></i><span onclick="toUserManage();">用户管理</span></a>
+                        <a href="javascript:;" onclick="toUserManage();"><i class="my-icon lsm-sidebar-icon icon_1"></i><span onclick="toUserManage();">用户管理</span></a>
                     </li>
                     <li class="lsm-sidebar-item">
                         <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon_2"></i><span>访问控制</span><i class="my-icon lsm-sidebar-more"></i></a>
                         <ul>
-                            <li><a href="javascript:;"><span>角色管理</span></a></li>
-                            <li><a href="javascript:;"><span>权限管理</span></a></li>
-                            <li><a href="javascript:;"><span>权限编辑</span></a></li>
+                            <li><a href="javascript:;" onclick="toPermissionManage();"><span>权限管理</span></a></li>
+                            <li><a href="javascript:;" onclick="toRoleManage();"><span>角色管理</span></a></li>
+                            <li><a href="javascript:;" onclick="toUserAuthorityManage();"><span>用户权限管理</span></a></li>
                         </ul>
                     </li>
                     <li class="lsm-sidebar-item">
-                        <a href="javascript:;" onclick="toModel();"><i class="my-icon lsm-sidebar-icon icon_2"></i><span>示例管理</span></a>
+                        <a href="javascript:;" onclick="toModel();"><i class="my-icon lsm-sidebar-icon icon_3"></i><span>示例管理</span></a>
                     </li>
                 </ul>
             </div>
@@ -74,6 +74,15 @@
     }
 
     function toPermissionManage() {
-        window.location.href = ctx + "/PermissionManage/";
+        window.location.href = ctx + "/permissionManage/";
+    }
+
+    function toRoleManage(){
+        window.location.href = ctx + "/roleManage/";
+    }
+
+    function toUserAuthorityManage(){
+        tips("功能开发中");
+        //window.location.href = ctx + "/UserAuthorityManage/";
     }
 </script>

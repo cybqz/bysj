@@ -1,4 +1,4 @@
-package com.cyb.proname.business.controller.common;
+package com.cyb.proname.business.controller.authority;
 
 
 import com.cyb.authority.base.BaseController;

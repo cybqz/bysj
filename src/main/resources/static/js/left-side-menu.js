@@ -9,7 +9,9 @@ $(function(){
         wheelStep: 5,
         touchScrollStep: 50
     });
+    
     $('.lsm-container ul ul').css("display", "none");
+
     // lsm-sidebar收缩展开
     $('.lsm-sidebar a').on('click',function(){
         $('.lsm-scroll').slimscroll({
@@ -24,17 +26,16 @@ $(function(){
             $(this).parent("li").siblings("li.lsm-sidebar-item").children('ul').slideUp(200);
             if ($(this).next().css('display') == "none") {
                 //展开未展开
-                // $('.lsm-sidebar-item').children('ul').slideUp(300);
                 $(this).next('ul').slideDown(200);
                 $(this).parent('li').addClass('lsm-sidebar-show').siblings('li').removeClass('lsm-sidebar-show');
             }else{
                 //收缩已展开
                 $(this).next('ul').slideUp(200);
-                //$('.lsm-sidebar-item.lsm-sidebar-show').removeClass('lsm-sidebar-show');
                 $(this).parent('li').removeClass('lsm-sidebar-show');
             }
         }
     });
+
     //lsm-mini
     $('.lsm-mini-btn svg').on('click',function(){
         if ($('.lsm-mini-btn input[type="checkbox"]').prop("checked")) {
@@ -56,8 +57,8 @@ $(function(){
         $(".lsm-popup.second>div").html($(this).html());
         $(".lsm-popup.second").show();
         $(".lsm-popup.third").hide();
-        var top = $(this).offset().top;
-        var d = $(window).height() - $(".lsm-popup.second>div").height();
+        let top = $(this).offset().top;
+        let d = $(window).height() - $(".lsm-popup.second>div").height();
         if(d - top <= 0 ){
             top  = d >= 0 ?  d - 8 : 0;
         }
@@ -72,8 +73,8 @@ $(function(){
         $(".lsm-popup.third").length == 0 && ($(".lsm-container").append("<div class='third lsm-popup lsm-sidebar'><div></div></div>"));
         $(".lsm-popup.third>div").html($(this).html());
         $(".lsm-popup.third").show();
-        var top = $(this).offset().top;
-        var d = $(window).height() - $(".lsm-popup.third").height();
+        let top = $(this).offset().top;
+        let d = $(window).height() - $(".lsm-popup.third").height();
         if(d - top <= 0 ){
             top  = d >= 0 ?  d - 8 : 0;
         }

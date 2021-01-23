@@ -46,18 +46,28 @@
                         </ul>
                     </li>--%>
                     <li class="lsm-sidebar-item">
-                        <a href="javascript:;" onclick="toUserManage();"><i class="my-icon lsm-sidebar-icon icon_1"></i><span onclick="toUserManage();">用户管理</span></a>
+                        <a href="javascript:;" index= "1" url= "/userManage" onclick="toModelIndex(this);">
+                            <i class="my-icon lsm-sidebar-icon icon_1"></i>
+                            <span>用户管理</span>
+                        </a>
                     </li>
                     <li class="lsm-sidebar-item">
-                        <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon_2"></i><span>访问控制</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <a href="javascript:;" index= "2">
+                            <i class="my-icon lsm-sidebar-icon icon_2"></i>
+                            <span>访问控制</span>
+                            <i class="my-icon lsm-sidebar-more"></i>
+                        </a>
                         <ul>
-                            <li><a href="javascript:;" onclick="toPermissionManage();"><span>权限管理</span></a></li>
-                            <li><a href="javascript:;" onclick="toRoleManage();"><span>角色管理</span></a></li>
-                            <li><a href="javascript:;" onclick="toUserAuthorityManage();"><span>用户权限管理</span></a></li>
+                            <li><a href="javascript:;" parentAIndex = "2" url= "/permissionManage" onclick="toModelIndex(this);"><span>权限管理</span></a></li>
+                            <li><a href="javascript:;" parentAIndex = "2" url= "/roleManage" onclick="toModelIndex(this);"><span>角色管理</span></a></li>
+                            <li><a href="javascript:;" parentAIndex = "2" url= "/userAuthorityManage" onclick="toModelIndex(this);"><span>用户权限管理</span></a></li>
                         </ul>
                     </li>
                     <li class="lsm-sidebar-item">
-                        <a href="javascript:;" onclick="toModel();"><i class="my-icon lsm-sidebar-icon icon_3"></i><span>示例管理</span></a>
+                        <a href="javascript:;" index= "3" url="/model" onclick="toModelIndex(this);">
+                            <i class="my-icon lsm-sidebar-icon icon_3"></i>
+                            <span>示例管理</span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -65,24 +75,38 @@
     </div>
 </div>
 <script>
-    function toModel(){
-        window.location.href = ctx + "/model/";
+    $(document).ready(function(){
+
+        //设置当前所在导航栏状态为打开
+        updateMenuState();
+    });
+
+    /**
+     * 模块跳转
+     */
+    function toModelIndex(_this){
+        window.location.href = ctx + $(_this).attr("url") + "/";
     }
 
-    function toUserManage(){
-        window.location.href = ctx + "/userManage/";
-    }
+    /**
+     * 设置当前所在导航栏状态为打开
+     */
+    function updateMenuState(){
+        setTimeout(function (){
 
-    function toPermissionManage() {
-        window.location.href = ctx + "/permissionManage/";
-    }
+            //二级菜单处理
+            let currTag = $("a[url='" + modelUrl + "']");
+            let parentAIndex = $(currTag).attr("parentAIndex");
+            if(parentAIndex && parentAIndex != null){
 
-    function toRoleManage(){
-        window.location.href = ctx + "/roleManage/";
-    }
+                let target = $("a[index='" + parentAIndex + "']");
+                $(target).trigger("click");
+                $(currTag).css("background", "#6e809c");
+            }else{
 
-    function toUserAuthorityManage(){
-        tips("功能开发中");
-        //window.location.href = ctx + "/UserAuthorityManage/";
+                //一级菜单处理
+                $(currTag).parent().addClass("lsm-sidebar-show");
+            }
+        }, 300);
     }
 </script>

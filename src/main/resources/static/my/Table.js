@@ -21,10 +21,10 @@ let Table = (function(window) {
             this.renderingTable= function () {
 
                 //清空历史数据
-                $(".table_content").html("");
-                let html_head = '<div class="table_header"><ul class="ul_wrap">';
-                let html_column = '<div class="table_content">';
-                let html_pagination = '<div class="table_pagination"><ul class="pageWrap">\n' +
+                $(element + " > .table_content").html("");
+                let table_header = '<div class="table_header"><ul class="ul_wrap">';
+                let table_content = '<div class="table_content">';
+                let table_pagination = '<div class="table_pagination"><ul class="pageWrap">\n' +
                         '<li class="page_text " id="page_pre">上一页</li>\n' +
                         '$pagination$' +
                         '<li class="page_text " id="page_next">下一页</li>\n' +
@@ -33,9 +33,9 @@ let Table = (function(window) {
 
                 //设置表格Title
                 $.each(columns, function(keyc, vc){
-                    html_head += '<li class="li_wrap">'+vc['title']+'</li>';
+                    table_header += '<li class="li_wrap">'+vc['title']+'</li>';
                 })
-                html_head += '<li class="operation" style="width: '+operation.width+';">操作</li></ul></div>';
+                table_header += '<li class="operation" style="width: '+operation.width+';">操作</li></ul></div>';
 
                 //加载数据，拼接表格行
                 new BeastRequest(baseurl, methodUrl, this.param, false,
@@ -44,21 +44,21 @@ let Table = (function(window) {
 
                             let data = response.pagination.datas;
                             pagination = response.pagination;
-                            if(data.length == 0){
-                                html_column = '<ul class="ul_wrap no_content">暂无数据</ul></div>';
+                            if(data == null || data.length == 0){
+                                table_content = '<ul class="ul_wrap no_content">暂无数据</ul></div>';
                             }else{
 
                                 $.each(data, function(dkey, dv){
 
                                     //生成表格行数据内容部分
-                                    html_column += '<ul class="ul_wrap">';
+                                    table_content += '<ul class="ul_wrap">';
                                     $.each(columns, function(ckey, cv){
 
                                         let value = dv[cv['key']];
                                         if(cv.format){
                                             value = cv.format(dv[cv['key']]);
                                         }
-                                        html_column += '<li class="li_wrap" title="'+value+'">'+value+'</li>';
+                                        table_content += '<li class="li_wrap" title="'+value+'">'+value+'</li>';
                                     });
 
                                     //生成表格行操作部分
@@ -67,9 +67,11 @@ let Table = (function(window) {
                                         html_operation += '<span class="'+v.class+'" value="" onclick="'+v.funName+'(\''+dv['id']+'\');">'+v.title+'</span>';
                                     });
 
-                                    html_column += '<li class="operation" style="width: '+operation.width+';">'+ html_operation + '</li></ul>';
+                                    table_content += '<li class="operation" style="width: '+operation.width+';">'+ html_operation + '</li></ul>';
                                 });
                             }
+                        }else{
+                            table_content = '<ul class="ul_wrap no_content">暂无数据</ul></div>';
                         }
                     },
                     function () {
@@ -79,40 +81,52 @@ let Table = (function(window) {
                 console.log(pagination);
                 const pageIndex = pagination != null ?pagination['pageIndex']:0;
                 const pageCount = pagination != null ?pagination['pageCount']:0;
-                html_pagination = html_pagination.replace("$pageCount$",pageIndex +"/"+ pageCount)
+                table_pagination = table_pagination.replace("$pageCount$",pageIndex +"/"+ pageCount)
 
                 if(pageCount>3){
                     let s = '';
                     for(let i = pageIndex + 2; i < pageCount; i++){
                         s += '<li class="page_text page_no">'+i+'</li>';
                     }
-                    html_pagination = html_pagination.replace("$pagination$",s);
+                    table_pagination = table_pagination.replace("$pagination$",s);
                 }else{
-                    html_pagination = html_pagination.replace("$pagination$",'');
+                    table_pagination = table_pagination.replace("$pagination$",'');
                 }
 
-                html_column += '</div>';
+                table_content += '</div>';
 
                 //渲染到页面
                 $(element).html('');
-                $(element).append(html_head).append(html_column).append(html_pagination);
+                $(element).append(table_header).append(table_content).append(table_pagination);
 
-                if(null != pagination){
+                if(null == pagination){
+                    //禁用上一页
+                    $("#page_pre").unbind('click').removeClass("page_text").addClass("page_text_disable");
+                    $("#page_next").unbind('click').removeClass("page_text").addClass("page_text_disable");
+                }else{
 
                     if (pagination.isFirstPage) {
 
-                        //禁用上一页,启用下一页
+                        //禁用上一页
                         $("#page_pre").unbind('click').removeClass("page_text").addClass("page_text_disable");
-                        this.nextPage(pageIndex);
+
+                        //禁用下一页
+                        if(pagination.isLasePage){
+                            $("#page_next").unbind('click').removeClass("page_text").addClass("page_text_disable");
+                        }else{
+
+                            //启用下一页
+                            this.nextPage(pageIndex);
+                        }
                     } else if(pagination.isLasePage) {
 
                         //禁用下一页,启用上一页
                         $("#page_next").unbind('click').removeClass("page_text").addClass("page_text_disable");
                         this.prePage(pageIndex);
+                    }else {
+                        this.prePage(pageIndex);
+                        this.nextPage(pageIndex);
                     }
-                } else{
-                    this.prePage(pageIndex);
-                    this.nextPage(pageIndex);
                 }
 
                 $(".page_no").click(function () {

@@ -2,13 +2,12 @@ package com.cyb.proname.business.controller.authority;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.cyb.authority.base.BaseController;
 import com.cyb.authority.domain.Role;
-import com.cyb.authority.service.RoleService;
 import com.cyb.authority.service.RoleService;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
+import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.business.domain.Model;
 import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
@@ -18,9 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -30,28 +27,13 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping(value= "/roleManage")
-public class RoleManageController extends BaseController {
+public class RoleManageController extends BasicController {
 
-	private final static String MODEL_URL = "/roleManage";
-	private final static String MODEL_NAME = "角色管理";
+	public String modelUrl = "/roleManage";
+	public String modelName = "角色管理";
 
 	@Resource
 	private RoleService roleService;
-
-	@RequestMapping("/")
-	public String index(HttpServletRequest request) {
-		request.setAttribute("model", MODEL_NAME);
-		request.setAttribute("modelUrl", MODEL_URL);
-		request.setAttribute("title", MODEL_NAME +"-列表");
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + MODEL_URL + SysCfgConstant.DEFAULT_LIST_PAGE_SUFFIX;
-	}
-
-	@RequestMapping(SysCfgConstant.METHOD_URL_ADD)
-	public String add(HttpServletRequest request) {
-		request.setAttribute("modelUrl", MODEL_URL);
-		request.setAttribute("title", MODEL_NAME +"-新增");
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + MODEL_URL + SysCfgConstant.METHOD_URL_ADD;
-	}
 
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
 	@ResponseBody
@@ -89,14 +71,6 @@ public class RoleManageController extends BaseController {
 			}
 		}
 		return tips;
-	}
-
-	@RequestMapping(SysCfgConstant.METHOD_URL_UPDATE)
-	public String update(String id, HttpServletRequest request) {
-		request.setAttribute("modelUrl", MODEL_URL);
-		request.setAttribute("title", MODEL_NAME +"-更新");
-		request.setAttribute("operationId", id);
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + MODEL_URL + SysCfgConstant.METHOD_URL_UPDATE;
 	}
 
 	@PostMapping(SysCfgConstant.METHOD_URL_DO_UPDATE)

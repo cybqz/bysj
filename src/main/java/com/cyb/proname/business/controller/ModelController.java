@@ -6,6 +6,7 @@ import com.cyb.authority.base.BaseController;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
+import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.business.domain.Model;
 import com.cyb.proname.business.service.ModelService;
@@ -22,28 +23,13 @@ import java.util.Date;
  */
 @Controller
 @RequestMapping(value= "/model")
-public class ModelController extends BaseController {
+public class ModelController extends BasicController {
 
-	private final static String MODEL_URL = "/model";
-	private final static String MODEL_NAME = "模板模块管理";
+	public String modelUrl = "/model";
+	public String modelName = "模板模块管理";
 
 	@Resource
 	private ModelService modelService;
-
-	@RequestMapping("/")
-	public String index(HttpServletRequest request) {
-		request.setAttribute("model", MODEL_NAME);
-		request.setAttribute("modelUrl", MODEL_URL);
-		request.setAttribute("title", MODEL_NAME +"-列表");
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + MODEL_URL + SysCfgConstant.DEFAULT_LIST_PAGE_SUFFIX;
-	}
-
-	@RequestMapping(SysCfgConstant.METHOD_URL_ADD)
-	public String add(HttpServletRequest request) {
-		request.setAttribute("modelUrl", MODEL_URL);
-		request.setAttribute("title", MODEL_NAME +"-新增");
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + MODEL_URL + SysCfgConstant.METHOD_URL_ADD;
-	}
 
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
 	@ResponseBody
@@ -78,14 +64,6 @@ public class ModelController extends BaseController {
 			}
 		}
 		return tips;
-	}
-
-	@RequestMapping(SysCfgConstant.METHOD_URL_UPDATE)
-	public String update(String id, HttpServletRequest request) {
-		request.setAttribute("modelUrl", MODEL_URL);
-		request.setAttribute("title", MODEL_NAME +"-更新");
-		request.setAttribute("operationId", id);
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + MODEL_URL + SysCfgConstant.METHOD_URL_UPDATE;
 	}
 
 	@PostMapping(SysCfgConstant.METHOD_URL_DO_UPDATE)

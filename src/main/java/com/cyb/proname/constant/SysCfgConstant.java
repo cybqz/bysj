@@ -21,6 +21,7 @@ public class SysCfgConstant {
 	public final static String METHOD_URL_UPDATE = "/update";
 	public final static String METHOD_URL_DO_UPDATE = "/doUpdate";
 	public final static String METHOD_URL_DETAIL = "/detail";
+	public final static String METHOD_URL_VIEW = "/view";
 	public final static String METHOD_URL_COUNT = "/count";
 	public final static String METHOD_URL_PAGE = "/page";
 }

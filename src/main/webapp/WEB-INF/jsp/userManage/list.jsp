@@ -78,18 +78,24 @@
                       {key:'phone',title:'手机号'},
                       {key:'email',title:'邮箱'},
                       {key:'introduce',title:'介绍'}];
-        let operation = {width: '220px',
-                         menus:[{title: '修改',funName: 'update',class: 'edit'},
+        let operation = {width: '270px',
+                         menus:[{title: '查看',funName: 'view',class: 'edit'},
+                                {title: '修改',funName: 'update',class: 'edit'},
                                 {title: '删除',funName: 'remove',class: 'delete'},
                                 {title: '编辑权限',funName: 'updateAuthority',class: 'edit'}]};
         let option = {columns: columns, operation: operation};
 
         new Table('#list', option, param, ctx, modelUrl + "/page").renderingTable();
     }
-    function update(id){
 
+    function view(id){
+        window.location.href = ctx + modelUrl + "/view?id=" + id;
+    }
+
+    function update(id){
         window.location.href = ctx + modelUrl + "/update?id=" + id;
     }
+
     function remove(id){
 
         new BeastRequest(ctx, modelUrl + "/delete", {id:id}, false,
@@ -99,6 +105,10 @@
             }, function () {
                 console.log("error");
             }).ajaxPost();
+    }
+
+    function updateAuthority(id){
+        window.location.href = ctx + modelUrl + "/updateAuthority?id=" + id;
     }
 
     function pagination_to_first() {

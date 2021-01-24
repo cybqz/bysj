@@ -17,27 +17,26 @@
     <script src="${ctx}/js/notice.js"></script>
     <script src="${ctx}/my/BeastRequest.js"></script>
     <script type="text/javascript">
-        function save() {
-            let param = {
-                name: $("#name").val(),
-                userName: $("#userName").val(),
-                phone: $("#phone").val(),
-                email: $("#email").val(),
-                password: $("#password").val(),
-                sex: $("input[name='sex']:checked").val(),
-                introduce: $("#introduce").val(),
-            };
-            new BeastRequest(ctx, modelUrl + "/save", param, false,
+        $(document).ready(function () {
+
+            let request = new BeastRequest(ctx, modelUrl + "/detail", {id:operationId}, false,
                 function (data) {
-                    if(data && data.validate){
-                        window.location.href = ctx + modelUrl + "/";
+                    if(data && data.validate && data.data){
+                        $("#name").val(data.data['name']).attr("disabled", "disabled");
+                        $("#userName").val(data.data['userName']).attr("disabled", "disabled");
+                        $("#phone").val(data.data['phone']).attr("disabled", "disabled");
+                        $("#email").val(data.data['email']).attr("disabled", "disabled");
+                        $("#password").val(data.data['password']).attr("disabled", "disabled");
+                        $("input[name='sex'][value="+data.data['sex']+"]").attr("checked",true).attr("disabled", "disabled");
+                        $("#introduce").val(data.data['introduce']).attr("disabled", "disabled");
                     }
                 }, function () {
                     console.log("error");
-                }).ajaxPost();
-        }
+                });
+            request.ajaxPost();
+        });
         
-        function cancel() {
+        function back() {
             window.location.href = ctx + modelUrl + "/";
         }
     </script>
@@ -49,8 +48,7 @@
 <div class="wrap">
     <%@include file="common_content.jsp"%>
     <div class="button_wrap">
-        <span class="button_text cancel" onclick="cancel();">取消</span>
-        <span class="button_text save" onclick="save();">保存</span>
+        <span class="button_text cancel" onclick="back();">返回</span>
     </div>
 </div>
 </body>

@@ -1,16 +1,14 @@
 package com.cyb.proname.business.controller.common;
 
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.cyb.authority.base.BaseController;
 import com.cyb.authority.domain.User;
 import com.cyb.authority.service.UserService;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
+import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.business.domain.Model;
-import com.cyb.proname.business.service.ModelService;
 import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,11 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 
 /**
  * @Author 陈迎博
@@ -32,27 +28,20 @@ import java.util.Date;
  */
 @Controller
 @RequestMapping(value= "/userManage")
-public class UserManageController extends BaseController {
+public class UserManageController extends BasicController {
 
-	private final static String MODEL_URL = "/userManage";
-	private final static String MODEL_NAME = "用户管理";
+    public String modelUrl = "/userManage";
+	public String modelName = "用户管理";
 
 	@Resource
 	private UserService userService;
 
-	@RequestMapping("/")
-	public String index(HttpServletRequest request) {
-		request.setAttribute("model", MODEL_NAME);
-		request.setAttribute("modelUrl", MODEL_URL);
-		request.setAttribute("title", MODEL_NAME +"-列表");
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + MODEL_URL + SysCfgConstant.DEFAULT_LIST_PAGE_SUFFIX;
-	}
-
-	@RequestMapping(SysCfgConstant.METHOD_URL_ADD)
-	public String add(HttpServletRequest request) {
-		request.setAttribute("modelUrl", MODEL_URL);
-		request.setAttribute("title", MODEL_NAME +"-新增");
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + MODEL_URL + SysCfgConstant.METHOD_URL_ADD;
+	@RequestMapping("/updateAuthority")
+	public String updateAuthority(String id, HttpServletRequest request) {
+		request.setAttribute("operationId", id);
+		request.setAttribute("modelUrl", modelUrl);
+		request.setAttribute("title", modelName +"-权限编辑");
+		return SysCfgConstant.DEFAULT_PAGE_PREFIX + modelUrl + "/updateAuthority";
 	}
 
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
@@ -92,14 +81,6 @@ public class UserManageController extends BaseController {
 			}
 		}
 		return tips;
-	}
-
-	@RequestMapping(SysCfgConstant.METHOD_URL_UPDATE)
-	public String update(String id, HttpServletRequest request) {
-		request.setAttribute("modelUrl", MODEL_URL);
-		request.setAttribute("title", MODEL_NAME +"-更新");
-		request.setAttribute("operationId", id);
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + MODEL_URL + SysCfgConstant.METHOD_URL_UPDATE;
 	}
 
 	@PostMapping(SysCfgConstant.METHOD_URL_DO_UPDATE)

@@ -82,7 +82,7 @@
                          menus:[{title: '查看',funName: 'view',class: 'edit'},
                                 {title: '修改',funName: 'update',class: 'edit'},
                                 {title: '删除',funName: 'remove',class: 'delete'},
-                                {title: '编辑权限',funName: 'updateAuthority',class: 'edit'}]};
+                                {title: '编辑角色',funName: 'editRole',class: 'edit'}]};
         let option = {columns: columns, operation: operation};
 
         new Table('#list', option, param, ctx, modelUrl + "/page").renderingTable();
@@ -107,8 +107,8 @@
             }).ajaxPost();
     }
 
-    function updateAuthority(id){
-        window.location.href = ctx + modelUrl + "/updateAuthority?id=" + id;
+    function editRole(userId){
+        window.location.href = ctx + modelUrl + "/editRole?id=" + userId;
     }
 
     function pagination_to_first() {

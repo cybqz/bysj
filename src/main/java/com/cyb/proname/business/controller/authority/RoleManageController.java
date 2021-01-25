@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -34,6 +35,14 @@ public class RoleManageController extends BasicController {
 
 	@Resource
 	private RoleService roleService;
+
+	@RequestMapping("/editPermission")
+	public String editPermission(String id, HttpServletRequest request) {
+		request.setAttribute("operationId", id);
+		request.setAttribute("modelUrl", modelUrl);
+		request.setAttribute("title", modelName +"-权限编辑");
+		return SysCfgConstant.DEFAULT_PAGE_PREFIX + modelUrl + "/editPermission";
+	}
 
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
 	@ResponseBody

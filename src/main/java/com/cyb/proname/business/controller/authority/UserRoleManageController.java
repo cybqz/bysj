@@ -120,7 +120,7 @@ public class UserRoleManageController extends BasicController {
 		if(isLogined) {
 			UserRole userRole = param.getObject("userRole", UserRole.class);
 			Pagination pagination = param.getObject("pagination", Pagination.class);
-			int count = userRoleService.selectCountByUserId(userRole.getUserId());
+			int count = userRoleService.selectCount(userRole);
 			if(count > 0){
 				IPage<Role> page = roleService.selectPageHav(userRole.getUserId(), pagination);
 				pagination.setDatas(page.getRecords());
@@ -151,7 +151,9 @@ public class UserRoleManageController extends BasicController {
 		super.validLogined();
 		if(isLogined) {
 			String userId = param.getString("userId");
-			int count = userRoleService.selectCountByUserId(userId);
+			UserRole userRole = new UserRole();
+			userRole.setUserId(userId);
+			int count = userRoleService.selectCount(userRole);
 			tips = new Tips("查询成功",  true, count);
 		}
 		return tips;

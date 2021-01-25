@@ -36,12 +36,12 @@ public class UserManageController extends BasicController {
 	@Resource
 	private UserService userService;
 
-	@RequestMapping("/updateAuthority")
+	@RequestMapping("/editRole")
 	public String updateAuthority(String id, HttpServletRequest request) {
 		request.setAttribute("operationId", id);
 		request.setAttribute("modelUrl", modelUrl);
-		request.setAttribute("title", modelName +"-权限编辑");
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + modelUrl + "/updateAuthority";
+		request.setAttribute("title", modelName +"-角色编辑");
+		return SysCfgConstant.DEFAULT_PAGE_PREFIX + modelUrl + "/editRole";
 	}
 
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)

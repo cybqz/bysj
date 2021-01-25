@@ -25,61 +25,63 @@
             new BeastRequest(ctx, modelUrl + "/detail", {id:operationId}, false,
                 function (data) {
                     if(data && data.validate && data.data){
-                        $("#userName").val(data.data['userName']);
+                        $("#name").val(data.data['name']);
                     }
                 }, function () {
                     console.log("error");
                 }).ajaxPost();
 
             //加载角色页列表
-            loadTable({userRole: {userId: operationId},pagination:{limit:8}});
+            loadTable({rolePermission: {roleId: operationId},pagination:{limit:8}});
         });
 
         function loadTable(param){
             let columns = [{key:'name',title:'名称'},{key:'remarks',title:'备注'}];
             let operationHav = {width: '70px',
-                menus:[{title: '删除',funName: 'deleteUserRole',class: 'delete'}]};
+                menus:[{title: '删除',funName: 'deleteRolePermission',class: 'delete'}]};
             let optionHav = {columns: columns, operation: operationHav};
             let operationNo = {width: '70px',
-                menus:[{title: '添加',funName: 'addUserRole',class: 'edit'}]};
+                menus:[{title: '添加',funName: 'addRolePermission',class: 'edit'}]};
             let optionNo = {columns: columns, operation: operationNo};
 
-            new Table('#listHav', optionHav, param, ctx, "/userRoleManage/selectPageHav").renderingTable();
-            new Table('#listHavNo', optionNo, param, ctx, "/userRoleManage/selectPageHavNo").renderingTable();
+            new Table('#listHav', optionHav, param, ctx, "/rolePermissionManage/selectPageHav").renderingTable();
+            new Table('#listHavNo', optionNo, param, ctx, "/rolePermissionManage/selectPageHavNo").renderingTable();
         }
 
-        function addUserRole(roleId){
+        function addRolePermission(permissionId){
 
-            if(roleId && roleId != null && roleId != ""){
+            if(permissionId && permissionId != null && permissionId != ""){
 
-                new BeastRequest(ctx, "/userRoleManage/addUserRole", {userId: operationId, roleId: roleId}, false,
+                new BeastRequest(ctx, "/rolePermissionManage/addRolePermission", {roleId: operationId, permissionId: permissionId}, false,
                     function (data) {
                         if(data && data.validate){
-                            loadTable({userRole: {userId: operationId},pagination:{limit:8}});
+                            loadTable({rolePermission: {roleId: operationId},pagination:{limit:8}});
                             return;
                         }
                     }, function () {
                         console.log("error");
                     }).ajaxPost();
+            }else {
+                tips("权限编号不能为空");
             }
-            tips("角色编号不能为空");
         }
 
-        function deleteUserRole(roleId){
+        function deleteRolePermission(permissionId){
 
-            if(roleId && roleId != null && roleId != ""){
+            if(permissionId && permissionId != null && permissionId != ""){
 
-                new BeastRequest(ctx, "/userRoleManage/deleteUserRole", {userId: operationId, roleId: roleId}, false,
+                new BeastRequest(ctx, "/rolePermissionManage/deleteRolePermission", {roleId: operationId, permissionId: permissionId}, false,
                     function (data) {
                         if(data && data.validate){
-                            loadTable({userRole: {userId: operationId},pagination:{limit:8}});
+                            loadTable({rolePermission: {roleId: operationId},pagination:{limit:8}});
                             return;
                         }
                     }, function () {
                         console.log("error");
                     }).ajaxPost();
+            }else {
+                tips("权限编号不能为空");
             }
-            tips("角色编号不能为空");
         }
 
         function back() {
@@ -92,19 +94,19 @@
 <%@include file="../../common/header.jsp"%>
 
 <div class="wrap" style="width: 80%;">
-    <div class="header_title">${title}：<span id="userName"></span></div>
+    <div class="header_title">${title}：<span id="name"></span></div>
 
     <!-- 用户角色表格内容展示-->
     <div style="display: flex">
 
         <div style="flex: 1; margin-right: 10px;">
-            <span style="font-size: large;">未拥有角色</span>
+            <span style="font-size: large;">未拥有权限</span>
             <div id="listHavNo" style="margin-top: 5px;"></div>
         </div>
 
         <span></span>
         <div style="flex: 1; margin-left: 10px;">
-            <span style="font-size: large;">已拥有角色</span>
+            <span style="font-size: large;">已拥有权限</span>
             <div id="listHav" style="margin-top: 5px;"></div>
         </div>
     </div>

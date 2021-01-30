@@ -66,7 +66,7 @@
 
 		$(document).ready(function () {
 
-			new BeastRequest(ctx, "/user/getUser", null, false,
+			new BeastRequest(ctx, "/user/getSignedIndUser", null, false,
 					function (data) {
 						toIndexPage(data);
 					}, null).ajaxPost();

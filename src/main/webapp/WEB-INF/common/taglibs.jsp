@@ -23,10 +23,10 @@
     }
 
     function loginSuccessCheck(){
-        new BeastRequest(ctx, "/user/getUser", null, false,
+        new BeastRequest(ctx, "/user/getSignedIndUser", null, false,
             function (data) {
-                if(data != null && data.userName){
-                    $("#login_info").text("欢迎：" + data.userName);
+                if(data.data != null && data.data.userName){
+                    $("#login_info").text("欢迎：" + data.data.userName);
                 }
             }, function (xhr, textStatus, errorThrown) {
                 console.log(xhr);

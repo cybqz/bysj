@@ -67,7 +67,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            new BeastRequest(ctx, "/user/getUser", null, false,
+            new BeastRequest(ctx, "/user/getSignedIndUser", null, false,
                 function (data) {
                     if(data != null && data.userName){
                         $("#user_name").val(data.userName);

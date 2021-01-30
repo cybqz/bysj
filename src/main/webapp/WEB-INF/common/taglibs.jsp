@@ -13,6 +13,7 @@
     let title = "${title}";
     let modelUrl = "${modelUrl}";
     let operationId = "${operationId}";
+    let indexModelUrl = "/model";
 
     document.onreadystatechange = function() {
         if(document.readyState == "complete"){

@@ -133,7 +133,7 @@
 
 		function toIndexPage(data) {
 			if(data && data.validate){
-				window.location.href = ctx + "/model/";
+				window.location.href = ctx + indexModelUrl;
 			}
 		}
 	</script>

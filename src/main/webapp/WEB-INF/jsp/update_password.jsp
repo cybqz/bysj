@@ -117,7 +117,7 @@
         }
         
         function cancel() {
-            window.location.href = ctx + "/stock/";
+            window.location.href = ctx + indexModelUrl;
         }
     </script>
 </head>

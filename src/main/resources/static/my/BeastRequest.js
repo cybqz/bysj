@@ -21,14 +21,13 @@ let BeastRequest = (function(window) {
             this.requestURL = baseURL + methodURL;
             this.data = data;
             this.async = async;
-            this.dataType = "txt";
+            this.dataType = "json";
 
             this.ajaxPost= function () {
 
                 if(this.requestURL && this.requestURL.replace(/\s*/g,"") != ""){
                     let jsonData = null;
                     if(null != this.data){
-                        this.dataType = "json";
                         jsonData = JSON.stringify(this.data)
                     }
                     console.log("request: " + this.requestURL +"  with:  " + jsonData);
@@ -43,7 +42,7 @@ let BeastRequest = (function(window) {
                             //console.log("request before:  " + XHR);
                         },
                         complete: function (XHR, TS){
-                            console.log("request complete");
+                            //console.log("request complete");
                         },
                         success:function(data){
                             if(data.show && !data.validate){

@@ -2,6 +2,7 @@ package com.cyb.proname.business.controller.authority;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.domain.Role;
 import com.cyb.authority.domain.UserRole;
 import com.cyb.authority.service.RoleService;
@@ -39,123 +40,111 @@ public class UserRoleManageController extends BasicController {
 	@Resource
 	private UserRoleService userRoleService;
 
+	@Authentication(name = "保存角色", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping("addUserRole")
 	@ResponseBody
 	public Tips addUserRole(@RequestBody UserRole userRole) {
-		super.validLogined();
-		if(isLogined){
-			tips = new Tips("新增失败", true, false);
+		tips = new Tips("新增失败", true, false);
 
-			if(StringUtils.isBlank(userRole.getUserId())){
-				tips.setMsg("用户编号不能为空");
-			}else if(StringUtils.isBlank(userRole.getRoleId())){
-				tips.setMsg("角色编号不能为空");
+		if(StringUtils.isBlank(userRole.getUserId())){
+			tips.setMsg("用户编号不能为空");
+		}else if(StringUtils.isBlank(userRole.getRoleId())){
+			tips.setMsg("角色编号不能为空");
+		}else{
+
+			int count = userRoleService.selectCount(userRole);
+			if(count > 0){
+				tips.setMsg("当前用户已拥有此角色");
 			}else{
-
-				int count = userRoleService.selectCount(userRole);
-				if(count > 0){
-					tips.setMsg("当前用户已拥有此角色");
-				}else{
-					userRole.setId(MyUtils.getPrimaryKey());
-					userRoleService.insert(userRole);
-					tips = new Tips("新增成功", true, true);
-				}
+				userRole.setId(MyUtils.getPrimaryKey());
+				userRoleService.insert(userRole);
+				tips = new Tips("新增成功", true, true);
 			}
 		}
 		return tips;
 	}
 
+	@Authentication(name = "删除角色", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping("deleteUserRole")
 	@ResponseBody
 	public Tips deleteUserRole(@RequestBody UserRole userRole) {
-		super.validLogined();
-		if(isLogined){
-			tips = new Tips("新增失败", true, false);
+		tips = new Tips("新增失败", true, false);
 
-			if(StringUtils.isBlank(userRole.getUserId())){
-				tips.setMsg("用户编号不能为空");
-			}else if(StringUtils.isBlank(userRole.getRoleId())){
-				tips.setMsg("角色编号不能为空");
+		if(StringUtils.isBlank(userRole.getUserId())){
+			tips.setMsg("用户编号不能为空");
+		}else if(StringUtils.isBlank(userRole.getRoleId())){
+			tips.setMsg("角色编号不能为空");
+		}else{
+			UserRole userRoleTmp = userRoleService.selectOne(userRole);
+			if(null != userRoleTmp){
+				userRoleService.deleteById(userRoleTmp.getId());
+				tips = new Tips("删除成功", true, true);
 			}else{
-				UserRole userRoleTmp = userRoleService.selectOne(userRole);
-				if(null != userRoleTmp){
-					userRoleService.deleteById(userRoleTmp.getId());
-					tips = new Tips("删除成功", true, true);
-				}else{
-					tips.setMsg("当前用户未拥有此角色");
-				}
+				tips.setMsg("当前用户未拥有此角色");
 			}
 		}
 		return tips;
 	}
 
+	@Authentication(name = "查询未拥有角色列表", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping("selectPageHavNo")
 	@ResponseBody
 	public TipsPagination<Role> selectPageHavNo(@RequestBody JSONObject param) {
 		TipsPagination<Role> tipsPagination = new TipsPagination<Role>();
-		super.validLogined();
 		tipsPagination.convertFromTips(tips);
-		if(isLogined) {
-			UserRole userRole = param.getObject("userRole", UserRole.class);
-			Pagination pagination = param.getObject("pagination", Pagination.class);
-			int count = roleService.selectCountHavNo(userRole.getUserId());
-			if(count > 0){
-				IPage<Role> page = roleService.selectPageHavNo(userRole.getUserId(), pagination);
-				pagination.setDatas(page.getRecords());
-				pagination.setTotal(count);
-				tipsPagination.setPagination(pagination);
-				tipsPagination.setValidate(true);
-				tipsPagination.setMsg("查询成功");
-			}
+		UserRole userRole = param.getObject("userRole", UserRole.class);
+		Pagination pagination = param.getObject("pagination", Pagination.class);
+		int count = roleService.selectCountHavNo(userRole.getUserId());
+		if(count > 0){
+			IPage<Role> page = roleService.selectPageHavNo(userRole.getUserId(), pagination);
+			pagination.setDatas(page.getRecords());
+			pagination.setTotal(count);
+			tipsPagination.setPagination(pagination);
+			tipsPagination.setValidate(true);
+			tipsPagination.setMsg("查询成功");
 		}
 		return tipsPagination;
 	}
 
+	@Authentication(name = "查询角色列表", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping("selectPageHav")
 	@ResponseBody
 	public TipsPagination<Role> selectPageHav(@RequestBody JSONObject param) {
 		TipsPagination<Role> tipsPagination = new TipsPagination<Role>();
-		super.validLogined();
 		tipsPagination.convertFromTips(tips);
-		if(isLogined) {
-			UserRole userRole = param.getObject("userRole", UserRole.class);
-			Pagination pagination = param.getObject("pagination", Pagination.class);
-			int count = userRoleService.selectCount(userRole);
-			if(count > 0){
-				IPage<Role> page = roleService.selectPageHav(userRole.getUserId(), pagination);
-				pagination.setDatas(page.getRecords());
-				pagination.setTotal(count);
-				tipsPagination.setPagination(pagination);
-				tipsPagination.setValidate(true);
-				tipsPagination.setMsg("查询成功");
-			}
+		UserRole userRole = param.getObject("userRole", UserRole.class);
+		Pagination pagination = param.getObject("pagination", Pagination.class);
+		int count = userRoleService.selectCount(userRole);
+		if(count > 0){
+			IPage<Role> page = roleService.selectPageHav(userRole.getUserId(), pagination);
+			pagination.setDatas(page.getRecords());
+			pagination.setTotal(count);
+			tipsPagination.setPagination(pagination);
+			tipsPagination.setValidate(true);
+			tipsPagination.setMsg("查询成功");
 		}
 		return tipsPagination;
 	}
 
+	@Authentication(name = "查询用户未拥有角色总数", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping("selectCountHavNo")
 	@ResponseBody
 	public Tips selectCountHavNo(@RequestBody JSONObject param) {
-		super.validLogined();
-		if(isLogined) {
-			String userId = param.getString("userId");
-			int count = roleService.selectCountHavNo(userId);
-			tips = new Tips("查询成功",  true, count);
-		}
+		String userId = param.getString("userId");
+		int count = roleService.selectCountHavNo(userId);
+		tips = new Tips("查询成功",  true, count);
 		return tips;
 	}
 
+	@Authentication(name = "查询用户角色总数", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping("selectCountByUserId")
 	@ResponseBody
 	public Tips selectCountByUserId(@RequestBody JSONObject param) {
-		super.validLogined();
-		if(isLogined) {
-			String userId = param.getString("userId");
-			UserRole userRole = new UserRole();
-			userRole.setUserId(userId);
-			int count = userRoleService.selectCount(userRole);
-			tips = new Tips("查询成功",  true, count);
-		}
+		String userId = param.getString("userId");
+		UserRole userRole = new UserRole();
+		userRole.setUserId(userId);
+		int count = userRoleService.selectCount(userRole);
+		tips = new Tips("查询成功",  true, count);
 		return tips;
 	}
 }

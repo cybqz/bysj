@@ -2,6 +2,7 @@ package com.cyb.proname.business.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.base.BaseController;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
@@ -124,6 +125,7 @@ public class ModelController extends BasicController {
 		return tipsPagination;
 	}
 
+	@Authentication(name = "查询总数", roleNames = {"teamMeb"})
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
 	public Tips count(@RequestBody Model model) {

@@ -2,6 +2,7 @@ package com.cyb.proname.business.controller.authority;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.base.BaseController;
 import com.cyb.authority.domain.Permission;
 import com.cyb.authority.service.PermissionService;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 /**
  * @Author 陈迎博
@@ -36,110 +36,98 @@ public class PermissionManageController extends BasicController {
 	@Resource
 	private PermissionService permissionService;
 
+	@Authentication(name = "保存权限", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
 	@ResponseBody
-	public Tips save(@RequestBody Permission permission, HttpSession session) {
-		super.validLogined();
-		if(isLogined){
-			tips = new Tips("新增失败", true, false);
-			Permission permissionTemp = permissionService.selectByName(permission.getName());
-			if(null == permissionTemp){
-				permission.setId(MyUtils.getPrimaryKey());
-				int count = permissionService.insert(permission);
-				if(count > 0){
-					tips = new Tips("新增成功", true, true);
-				}
+	public Tips save(@RequestBody Permission permission) {
+		tips = new Tips("新增失败", true, false);
+		Permission permissionTemp = permissionService.selectByName(permission.getName());
+		if(null == permissionTemp){
+			permission.setId(MyUtils.getPrimaryKey());
+			int count = permissionService.insert(permission);
+			if(count > 0){
+				tips = new Tips("新增成功", true, true);
 			}
-			tips.setMsg("权限已存在");
 		}
+		tips.setMsg("权限已存在");
 		return tips;
 	}
 
+	@Authentication(name = "删除权限", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_DELETE)
 	@ResponseBody
 	public Tips delete(@RequestBody JSONObject param) {
-		super.validLogined();
-		if(isLogined){
-			tips = new Tips("删除失败", true, false);
-			String id = MyUtils.getByJSONObject(param, "id");
-			if(StringUtils.isNotEmpty(id)){
-				int count = permissionService.deleteById(id);
-				if(count > 0){
-					tips = new Tips("删除成功", true, true);
-				}
-			}else{
-				tips.setMsg("编号不能为空");
+		tips = new Tips("删除失败", true, false);
+		String id = MyUtils.getByJSONObject(param, "id");
+		if(StringUtils.isNotEmpty(id)){
+			int count = permissionService.deleteById(id);
+			if(count > 0){
+				tips = new Tips("删除成功", true, true);
 			}
+		}else{
+			tips.setMsg("编号不能为空");
 		}
 		return tips;
 	}
 
+	@Authentication(name = "更新权限", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_DO_UPDATE)
 	@ResponseBody
 	public Tips doUpdate(@RequestBody Permission permission) {
-		super.validLogined();
-		if(isLogined){
-			tips = new Tips("更新失败", true, false);
-			if(StringUtils.isNotEmpty(permission.getId())){
-				boolean success = permissionService.updateById(permission);
-				if(success){
-					tips = new Tips("更新成功", true, true);
-				}
-			}else{
-				tips.setMsg("编号不能为空");
+		tips = new Tips("更新失败", true, false);
+		if(StringUtils.isNotEmpty(permission.getId())){
+			boolean success = permissionService.updateById(permission);
+			if(success){
+				tips = new Tips("更新成功", true, true);
 			}
+		}else{
+			tips.setMsg("编号不能为空");
 		}
 		return tips;
 	}
 
+	@Authentication(name = "查询权限详情", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_DETAIL)
 	@ResponseBody
 	public Tips detail(@RequestBody JSONObject param) {
 
-		super.validLogined();
-		if(isLogined) {
-			tips.setMsg("查询失败");
-			String id = MyUtils.getByJSONObject(param, "id");
-			if(StringUtils.isNotEmpty(id)){
-				Permission permission = permissionService.selectById(id);
-				if(null != permission){
-					tips = new Tips("查询成功",  true, permission);
-				}
+		tips.setMsg("查询失败");
+		String id = MyUtils.getByJSONObject(param, "id");
+		if(StringUtils.isNotEmpty(id)){
+			Permission permission = permissionService.selectById(id);
+			if(null != permission){
+				tips = new Tips("查询成功",  true, permission);
 			}
 		}
 		return tips;
 	}
 
+	@Authentication(name = "查询权限列表", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(value = SysCfgConstant.METHOD_URL_PAGE)
 	@ResponseBody
 	public TipsPagination<Model> page(@RequestBody JSONObject param) {
 		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
-		super.validLogined();
 		tipsPagination.convertFromTips(tips);
-		if(isLogined) {
-			Permission permission = param.getObject("permission", Permission.class);
-			Pagination pagination = param.getObject("pagination", Pagination.class);
-			int count = permissionService.selectCount(permission);
-			if(count > 0){
-				IPage<Permission> page = permissionService.selectPage(permission, pagination);
-				pagination.setDatas(page.getRecords());
-				pagination.setTotal(count);
-				tipsPagination.setPagination(pagination);
-				tipsPagination.setValidate(true);
-				tipsPagination.setMsg("查询成功");
-			}
+		Permission permission = param.getObject("permission", Permission.class);
+		Pagination pagination = param.getObject("pagination", Pagination.class);
+		int count = permissionService.selectCount(permission);
+		if(count > 0){
+			IPage<Permission> page = permissionService.selectPage(permission, pagination);
+			pagination.setDatas(page.getRecords());
+			pagination.setTotal(count);
+			tipsPagination.setPagination(pagination);
+			tipsPagination.setValidate(true);
+			tipsPagination.setMsg("查询成功");
 		}
 		return tipsPagination;
 	}
 
+	@Authentication(name = "查询权限总数", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
 	public Tips count(@RequestBody Permission permission) {
-		super.validLogined();
-		if(isLogined) {
-			int count = permissionService.selectCount(permission);
-			tips = new Tips("查询成功",  true, count);
-		}
+		int count = permissionService.selectCount(permission);
+		tips = new Tips("查询成功",  true, count);
 		return tips;
 	}
 }

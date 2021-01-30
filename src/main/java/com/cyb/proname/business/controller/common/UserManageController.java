@@ -2,6 +2,7 @@ package com.cyb.proname.business.controller.common;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.domain.User;
 import com.cyb.authority.service.UserService;
 import com.cyb.common.pagination.Pagination;
@@ -44,111 +45,99 @@ public class UserManageController extends BasicController {
 		return SysCfgConstant.DEFAULT_PAGE_PREFIX + modelUrl + "/editRole";
 	}
 
+	@Authentication(name = "保存用户", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
 	@ResponseBody
 	public Tips save(@RequestBody User user, HttpSession session) {
-		super.validLogined();
-		if(isLogined){
-			tips = new Tips("新增失败", true, false);
-			User userTemp = userService.selectByUserName(user.getUserName());
-			if(null == userTemp){
-				user.setId(MyUtils.getPrimaryKey());
-				String url = session.getServletContext().getRealPath("/");
-				int count = userService.insert(user, url);
-				if(count > 0){
-					tips = new Tips("新增成功", true, true);
-				}
+		tips = new Tips("新增失败", true, false);
+		User userTemp = userService.selectByUserName(user.getUserName());
+		if(null == userTemp){
+			user.setId(MyUtils.getPrimaryKey());
+			String url = session.getServletContext().getRealPath("/");
+			int count = userService.insert(user, url);
+			if(count > 0){
+				tips = new Tips("新增成功", true, true);
 			}
-			tips.setMsg("用户已存在");
 		}
+		tips.setMsg("用户已存在");
 		return tips;
 	}
 
+	@Authentication(name = "删除用户", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_DELETE)
 	@ResponseBody
 	public Tips delete(@RequestBody JSONObject param) {
-		super.validLogined();
-		if(isLogined){
-			tips = new Tips("删除失败", true, false);
-			String id = MyUtils.getByJSONObject(param, "id");
-			if(StringUtils.isNotEmpty(id)){
-				int count = userService.deleteById(id);
-				if(count > 0){
-					tips = new Tips("删除成功", true, true);
-				}
-			}else{
-				tips.setMsg("编号不能为空");
+		tips = new Tips("删除失败", true, false);
+		String id = MyUtils.getByJSONObject(param, "id");
+		if(StringUtils.isNotEmpty(id)){
+			int count = userService.deleteById(id);
+			if(count > 0){
+				tips = new Tips("删除成功", true, true);
 			}
+		}else{
+			tips.setMsg("编号不能为空");
 		}
 		return tips;
 	}
 
+	@Authentication(name = "更新用户", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_DO_UPDATE)
 	@ResponseBody
 	public Tips doUpdate(@RequestBody User user) {
-		super.validLogined();
-		if(isLogined){
-			tips = new Tips("更新失败", true, false);
-			if(StringUtils.isNotEmpty(user.getId())){
-				boolean success = userService.updateById(user);
-				if(success){
-					tips = new Tips("更新成功", true, true);
-				}
-			}else{
-				tips.setMsg("编号不能为空");
+		tips = new Tips("更新失败", true, false);
+		if(StringUtils.isNotEmpty(user.getId())){
+			boolean success = userService.updateById(user);
+			if(success){
+				tips = new Tips("更新成功", true, true);
 			}
+		}else{
+			tips.setMsg("编号不能为空");
 		}
 		return tips;
 	}
 
+	@Authentication(name = "查询用户详情", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_DETAIL)
 	@ResponseBody
 	public Tips detail(@RequestBody JSONObject param) {
 
-		super.validLogined();
-		if(isLogined) {
-			tips.setMsg("查询失败");
-			String id = MyUtils.getByJSONObject(param, "id");
-			if(StringUtils.isNotEmpty(id)){
-				User user = userService.selectById(id);
-				if(null != user){
-					tips = new Tips("查询成功",  true, user);
-				}
+		tips.setMsg("查询失败");
+		String id = MyUtils.getByJSONObject(param, "id");
+		if(StringUtils.isNotEmpty(id)){
+			User user = userService.selectById(id);
+			if(null != user){
+				tips = new Tips("查询成功",  true, user);
 			}
 		}
 		return tips;
 	}
 
+	@Authentication(name = "查询用户列表", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(value = SysCfgConstant.METHOD_URL_PAGE)
 	@ResponseBody
 	public TipsPagination<Model> page(@RequestBody JSONObject param) {
 		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
-		super.validLogined();
 		tipsPagination.convertFromTips(tips);
-		if(isLogined) {
-			User user = param.getObject("user", User.class);
-			Pagination pagination = param.getObject("pagination", Pagination.class);
-			int count = userService.selectCount(user);
-			if(count > 0){
-				IPage<User> page = userService.selectPage(user, pagination);
-				pagination.setDatas(page.getRecords());
-				pagination.setTotal(count);
-				tipsPagination.setPagination(pagination);
-				tipsPagination.setValidate(true);
-				tipsPagination.setMsg("查询成功");
-			}
+		User user = param.getObject("user", User.class);
+		Pagination pagination = param.getObject("pagination", Pagination.class);
+		int count = userService.selectCount(user);
+		if(count > 0){
+			IPage<User> page = userService.selectPage(user, pagination);
+			pagination.setDatas(page.getRecords());
+			pagination.setTotal(count);
+			tipsPagination.setPagination(pagination);
+			tipsPagination.setValidate(true);
+			tipsPagination.setMsg("查询成功");
 		}
 		return tipsPagination;
 	}
 
+	@Authentication(name = "查询用户总数", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
 	public Tips count(@RequestBody User user) {
-		super.validLogined();
-		if(isLogined) {
-			int count = userService.selectCount(user);
-			tips = new Tips("查询成功",  true, count);
-		}
+		int count = userService.selectCount(user);
+		tips = new Tips("查询成功",  true, count);
 		return tips;
 	}
 }

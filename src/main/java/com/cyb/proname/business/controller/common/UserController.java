@@ -26,19 +26,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import com.cyb.proname.business.vo.UserRolePermissionVO;
 import com.cyb.proname.business.vo.RolePermissionVO;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @Author 陈迎博
+ * @Description 用户管理控制层
+ * @Date 2021/1/30
+ */
 @Controller
 @RequestMapping(value="/user")
 public class UserController extends BaseController {
 
-	@Autowired
+	@Resource
 	private UserService userSerivce;
-	@Autowired
+	@Resource
 	private UserRoleService userRoleService;
-	@Autowired
+	@Resource
 	private PermissionService permissionService;
-	@Autowired
+	@Resource
 	private RolePermissionService rolePermissionService;
 	
 	@RequestMapping(value="/update")
@@ -108,37 +115,13 @@ public class UserController extends BaseController {
 		return tips;
 	}
 	
-	@RequestMapping(value="/getUser")
+	@RequestMapping(value="/getSignedIndUser")
 	@ResponseBody
-	public UserRolePermissionVO getUser () {
+	public Tips getSignedIndUser () {
 		super.validLogined();
 		if(isLogined) {
-			UserRolePermissionVO userRolePermissionVO = UserRolePermissionVO.toUserRolePermissionVO(currentLoginedUser);
-			List<UserRole> userRoles = userRoleService.selectByUserId(currentLoginedUser.getId());
-			if(userRoles != null && userRoles.size() > 0) {
-				List<RolePermissionVO> rolePermissionVOs = new ArrayList<RolePermissionVO>();
-				for(UserRole userRole : userRoles) {
-					
-					RolePermissionVO rolePermissionVO = RolePermissionVO.toRolePermissionVO(userRole);
-					
-					//查询当前角色的权限
-					List<RolePermission> rolePermissions = rolePermissionService.selectListByRoleIds(Arrays.asList(userRole.getRoleId()));
-					if(rolePermissions != null && rolePermissions.size() > 0) {
-						List<Permission> permissions = new ArrayList<Permission>();
-						for(RolePermission rolePermission : rolePermissions) {
-							
-							//查询权限
-							Permission permission = permissionService.selectById(rolePermission.getPermissionId());
-							permissions.add(permission);
-						}
-						rolePermissionVO.setPermissions(permissions);
-					}
-					rolePermissionVOs.add(rolePermissionVO);
-				}
-				userRolePermissionVO.setUserRoles(rolePermissionVOs);
-			}
-			return userRolePermissionVO;
+			tips = new Tips("查询成功", true, currentLoginedUser);
 		}
-		return null;
+		return tips;
 	}
 }

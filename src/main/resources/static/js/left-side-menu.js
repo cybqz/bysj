@@ -55,6 +55,11 @@ $(function(){
         $(".lsm-popup.third").hide();
         $(".lsm-popup.second").length == 0 && ($(".lsm-container").append("<div class='second lsm-popup lsm-sidebar'><div></div></div>"));
         $(".lsm-popup.second>div").html($(this).html());
+        if(!$(this).children('ul').length){
+            $(".lsm-popup.second").css('width', '180px');
+        }else {
+            $(".lsm-popup.second").css('width', '');
+        }
         $(".lsm-popup.second").show();
         $(".lsm-popup.third").hide();
         let top = $(this).offset().top;

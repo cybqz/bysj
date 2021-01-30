@@ -23,7 +23,7 @@
             <div class="lsm-sidebar" style="width: 205px;">
                 <ul>
                     <%--<li class="lsm-sidebar-item">
-                        <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon_1"></i><span>用户管理</span><i class="my-icon lsm-sidebar-more"></i></a>
+                        <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon_1"></i><span>测试管理</span><i class="my-icon lsm-sidebar-more"></i></a>
                         <ul>
                             <li><a href="javascript:;"><span>地爆天星</span></a></li>
                             <li><a class="active"  href="javascript:;"><span>无线月读</span></a></li>

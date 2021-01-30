@@ -24,7 +24,7 @@ a{text-decoration:none;}
 .lsm-container ul:first-child > li> a, .lsm-container ul:first-child > li> a span{ line-height: 55px;max-height: 55px; }
 .lsm-sidebar a span{margin-left: 30px;}
 .lsm-sidebar .lsm-sidebar-item .lsm-sidebar-item >ul>li a span{margin-left: 60px;}
-.lsm-sidebar-item{position: relative;}
+.lsm-sidebar-item{position: relative;min-height: 55px;}
 .lsm-sidebar-item.lsm-sidebar-show{border-bottom: none;}
 .lsm-sidebar-item ul{display: none;background: rgba(0,0,0,.1);}
 .lsm-sidebar-item.lsm-sidebar-show ul{display: block;}

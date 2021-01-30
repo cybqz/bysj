@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
- * 客户信息管理Controller
+ * 模块管理控制层
  */
 @Controller
 @RequestMapping(value= "/model")
@@ -32,95 +32,85 @@ public class ModelController extends BasicController {
 	@Resource
 	private ModelService modelService;
 
+	@Authentication(name = "保存", roleNames = {"teamMeb"})
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
 	@ResponseBody
 	public Tips save(@RequestBody Model model) {
-		super.validLogined();
-		if(isLogined){
-			tips = new Tips("新增失败", true, false);
-			model.setId(MyUtils.getPrimaryKey());
-			model.setCreateDateTime(new Date());
-			int count = modelService.insert(model);
-			if(count > 0){
-				tips = new Tips("新增成功", true, true);
-			}
+		tips = new Tips("新增失败", true, false);
+		model.setId(MyUtils.getPrimaryKey());
+		model.setCreateDateTime(new Date());
+		int count = modelService.insert(model);
+		if(count > 0){
+			tips = new Tips("新增成功", true, true);
 		}
 		return tips;
 	}
 
+	@Authentication(name = "删除", roleNames = {"teamMeb"})
 	@PostMapping(SysCfgConstant.METHOD_URL_DELETE)
 	@ResponseBody
 	public Tips delete(@RequestBody JSONObject param) {
-		super.validLogined();
-		if(isLogined){
-			tips = new Tips("删除失败", true, false);
-			String id = MyUtils.getByJSONObject(param, "id");
-			if(StringUtils.isNotEmpty(id)){
-				int count = modelService.deleteById(id);
-				if(count > 0){
-					tips = new Tips("删除成功", true, true);
-				}
-			}else{
-				tips.setMsg("编号不能为空");
+		tips = new Tips("删除失败", true, false);
+		String id = MyUtils.getByJSONObject(param, "id");
+		if(StringUtils.isNotEmpty(id)){
+			int count = modelService.deleteById(id);
+			if(count > 0){
+				tips = new Tips("删除成功", true, true);
 			}
+		}else{
+			tips.setMsg("编号不能为空");
 		}
 		return tips;
 	}
 
+	@Authentication(name = "更新", roleNames = {"teamMeb"})
 	@PostMapping(SysCfgConstant.METHOD_URL_DO_UPDATE)
 	@ResponseBody
 	public Tips doUpdate(@RequestBody Model model) {
-		super.validLogined();
-		if(isLogined){
-			tips = new Tips("更新失败", true, false);
-			if(StringUtils.isNotEmpty(model.getId())){
-				boolean success = modelService.updateById(model);
-				if(success){
-					tips = new Tips("更新成功", true, true);
-				}
-			}else{
-				tips.setMsg("编号不能为空");
+		tips = new Tips("更新失败", true, false);
+		if(StringUtils.isNotEmpty(model.getId())){
+			boolean success = modelService.updateById(model);
+			if(success){
+				tips = new Tips("更新成功", true, true);
 			}
+		}else{
+			tips.setMsg("编号不能为空");
 		}
 		return tips;
 	}
 
+	@Authentication(name = "查询详情", roleNames = {"teamMeb"})
 	@PostMapping(SysCfgConstant.METHOD_URL_DETAIL)
 	@ResponseBody
 	public Tips detail(@RequestBody JSONObject param) {
 
-		super.validLogined();
-		if(isLogined) {
-			tips.setMsg("查询失败");
-			String id = MyUtils.getByJSONObject(param, "id");
-			if(StringUtils.isNotEmpty(id)){
-				Model customerInfo = modelService.selectById(id);
-				if(null != customerInfo){
-					tips = new Tips("查询成功",  true, customerInfo);
-				}
+		tips.setMsg("查询失败");
+		String id = MyUtils.getByJSONObject(param, "id");
+		if(StringUtils.isNotEmpty(id)){
+			Model customerInfo = modelService.selectById(id);
+			if(null != customerInfo){
+				tips = new Tips("查询成功",  true, customerInfo);
 			}
 		}
 		return tips;
 	}
 
+	@Authentication(name = "查询列表", roleNames = {"teamMeb"})
 	@PostMapping(value = SysCfgConstant.METHOD_URL_PAGE)
 	@ResponseBody
 	public TipsPagination<Model> page(@RequestBody JSONObject param) {
 		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
-		super.validLogined();
 		tipsPagination.convertFromTips(tips);
-		if(isLogined) {
-			Model model = param.getObject("model", Model.class);
-			Pagination pagination = param.getObject("pagination", Pagination.class);
-			int count = modelService.count(model);
-			if(count > 0){
-				IPage<Model> page = modelService.selectPage(model, pagination);
-				pagination.setDatas(page.getRecords());
-				pagination.setTotal(count);
-				tipsPagination.setPagination(pagination);
-				tipsPagination.setValidate(true);
-				tipsPagination.setMsg("查询成功");
-			}
+		Model model = param.getObject("model", Model.class);
+		Pagination pagination = param.getObject("pagination", Pagination.class);
+		int count = modelService.count(model);
+		if(count > 0){
+			IPage<Model> page = modelService.selectPage(model, pagination);
+			pagination.setDatas(page.getRecords());
+			pagination.setTotal(count);
+			tipsPagination.setPagination(pagination);
+			tipsPagination.setValidate(true);
+			tipsPagination.setMsg("查询成功");
 		}
 		return tipsPagination;
 	}
@@ -129,11 +119,8 @@ public class ModelController extends BasicController {
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
 	public Tips count(@RequestBody Model model) {
-		super.validLogined();
-		if(isLogined) {
-			int count = modelService.count(model);
-			tips = new Tips("查询成功",  true, count);
-		}
+		int count = modelService.count(model);
+		tips = new Tips("查询成功",  true, count);
 		return tips;
 	}
 }

@@ -38,9 +38,9 @@
 <div id="header">
     模板系统
     <span class="header_right_wrap">
+        <span id="login_info" style="margin-right: 20px;"></span>
         <span class="header_right" onclick="updatePassword();">修改密码</span>
         <span class="header_right" onclick="logout();">退出</span>
-        <span id="login_info"></span>
     </span>
 
 </div>

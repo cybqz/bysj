@@ -81,8 +81,7 @@
         let operation = {width: '270px',
                          menus:[{title: '查看',funName: 'view',class: 'edit'},
                                 {title: '修改',funName: 'update',class: 'edit'},
-                                {title: '删除',funName: 'remove',class: 'delete'},
-                                {title: '编辑角色',funName: 'editRole',class: 'edit'}]};
+                                {title: '删除',funName: 'remove',class: 'delete'}]};
         let option = {columns: columns, operation: operation};
 
         new Table('#list', option, param, ctx, modelUrl + "/page").renderingTable();

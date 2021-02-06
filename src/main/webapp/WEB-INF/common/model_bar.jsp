@@ -46,10 +46,15 @@
                         </ul>
                     </li>--%>
                     <li class="lsm-sidebar-item">
-                        <a href="javascript:;" index= "1" url= "/userManage" onclick="toModelIndex(this);">
+                        <a href="javascript:;" index= "1">
                             <i class="my-icon lsm-sidebar-icon icon_1"></i>
                             <span>用户管理</span>
+                            <i class="my-icon lsm-sidebar-more"></i>
                         </a>
+                        <ul>
+                            <li><a href="javascript:;" parentAIndex = "1" url= "/userBasicManage" onclick="toModelIndex(this);"><span>基础管理</span></a></li>
+                            <li><a href="javascript:;" parentAIndex = "1" url= "/userRoleManage" onclick="toModelIndex(this);"><span>角色管理</span></a></li>
+                        </ul>
                     </li>
                     <li class="lsm-sidebar-item">
                         <a href="javascript:;" index= "2">
@@ -63,7 +68,17 @@
                         </ul>
                     </li>
                     <li class="lsm-sidebar-item">
-                        <a href="javascript:;" index= "3" url="/model" onclick="toModelIndex(this);">
+                        <a href="javascript:;" index= "3">
+                            <i class="my-icon lsm-sidebar-icon icon_2"></i>
+                            <span>系统管理</span>
+                            <i class="my-icon lsm-sidebar-more"></i>
+                        </a>
+                        <ul>
+                            <li><a href="javascript:;" parentAIndex = "3" url= "/sysModelManage" onclick="toModelIndex(this);"><span>模块管理</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="lsm-sidebar-item">
+                        <a href="javascript:;" index= "4" url="/model" onclick="toModelIndex(this);">
                             <i class="my-icon lsm-sidebar-icon icon_3"></i>
                             <span>示例管理</span>
                         </a>

@@ -8,6 +8,7 @@ import com.cyb.authority.service.RoleService;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
+import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.business.domain.Model;
 import com.cyb.proname.constant.SysCfgConstant;
@@ -29,20 +30,19 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping(value= "/roleManage")
+@ModelInfo(title = "角色管理", prefix = "jsp/roleManage")
 public class RoleManageController extends BasicController {
-
-	public String modelUrl = "/roleManage";
-	public String modelName = "角色管理";
 
 	@Resource
 	private RoleService roleService;
 
 	@RequestMapping("/editPermission")
 	public String editPermission(String id, HttpServletRequest request) {
+		setModelInfo("/roleManage");
 		request.setAttribute("operationId", id);
 		request.setAttribute("modelUrl", modelUrl);
 		request.setAttribute("title", modelName +"-权限编辑");
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + modelUrl + "/editPermission";
+		return prefix + "/editPermission";
 	}
 
 	@Authentication(name = "保存角色", roleNames = {SysCfgConstant.ROLE_ADMIN})

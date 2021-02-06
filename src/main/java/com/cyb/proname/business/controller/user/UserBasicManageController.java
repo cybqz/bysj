@@ -1,4 +1,4 @@
-package com.cyb.proname.business.controller.common;
+package com.cyb.proname.business.controller.user;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -8,6 +8,7 @@ import com.cyb.authority.service.UserService;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
+import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.business.domain.Model;
 import com.cyb.proname.constant.SysCfgConstant;
@@ -28,22 +29,12 @@ import javax.servlet.http.HttpSession;
  * @Date 2021/1/22
  */
 @Controller
-@RequestMapping(value= "/userManage")
-public class UserManageController extends BasicController {
-
-    public String modelUrl = "/userManage";
-	public String modelName = "用户管理";
+@RequestMapping(value= "/userBasicManage")
+@ModelInfo(title = "用户基础信息管理", navbar = "基础信息管理", prefix = "user/basic")
+public class UserBasicManageController extends BasicController {
 
 	@Resource
 	private UserService userService;
-
-	@RequestMapping("/editRole")
-	public String updateAuthority(String id, HttpServletRequest request) {
-		request.setAttribute("operationId", id);
-		request.setAttribute("modelUrl", modelUrl);
-		request.setAttribute("title", modelName +"-角色编辑");
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + modelUrl + "/editRole";
-	}
 
 	@Authentication(name = "保存用户", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)

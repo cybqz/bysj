@@ -1,16 +1,20 @@
-package com.cyb.proname.business.controller.authority;
+package com.cyb.proname.business.controller.user;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.domain.Role;
+import com.cyb.authority.domain.User;
 import com.cyb.authority.domain.UserRole;
 import com.cyb.authority.service.RoleService;
 import com.cyb.authority.service.UserRoleService;
+import com.cyb.authority.service.UserService;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
+import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
+import com.cyb.proname.business.domain.Model;
 import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author 陈迎博
@@ -29,16 +34,26 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping(value= "/userRoleManage")
+@ModelInfo(title = "用户角色管理", navbar = "角色管理", prefix = "user/role")
 public class UserRoleManageController extends BasicController {
-
-	public String modelUrl = "/userRoleManage";
-	public String modelName = "用户角色管理";
 
 	@Resource
 	private RoleService roleService;
 
 	@Resource
+	private UserService userService;
+
+	@Resource
 	private UserRoleService userRoleService;
+
+	@RequestMapping("/editRole")
+	public String updateAuthority(String id, HttpServletRequest request) {
+		setModelInfo("/userRoleManage");
+		request.setAttribute("operationId", id);
+		request.setAttribute("modelUrl", modelUrl);
+		request.setAttribute("title", modelName +"-角色编辑");
+		return prefix + "/editRole";
+	}
 
 	@Authentication(name = "保存角色", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping("addUserRole")
@@ -144,6 +159,35 @@ public class UserRoleManageController extends BasicController {
 		UserRole userRole = new UserRole();
 		userRole.setUserId(userId);
 		int count = userRoleService.selectCount(userRole);
+		tips = new Tips("查询成功",  true, count);
+		return tips;
+	}
+
+	@Authentication(name = "查询用户列表", roleNames = {SysCfgConstant.ROLE_ADMIN})
+	@PostMapping(value = SysCfgConstant.METHOD_URL_PAGE)
+	@ResponseBody
+	public TipsPagination<Model> page(@RequestBody JSONObject param) {
+		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
+		tipsPagination.convertFromTips(tips);
+		User user = param.getObject("user", User.class);
+		Pagination pagination = param.getObject("pagination", Pagination.class);
+		int count = userService.selectCount(user);
+		if(count > 0){
+			IPage<User> page = userService.selectPage(user, pagination);
+			pagination.setDatas(page.getRecords());
+			pagination.setTotal(count);
+			tipsPagination.setPagination(pagination);
+			tipsPagination.setValidate(true);
+			tipsPagination.setMsg("查询成功");
+		}
+		return tipsPagination;
+	}
+
+	@Authentication(name = "查询用户总数", roleNames = {SysCfgConstant.ROLE_ADMIN})
+	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
+	@ResponseBody
+	public Tips count(@RequestBody User user) {
+		int count = userService.selectCount(user);
 		tips = new Tips("查询成功",  true, count);
 		return tips;
 	}

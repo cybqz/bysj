@@ -11,7 +11,6 @@ public class SysCfgConstant {
 	public final static String ROLE_ADMIN = "admin";
 
 	//页面URL配置
-	public final static String DEFAULT_PAGE_PREFIX = "jsp/";
 	public final static String DEFAULT_LIST_PAGE_SUFFIX = "/list";
 
 	//方法名配置

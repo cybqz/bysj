@@ -2,8 +2,13 @@ package com.cyb.proname.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.cyb.authority.domain.SysModel;
+import com.cyb.authority.service.SysModelService;
+import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
+import com.cyb.proname.utils.MyUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -32,12 +37,15 @@ public class AppStartedListener implements ApplicationListener<ApplicationStarte
     private String port;
 
     @Resource
+    private SysModelService sysModelService;
+
+    @Resource
     private ApplicationContext applicationContext;
 
     @Override
     public void onApplicationEvent(ApplicationStartedEvent event) {
 
-        //获取所有Controller信息
+        //获取所有Controller信息并初始化
         initControllerInfo();
 
         //输出首页访问地址
@@ -47,32 +55,37 @@ public class AppStartedListener implements ApplicationListener<ApplicationStarte
     private void initControllerInfo(){
 
         try {
+
             Map<String, Object> controllers = applicationContext.getBeansWithAnnotation(RequestMapping.class);
             for (Map.Entry<String, Object> entry : controllers.entrySet()) {
 
                 Class<?> clazz = AopUtils.getTargetClass(entry.getValue());
                 RequestMapping requestMapping = clazz.getAnnotation(RequestMapping.class);
-                String name = requestMapping.value()[0];
+                ModelInfo modelInfo = clazz.getAnnotation(ModelInfo.class);
 
-                Field modelUrlField = null;
-                Field modelNameField = null;
+                String requestMappingName = requestMapping.value()[0];
 
-                for(Field field : clazz.getDeclaredFields()){
+                if(!requestMappingName.equals("/") && requestMappingName.startsWith("/") && null != modelInfo){
 
-                    if(field.getName().equals("modelUrl")){
-                        modelUrlField = field;
-                    }else if(field.getName().equals("modelName")){
-                        modelNameField = field;
+                    String[] values = new String[]{modelInfo.navbar(), requestMappingName, modelInfo.prefix()};
+                    if(StringUtils.isBlank(modelInfo.navbar())){
+                        values[0] = modelInfo.title();
                     }
 
-                    if(null != modelNameField && null != modelUrlField){
-
-                        Object instance = clazz.newInstance();
-                        String modelName = modelNameField.get(instance).toString();
-                        String modelUrl = modelUrlField.get(instance).toString();
-
-                        BasicController.MODEL_MAP.put(name, new String[]{modelUrl, modelName});
+                    SysModel sysModel = sysModelService.selectByUrl(requestMappingName);
+                    if(null == sysModel){
+                        sysModel = new SysModel();
+                        sysModel.setNavbar(values[0]);
+                        sysModel.setUrl(requestMappingName);
+                        sysModel.setTitle(modelInfo.title());
+                        sysModel.setId(MyUtils.getPrimaryKey());
+                        sysModelService.insert(sysModel);
+                    }else{
+                        if(StringUtils.isNotBlank(sysModel.getTitle())){
+                            values[0] = sysModel.getTitle();
+                        }
                     }
+                    BasicController.MODEL_MAP.put(requestMappingName, values);
                 }
             }
 

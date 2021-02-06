@@ -7,6 +7,7 @@ import com.cyb.authority.base.BaseController;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
+import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.business.domain.Model;
@@ -24,10 +25,8 @@ import java.util.Date;
  */
 @Controller
 @RequestMapping(value= "/model")
+@ModelInfo(title = "模板模块管理", navbar ="", prefix = "jsp/model")
 public class ModelController extends BasicController {
-
-	public String modelUrl = "/model";
-	public String modelName = "模板模块管理";
 
 	@Resource
 	private ModelService modelService;

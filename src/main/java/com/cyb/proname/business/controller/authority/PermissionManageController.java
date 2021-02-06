@@ -9,6 +9,7 @@ import com.cyb.authority.service.PermissionService;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
+import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.business.domain.Model;
 import com.cyb.proname.constant.SysCfgConstant;
@@ -28,10 +29,8 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping(value= "/permissionManage")
+@ModelInfo(title = "权限管理", prefix = "jsp/permissionManage")
 public class PermissionManageController extends BasicController {
-
-	public String modelUrl = "/permissionManage";
-	public String modelName = "权限管理";
 
 	@Resource
 	private PermissionService permissionService;

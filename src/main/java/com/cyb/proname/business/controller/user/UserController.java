@@ -1,4 +1,4 @@
-package com.cyb.proname.business.controller.common;
+package com.cyb.proname.business.controller.user;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,13 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController extends BaseController {
 
 	@Resource
-	private UserService userSerivce;
-	@Resource
-	private UserRoleService userRoleService;
-	@Resource
-	private PermissionService permissionService;
-	@Resource
-	private RolePermissionService rolePermissionService;
+	private UserService userService;
 	
 	@RequestMapping(value="/update")
 	@ResponseBody
@@ -59,7 +53,7 @@ public class UserController extends BaseController {
 				tips.setMsg("用户名称不能为空！");
 			}else {
 				currentLoginedUser.setIntroduce(param.getIntroduce());
-				boolean success = userSerivce.updateById(currentLoginedUser);
+				boolean success = userService.updateById(currentLoginedUser);
 				if(success) {
 					tips = new Tips("修改成功！", true);
 				}else {
@@ -76,7 +70,7 @@ public class UserController extends BaseController {
 		if(!isLogined) {
 			request.setAttribute("msg","请登录后再修改密码");
 		}
-		return SysCfgConstant.DEFAULT_PAGE_PREFIX + "update_password";
+		return "jsp/update_password";
 	}
 
 	@RequestMapping(value="/doUpdatePassword")
@@ -84,7 +78,7 @@ public class UserController extends BaseController {
 	public Tips doUpdatePassword (@Param("password") String password, @Param("oldPassword")String oldPassword) {
 		super.validLogined();
 		if(isLogined) {
-			tips = userSerivce.updatePasswordById(currentLoginedUser.getId(), password, oldPassword, true);
+			tips = userService.updatePasswordById(currentLoginedUser.getId(), password, oldPassword, true);
 		}
 		return tips;
 	}

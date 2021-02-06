@@ -54,6 +54,7 @@
                         <ul>
                             <li><a href="javascript:;" parentAIndex = "1" url= "/userBasicManage" onclick="toModelIndex(this);"><span>基础管理</span></a></li>
                             <li><a href="javascript:;" parentAIndex = "1" url= "/userRoleManage" onclick="toModelIndex(this);"><span>角色管理</span></a></li>
+                            <li><a href="javascript:;" parentAIndex = "1" url= "/userSysModelManage" onclick="toModelIndex(this);"><span>系统模块管理</span></a></li>
                         </ul>
                     </li>
                     <li class="lsm-sidebar-item">

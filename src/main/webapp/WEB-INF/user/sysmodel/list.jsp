@@ -63,21 +63,23 @@
     })
 
     function loadTable(param) {
-        let columns = [{key:'name',title:'姓名'},
-                      {key:'userName',title:'用户名'},
-                      {key:'sex',title:'性别',format:function (value) {return value == 1?'男':'女';}},
-                      {key:'phone',title:'手机号'},
-                      {key:'email',title:'邮箱'},
-                      {key:'introduce',title:'介绍'}];
-        let operation = {width: '100px',
-                         menus:[{title: '设置角色',funName: 'editRole',class: 'edit'}]};
+        let columns = [
+                        {key:'name',title:'姓名'},
+                        {key:'userName',title:'用户名'},
+                        {key:'sex',title:'性别',format:function (value) {return value == 1?'男':'女';}},
+                        {key:'phone',title:'手机号'},
+                        {key:'email',title:'邮箱'},
+                        {key:'introduce',title:'介绍'}
+                      ];
+        let operation = {width: '140px',
+                         menus:[{title: '设置系统模块',funName: 'editRole',class: 'edit'}]};
         let option = {columns: columns, operation: operation};
 
         new Table('#list', option, param, ctx, modelUrl + "/page").renderingTable();
     }
 
     function editRole(userId){
-        window.location.href = ctx + modelUrl + "/editRole?id=" + userId;
+        window.location.href = ctx + modelUrl + "/editSysModel?id=" + userId;
     }
 
     function pagination_to_first() {

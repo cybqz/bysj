@@ -6,6 +6,10 @@
     <input id="title" type="text" class="content">
 </div>
 <div class="list">
+    <span class="title">图标类：</span>
+    <input id="iconClass" type="text" class="content">
+</div>
+<div class="list">
     <span class="title">导航栏：</span>
     <input id="navbar" type="text" class="content">
 </div>

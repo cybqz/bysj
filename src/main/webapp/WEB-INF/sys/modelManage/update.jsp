@@ -30,6 +30,7 @@
                         $("#sort").val(data.data['sort']);
                         $("#remarks").val(data.data['remarks']);
                         $("#parentId").val(data.data['parentId']);
+                        $("#iconClass").val(data.data['iconClass']);
                     }
                 }, function () {
                     console.log("error");
@@ -46,6 +47,7 @@
                 navbar: $("#navbar").val(),
                 remarks: $("#remarks").val(),
                 parentId: $("#parentId").val(),
+                iconClass: $("#iconClass").val()
             };
             let request = new BeastRequest(ctx, modelUrl + "/doUpdate", param, false,
                 function (data) {

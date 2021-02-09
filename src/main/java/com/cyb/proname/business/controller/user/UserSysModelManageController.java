@@ -7,6 +7,7 @@ import com.cyb.authority.domain.SysModel;
 import com.cyb.authority.domain.User;
 import com.cyb.authority.domain.UserSysModel;
 import com.cyb.authority.service.*;
+import com.cyb.authority.vo.SysModelVO;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
@@ -17,6 +18,7 @@ import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author 陈迎博
@@ -94,6 +98,22 @@ public class UserSysModelManageController extends BasicController {
 				tips = new Tips("删除成功", true, true);
 			}else{
 				tips.setMsg("当前用户未拥有此系统模块");
+			}
+		}
+		return tips;
+	}
+
+	@PostMapping("selectListHav")
+	@ResponseBody
+	public Tips selectListHav(@RequestBody JSONObject param) {
+
+		tips.setMsg("查询失败");
+		UserSysModel userSysModel = param.getObject("userSysModel", UserSysModel.class);
+		int count = userSysModelService.selectCount(userSysModel);
+		if(count > 0){
+			List<SysModelVO> list = sysModelService.selectListHav(userSysModel.getUserId());
+			if(!CollectionUtils.isEmpty(list)){
+				tips = new Tips("查询成功", true, list);
 			}
 		}
 		return tips;

@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/font/iconfont.css">
 <script src="${ctx}/js/jquery.js"></script>
 <script src="${ctx}/js/jquery.slimscroll.min.js"></script>
-<script src="${ctx}/js/left-side-menu.js"></script>
+<script src="${ctx}/my/SideMenu.js"></script>
 <div class="left-side-menu" >
     <div class="lsm-expand-btn">
         <div class="lsm-mini-btn">
@@ -21,107 +21,33 @@
     <div class="lsm-container">
         <div class="lsm-scroll" >
             <div class="lsm-sidebar" style="width: 205px;">
-                <ul>
-                    <%--<li class="lsm-sidebar-item">
-                        <a href="javascript:;"><i class="my-icon lsm-sidebar-icon icon_1"></i><span>测试管理</span><i class="my-icon lsm-sidebar-more"></i></a>
-                        <ul>
-                            <li><a href="javascript:;"><span>地爆天星</span></a></li>
-                            <li><a class="active"  href="javascript:;"><span>无线月读</span></a></li>
-                            <li><a href="javascript:;"><span>一乐拉面</span></a></li>
-                            <li class="lsm-sidebar-item">
-                                <a href="javascript:;"><i class="my-icon lsm-sidebar-icon "></i><span>二级菜单11</span><i class="my-icon lsm-sidebar-more"></i></a>
-                                <ul>
-                                    <li><a href="javascript:;"><span>地爆天星</span></a></li>
-                                    <li><a href="javascript:;"><span>无线月读</span></a></li>
-                                </ul>
-                            </li>
-
-                            <li class="lsm-sidebar-item">
-                                <a href="javascript:;"><i class="my-icon lsm-sidebar-icon "></i><span>二级菜单22</span><i class="my-icon lsm-sidebar-more"></i></a>
-                                <ul >
-                                    <li><a href="javascript:;"><span>血继限界</span></a></li>
-                                    <li><a href="javascript:;"><span>秽土转生</span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>--%>
-                    <li class="lsm-sidebar-item">
-                        <a href="javascript:;" index= "1">
-                            <i class="my-icon lsm-sidebar-icon icon_1"></i>
-                            <span>用户管理</span>
-                            <i class="my-icon lsm-sidebar-more"></i>
-                        </a>
-                        <ul>
-                            <li><a href="javascript:;" parentAIndex = "1" url= "/userBasicManage" onclick="toModelIndex(this);"><span>基础管理</span></a></li>
-                            <li><a href="javascript:;" parentAIndex = "1" url= "/userRoleManage" onclick="toModelIndex(this);"><span>角色管理</span></a></li>
-                            <li><a href="javascript:;" parentAIndex = "1" url= "/userSysModelManage" onclick="toModelIndex(this);"><span>系统模块管理</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="lsm-sidebar-item">
-                        <a href="javascript:;" index= "2">
-                            <i class="my-icon lsm-sidebar-icon icon_2"></i>
-                            <span>访问控制</span>
-                            <i class="my-icon lsm-sidebar-more"></i>
-                        </a>
-                        <ul>
-                            <li><a href="javascript:;" parentAIndex = "2" url= "/permissionManage" onclick="toModelIndex(this);"><span>权限管理</span></a></li>
-                            <li><a href="javascript:;" parentAIndex = "2" url= "/roleManage" onclick="toModelIndex(this);"><span>角色管理</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="lsm-sidebar-item">
-                        <a href="javascript:;" index= "3">
-                            <i class="my-icon lsm-sidebar-icon icon_2"></i>
-                            <span>系统管理</span>
-                            <i class="my-icon lsm-sidebar-more"></i>
-                        </a>
-                        <ul>
-                            <li><a href="javascript:;" parentAIndex = "3" url= "/sysModelManage" onclick="toModelIndex(this);"><span>模块管理</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="lsm-sidebar-item">
-                        <a href="javascript:;" index= "4" url="/model" onclick="toModelIndex(this);">
-                            <i class="my-icon lsm-sidebar-icon icon_3"></i>
-                            <span>示例管理</span>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
 </div>
 <script>
-    $(document).ready(function(){
+    /**
+     * 加载导航栏列表
+     */
+    function loadNavbarList() {
+        new BeastRequest(ctx, "/userSysModelManage/selectListHav", {userSysModel: {userId: signedIndUserId}}, true,
+            function (data) {
+                if(data && data.validate && data.data){
 
-        //设置当前所在导航栏状态为打开
-        updateMenuState();
-    });
+                    let sideMenu = new SideMenu('.lsm-sidebar', null, data.data);
+                    sideMenu.render();
+                    sideMenu.addEvent();
+                    sideMenu.openLevelTwo();
+                }
+            }, function () {
+                console.log("error");
+            }).ajaxPost();
+    }
 
     /**
      * 模块跳转
      */
     function toModelIndex(_this){
         window.location.href = ctx + $(_this).attr("url") + "/";
-    }
-
-    /**
-     * 设置当前所在导航栏状态为打开
-     */
-    function updateMenuState(){
-        setTimeout(function (){
-
-            //二级菜单处理
-            let currTag = $("a[url='" + modelUrl + "']");
-            let parentAIndex = $(currTag).attr("parentAIndex");
-            if(parentAIndex && parentAIndex != null){
-
-                let target = $("a[index='" + parentAIndex + "']");
-                $(target).trigger("click");
-                $(currTag).css("background", "#6e809c");
-            }else{
-
-                //一级菜单处理
-                $(currTag).parent().addClass("lsm-sidebar-show");
-            }
-        }, 300);
     }
 </script>

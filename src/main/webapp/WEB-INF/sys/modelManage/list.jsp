@@ -75,9 +75,9 @@
         let columns = [ {key:'title',title:'标题'},
                         {key:'navbar',title:'导航栏'},
                         {key:'parentId',title:'父栏目'},
+                        {key:'iconClass',title:'图标类'},
                         {key:'url',title:'路径'},
-                        {key:'sort',title:'排序'},
-                        {key:'remarks',title:'备注'}
+                        {key:'sort',title:'排序'}
                       ];
         let operation = {width: '120px',
             menus:[{title: '修改',funName: 'update',class: 'edit'},

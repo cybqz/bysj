@@ -19,11 +19,12 @@
     <script type="text/javascript">
         function save() {
             let param = {
-                title: $("#title").val(),
-                navbar: $("#navbar").val(),
                 url: $("#url").val(),
                 sort: $("#sort").val(),
+                title: $("#title").val(),
+                navbar: $("#navbar").val(),
                 remarks: $("#remarks").val(),
+                iconClass: $("#iconClass").val(),
             };
             let request = new BeastRequest(ctx, modelUrl + "/save", param, false,
                 function (data) {

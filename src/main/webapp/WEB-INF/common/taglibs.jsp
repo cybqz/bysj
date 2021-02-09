@@ -14,11 +14,16 @@
     let modelUrl = "${modelUrl}";
     let operationId = "${operationId}";
     let indexModelUrl = "/model";
+    let signedIndUserId = null;
 
     document.onreadystatechange = function() {
         if(document.readyState == "complete"){
+
             //登陆状态全局校验
             loginSuccessCheck();
+
+            //加载导航栏数据
+            loadNavbarList();
         }
     }
 
@@ -26,6 +31,7 @@
         new BeastRequest(ctx, "/user/getSignedIndUser", null, false,
             function (data) {
                 if(data.data != null && data.data.userName){
+                    signedIndUserId = data.data.id;
                     $("#login_info").text("欢迎：" + data.data.userName);
                 }
             }, function (xhr, textStatus, errorThrown) {

@@ -25,7 +25,7 @@
             new BeastRequest(ctx, modelUrl + "/detail", {id:operationId}, false,
                 function (data) {
                     if(data && data.validate && data.data){
-                        $("#userName").val(data.data['userName']);
+                        $("#title").val(data.data['title']);
                     }
                 }, function () {
                     console.log("error");
@@ -48,11 +48,11 @@
             new Table('#listHavNo', optionNo, param, ctx, "/userSysModelManage/selectPageHavNo").renderingTable();
         }
 
-        function addUserSysModel(roleId){
+        function addUserSysModel(sysModelId){
 
-            if(roleId && roleId != null && roleId != ""){
+            if(sysModelId && sysModelId != null && sysModelId != ""){
 
-                new BeastRequest(ctx, "/userSysModelManage/addUserSysModel", {userId: operationId, roleId: roleId}, false,
+                new BeastRequest(ctx, "/userSysModelManage/addUserSysModel", {userId: operationId, sysModelId: sysModelId}, false,
                     function (data) {
                         if(data && data.validate){
                             loadTable({userSysModel: {userId: operationId},pagination:{limit:8}});
@@ -66,11 +66,11 @@
 
         }
 
-        function deleteUserSysModel(roleId){
+        function deleteUserSysModel(sysModelId){
 
-            if(roleId && roleId != null && roleId != ""){
+            if(sysModelId && sysModelId != null && sysModelId != ""){
 
-                new BeastRequest(ctx, "/userSysModelManage/deleteUserSysModel", {userId: operationId, roleId: roleId}, false,
+                new BeastRequest(ctx, "/userSysModelManage/deleteUserSysModel", {userId: operationId, sysModelId: sysModelId}, false,
                     function (data) {
                         if(data && data.validate){
                             loadTable({userSysModel: {userId: operationId},pagination:{limit:8}});
@@ -93,7 +93,7 @@
 <%@include file="../../common/header.jsp"%>
 
 <div class="wrap" style="width: 80%;">
-    <div class="header_title">${title}：<span id="userName"></span></div>
+    <div class="header_title">${title}：<span id="title"></span></div>
 
     <!-- 用户系统模块表格内容展示-->
     <div style="display: flex">

@@ -161,7 +161,6 @@ let Table = (function(window) {
             }
         }
     }
-
     Table.fn.init.prototype = Table.fn;
     return Table;
 })();

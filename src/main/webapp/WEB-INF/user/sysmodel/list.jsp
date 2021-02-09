@@ -51,15 +51,14 @@
         loadTable({user: {},pagination:{limit:8}});
 
         //获取总条数
-        let request = new BeastRequest(ctx, modelUrl + "/count", {}, true,
+        new BeastRequest(ctx, modelUrl + "/count", {}, true,
             function (data) {
                 if(data && data.validate && data.data){
                     $("#count").html(data.data);
                 }
             }, function () {
                 console.log("error");
-            });
-        request.ajaxPost();
+            }).ajaxPost();
     })
 
     function loadTable(param) {

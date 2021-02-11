@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    request.setAttribute("parentPageName","updatePassword");
+%>
 <%@include file="../common/taglibs.jsp"%>
 
 <!doctype html>
@@ -69,8 +72,8 @@
         $(document).ready(function () {
             new BeastRequest(ctx, "/user/getSignedIndUser", null, false,
                 function (data) {
-                    if(data != null && data.userName){
-                        $("#user_name").val(data.userName);
+                    if(data != null && data.data.userName){
+                        $("#user_name").val(data.data.userName);
                     }
                 }, function (xhr, textStatus, errorThrown) {
                     console.log(xhr);
@@ -99,11 +102,11 @@
                 tips("两次输入的密码不一致");
                 return;
             }
-            var param = {
+            let param = {
                 "password": password,
                 "oldPassword": old_password
             };
-            var request = new BeastRequest(ctx, "/user/doUpdatePassword", param, false,
+            new BeastRequest(ctx, "/user/doUpdatePassword", param, false,
                 function (data) {
                     if(data && data.validate){
                         window.location.href = ctx + "/";
@@ -112,12 +115,11 @@
                     console.log(xhr);
                     console.log(textStatus);
                     console.log(errorThrown);
-                });
-            request.ajaxPost();
+                }).ajaxPost();
         }
         
         function cancel() {
-            window.location.href = ctx + indexModelUrl;
+            window.location.href = ctx + modelUrl;
         }
     </script>
 </head>

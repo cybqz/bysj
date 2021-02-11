@@ -27,24 +27,6 @@
 </div>
 <script>
     /**
-     * 加载导航栏列表
-     */
-    function loadNavbarList() {
-        new BeastRequest(ctx, "/userSysModelManage/selectListHav", {userSysModel: {userId: signedIndUserId}}, true,
-            function (data) {
-                if(data && data.validate && data.data){
-
-                    let sideMenu = new SideMenu('.lsm-sidebar', null, data.data);
-                    sideMenu.render();
-                    sideMenu.addEvent();
-                    sideMenu.openLevelTwo();
-                }
-            }, function () {
-                console.log("error");
-            }).ajaxPost();
-    }
-
-    /**
      * 模块跳转
      */
     function toModelIndex(_this){

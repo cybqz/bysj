@@ -1,7 +1,7 @@
 let SideMenu = (function(window) {
 
-    let SideMenu = function(element, modelUrl, data) {
-        return new SideMenu.fn.init(element, modelUrl, data);
+    let SideMenu = function(element, data) {
+        return new SideMenu.fn.init(element, data);
     }
 
     SideMenu.fn = SideMenu.prototype = {
@@ -9,8 +9,6 @@ let SideMenu = (function(window) {
         init: function(element, data) {
             this.data = data;
             this.element = element;
-            this.modelUrl = modelUrl;
-            this.defaultOpenModel = null;
 
             /**
              * 渲染导航栏html
@@ -19,13 +17,6 @@ let SideMenu = (function(window) {
                 let html = '';
                 let index = 1;
                 let defaultIconClass = 'icon_1';
-
-                //获取默认打开的菜单
-                if(this.data[0].children && this.data[0].children.length > 0){
-                    this.modelUrl = this.data[0].children[0].url;
-                }else {
-                    this.modelUrl = this.data[0].url;
-                }
 
                 $(this.data).each(function (key, value){
                     if(value['iconClass']){
@@ -164,7 +155,7 @@ let SideMenu = (function(window) {
              * 打开二级菜单
              */
             this.openLevelTwo = function (){
-                let currTag = $("a[url='" + this.modelUrl + "']");
+                let currTag = $("a[url='" + modelUrl + "']");
                 let parentAIndex = $(currTag).attr("parentAIndex");
                 if(parentAIndex && parentAIndex != null){
 

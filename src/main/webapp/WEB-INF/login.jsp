@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	request.setAttribute("parentPageName","login");
+%>
 <%@include file="common/taglibs.jsp"%>
 
 <!doctype html>
@@ -16,6 +19,7 @@
     <script src="${ctx}/js/pintuer.js"></script>
     <script src="${ctx}/js/cookie_util.js"></script>
 	<script src="${ctx}/js/notice.js"></script>
+	<script src="${ctx}/my/SideMenu.js"></script>
 	<script src="${ctx}/my/BeastRequest.js"></script>
 </head>
 <body>
@@ -65,11 +69,6 @@
 	<script type="text/javascript">
 
 		$(document).ready(function () {
-
-			new BeastRequest(ctx, "/user/getSignedIndUser", null, false,
-					function (data) {
-						toIndexPage(data);
-					}, null).ajaxPost();
 
 			/**
 			 * 注册
@@ -133,7 +132,14 @@
 
 		function toIndexPage(data) {
 			if(data && data.validate){
-				window.location.href = ctx + indexModelUrl;
+				//加载用户系统模块列表
+				loadUserSysModelList();
+				if(null == userSysModelList || userSysModelList.length == 0){
+					tips("当前用户需授权系统模块权限");
+					return
+				}
+				getDefaultIndexModel(userSysModelList);
+				window.location.href = ctx + modelUrl;
 			}
 		}
 	</script>

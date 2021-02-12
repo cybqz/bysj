@@ -8,6 +8,7 @@
 <c:set var="model" value="${pageContext.request.getAttribute('model')}"/>
 <c:set var="modelUrl" value="${pageContext.request.getAttribute('modelUrl')}"/>
 <c:set var="operationId" value="${pageContext.request.getAttribute('operationId')}"/>
+<c:set var="isShowSideMenu" value="${pageContext.request.getAttribute('isShowSideMenu')}"/>
 <c:set var="parentPageName" value="${pageContext.request.getAttribute('parentPageName')}"/>
 <script type="text/javascript">
     let ctx = "${ctx}";
@@ -16,6 +17,7 @@
     let modelUrl = "${modelUrl}";
     let sideMenu = null;
     let operationId = "${operationId}";
+    let isShowSideMenu = "${isShowSideMenu}";
     let parentPageName = "${parentPageName}";
     let signedIndUserId = null;
     let userSysModelList = null;
@@ -24,29 +26,31 @@
         if(document.readyState == "complete") {
             //登陆状态全局校验
             loginSuccessCheck();
+
         }
     }
 
     function loginSuccessCheck(){
         new BeastRequest(ctx, "/user/getSignedIndUser", null, false,
             function (data) {
-                if(data.data != null && data.data.userName){
+                if(data.data != null && data.data.userName) {
                     signedIndUserId = data.data.id;
                     $("#login_info").text("欢迎：" + data.data.userName);
 
                     //加载用户系统模块列表
                     loadUserSysModelList();
-                    if(null == userSysModelList || userSysModelList.length == 0){
+                    if (null == userSysModelList || userSysModelList.length == 0) {
                         tips("当前用户需授权系统模块权限");
                         return
                     }
-                    getDefaultIndexModel(userSysModelList);
-                    if(parentPageName && parentPageName === "login"){
-                        window.location.href = ctx + modelUrl;
-                    }else if(parentPageName != "updatePassword"){
-                        setMenuList(userSysModelList);
-                    }
 
+                    //获取默认模块URL
+                    getDefaultIndexModel(userSysModelList);
+                    if (null != isShowSideMenu && "" != isShowSideMenu && isShowSideMenu) {
+                        setMenuList(userSysModelList);
+                    } else if (parentPageName && parentPageName === "login") {
+                        window.location.href = ctx + modelUrl;
+                    }
                 }
             }, function (xhr, textStatus, errorThrown) {
                 console.log(xhr);
@@ -63,7 +67,6 @@
         new BeastRequest(ctx, "/userSysModelManage/selectListHav", {userSysModel: {userId: signedIndUserId}}, false,
             function (data) {
                 if(data && data.validate && data.data){
-
                     userSysModelList = data.data;
                 }
             }, function () {
@@ -72,7 +75,7 @@
     }
 
     /**
-     * 获取默认进入的模块Url
+     * 获取默认进入的模块URL
      * @param data
      */
     function getDefaultIndexModel(data){

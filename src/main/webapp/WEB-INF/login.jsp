@@ -132,14 +132,7 @@
 
 		function toIndexPage(data) {
 			if(data && data.validate){
-				//加载用户系统模块列表
-				loadUserSysModelList();
-				if(null == userSysModelList || userSysModelList.length == 0){
-					tips("当前用户需授权系统模块权限");
-					return
-				}
-				getDefaultIndexModel(userSysModelList);
-				window.location.href = ctx + modelUrl;
+				loginSuccessCheck();
 			}
 		}
 	</script>

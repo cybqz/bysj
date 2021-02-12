@@ -107,7 +107,7 @@ public class UserSysModelManageController extends BasicController {
 	@ResponseBody
 	public Tips selectListHav(@RequestBody JSONObject param) {
 
-		tips.setMsg("查询失败");
+		tips = new Tips("查询失败", true, false);
 		UserSysModel userSysModel = param.getObject("userSysModel", UserSysModel.class);
 		int count = userSysModelService.selectCount(userSysModel);
 		if(count > 0){

@@ -24,9 +24,11 @@
     function logout() {
         new BeastRequest(ctx, "/login/logout", null, false,
             function (data) {
+                userSysModelList = null;
                 window.location.href = ctx;
             }, function () {
                 console.log("error");
+                userSysModelList = null;
                 window.location.href = ctx;
             }).ajaxPost();
     }

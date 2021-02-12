@@ -11,7 +11,7 @@
  Target Server Version : 50730
  File Encoding         : 65001
 
- Date: 03/02/2021 22:26:19
+ Date: 12/02/2021 23:01:34
 */
 
 SET NAMES utf8mb4;
@@ -124,9 +124,11 @@ DROP TABLE IF EXISTS `sys_model`;
 CREATE TABLE `sys_model`  (
   `id` varchar(38) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID',
   `parent_id` varchar(38) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父ID',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '名称',
+  `title` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '标题',
+  `navbar` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '导航栏名称',
+  `icon_class` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标类名称',
+  `url` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '访问地址',
   `sort` int(2) NOT NULL DEFAULT 0 COMMENT '排序',
-  `url` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '访问地址',
   `remarks` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   `create_date_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_date_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
@@ -136,8 +138,17 @@ CREATE TABLE `sys_model`  (
 -- ----------------------------
 -- Records of sys_model
 -- ----------------------------
-INSERT INTO `sys_model` VALUES ('64b37fea-0e4f-49bf-b788-a1be52fc6d21', NULL, 'admin', 0, '', '管理员', NULL, NULL);
-INSERT INTO `sys_model` VALUES ('a1f9bda4-db0f-4214-a8dd-ac33b3197dd2', NULL, 'teamMeb', 0, '', '组员', NULL, NULL);
+INSERT INTO `sys_model` VALUES ('10339aaf-d26f-4d52-be81-9056ae2f8df8', '', '模板模块管理', '模板模块管理', NULL, '/model', 100, '模板模块管理', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
+INSERT INTO `sys_model` VALUES ('83426a96-bda6-42d2-931a-8c19e25a7e6a', '9c2c95ee-38a4-4167-af34-c957c0d4f2cd', '用户系统模块管理', '系统模块管理', NULL, '/userSysModelManage', 100, '用户系统模块管理', '2021-02-06 22:39:11', '2021-02-06 22:39:11');
+INSERT INTO `sys_model` VALUES ('8f459dbd-ffc6-4423-b84c-c8fee4a108d4', '9c2c95ee-38a4-4167-af34-c957c0d4f2cd', '用户基础信息管理', '基础信息管理', NULL, '/userBasicManage', 100, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
+INSERT INTO `sys_model` VALUES ('9999e044-35b2-48bb-b41e-e6a7b4cab464', 'a28d7764-1383-4d47-994b-afac6e19f4ec', '角色管理', '角色管理', NULL, '/roleManage', 100, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
+INSERT INTO `sys_model` VALUES ('9c2c95ee-38a4-4167-af34-c957c0d4f2cd', '', '用户管理', '用户管理', 'icon_1', '', 1, '用户管理', '2021-02-06 20:18:29', '2021-02-06 20:18:29');
+INSERT INTO `sys_model` VALUES ('9e6113cd-9edd-44f4-a6f1-0076c4b37232', '9c2c95ee-38a4-4167-af34-c957c0d4f2cd', '用户角色管理', '角色管理', NULL, '/userRoleManage', 100, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
+INSERT INTO `sys_model` VALUES ('a28d7764-1383-4d47-994b-afac6e19f4ec', '', '访问控制', '访问控制', 'icon_2', '', 2, '访问控制', '2021-02-06 19:06:32', '2021-02-06 19:06:32');
+INSERT INTO `sys_model` VALUES ('a8f41f09-fe60-4259-b833-16a8281ee44b', 'a28d7764-1383-4d47-994b-afac6e19f4ec', '权限管理', '权限管理', NULL, '/permissionManage', 100, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
+INSERT INTO `sys_model` VALUES ('d89f9f27-b6c1-416f-adbc-83bcf5ad3ad3', 'a28d7764-1383-4d47-994b-afac6e19f4ec', '角色权限管理', '角色权限管理', NULL, '/rolePermissionManage', 100, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
+INSERT INTO `sys_model` VALUES ('db79010a-e984-4856-9b75-4a4de75640f6', '', '系统管理', '系统管理', 'icon_3', '', 3, '系统管理', '2021-02-06 18:48:53', '2021-02-06 18:48:53');
+INSERT INTO `sys_model` VALUES ('f7b32012-da82-489d-89e8-4c458a512e38', 'db79010a-e984-4856-9b75-4a4de75640f6', '系统模块管理', '系统模块管理', NULL, '/sysModelManage', 100, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
 
 -- ----------------------------
 -- Table structure for tb_order
@@ -220,8 +231,19 @@ CREATE TABLE `user_sys_model`  (
 INSERT INTO `user_sys_model` VALUES ('17fac06b-a625-4523-b51e-a4a2c229b3f5', '75ff9add-24d2-4454-b540-f76cb94778b2', '64b37fea-0e4f-49bf-b788-a1be52fc6d21', NULL, NULL, NULL);
 INSERT INTO `user_sys_model` VALUES ('2cbe47af-c738-4384-a49b-a336eef7d0c0', '0e1fb753-ee35-4b2e-be16-b1c44c65bf29', 'a1f9bda4-db0f-4214-a8dd-ac33b3197dd2', NULL, NULL, NULL);
 INSERT INTO `user_sys_model` VALUES ('3ce5b3a4-bff8-4a9f-a5ff-1fd336ed39e7', '75ff9add-24d2-4454-b540-f76cb94778b2', 'a1f9bda4-db0f-4214-a8dd-ac33b3197dd2', NULL, NULL, NULL);
+INSERT INTO `user_sys_model` VALUES ('54934e35-632e-4afc-b9d2-7a673c947294', '9a068790-73c9-4f13-93a5-20ea7d9149a7', '9999e044-35b2-48bb-b41e-e6a7b4cab464', NULL, NULL, NULL);
+INSERT INTO `user_sys_model` VALUES ('5dc74f09-51c7-4940-9fc7-72e8ef22aec5', '9a068790-73c9-4f13-93a5-20ea7d9149a7', 'f7b32012-da82-489d-89e8-4c458a512e38', NULL, NULL, NULL);
 INSERT INTO `user_sys_model` VALUES ('66b331f6-b853-4481-9a68-0c7895c4ac02', '191a2c91-9ef1-4be5-9607-818e968ddad1', '64b37fea-0e4f-49bf-b788-a1be52fc6d21', NULL, NULL, NULL);
+INSERT INTO `user_sys_model` VALUES ('7077e09c-5708-4ddb-add6-195924e901ec', '9a068790-73c9-4f13-93a5-20ea7d9149a7', '9e6113cd-9edd-44f4-a6f1-0076c4b37232', NULL, NULL, NULL);
 INSERT INTO `user_sys_model` VALUES ('7be29c77-70c8-4844-8a8e-f08150578859', '191a2c91-9ef1-4be5-9607-818e968ddad1', 'a1f9bda4-db0f-4214-a8dd-ac33b3197dd2', NULL, NULL, NULL);
+INSERT INTO `user_sys_model` VALUES ('86e570ee-84cc-49be-920c-285e11812657', '9a068790-73c9-4f13-93a5-20ea7d9149a7', '83426a96-bda6-42d2-931a-8c19e25a7e6a', NULL, NULL, NULL);
+INSERT INTO `user_sys_model` VALUES ('9c51d682-85ea-4371-871e-84bf8dd4f9a4', '0e1fb753-ee35-4b2e-be16-b1c44c65bf29', '10339aaf-d26f-4d52-be81-9056ae2f8df8', NULL, NULL, NULL);
+INSERT INTO `user_sys_model` VALUES ('a75297e5-fd24-41ae-8974-14cc40873c66', '9a068790-73c9-4f13-93a5-20ea7d9149a7', '8f459dbd-ffc6-4423-b84c-c8fee4a108d4', NULL, NULL, NULL);
+INSERT INTO `user_sys_model` VALUES ('b3016b4e-3fd4-43f3-b604-60d577be8672', '9a068790-73c9-4f13-93a5-20ea7d9149a7', 'db79010a-e984-4856-9b75-4a4de75640f6', NULL, NULL, NULL);
 INSERT INTO `user_sys_model` VALUES ('c297c7dc-d25d-466e-84df-80256c019584', '9a068790-73c9-4f13-93a5-20ea7d9149a7', '64b37fea-0e4f-49bf-b788-a1be52fc6d21', NULL, NULL, NULL);
+INSERT INTO `user_sys_model` VALUES ('d61bc880-e893-43fb-a1c3-bf2a4acd2784', '9a068790-73c9-4f13-93a5-20ea7d9149a7', 'd89f9f27-b6c1-416f-adbc-83bcf5ad3ad3', NULL, NULL, NULL);
+INSERT INTO `user_sys_model` VALUES ('e448f2d0-ce53-43e8-b88d-85c84914360b', '9a068790-73c9-4f13-93a5-20ea7d9149a7', '9c2c95ee-38a4-4167-af34-c957c0d4f2cd', NULL, NULL, NULL);
+INSERT INTO `user_sys_model` VALUES ('ea9ce385-54f3-4b46-87b6-71252d3ce7fb', '9a068790-73c9-4f13-93a5-20ea7d9149a7', 'a8f41f09-fe60-4259-b833-16a8281ee44b', NULL, NULL, NULL);
+INSERT INTO `user_sys_model` VALUES ('f96d7e71-8e59-4f9a-8a1c-8aed236d71d1', '9a068790-73c9-4f13-93a5-20ea7d9149a7', 'a28d7764-1383-4d47-994b-afac6e19f4ec', NULL, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

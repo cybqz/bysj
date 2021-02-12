@@ -3,7 +3,6 @@ package com.cyb.proname.business.controller.authority;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cyb.authority.annotation.Authentication;
-import com.cyb.authority.base.BaseController;
 import com.cyb.authority.domain.Permission;
 import com.cyb.authority.service.PermissionService;
 import com.cyb.common.pagination.Pagination;
@@ -29,7 +28,7 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping(value= "/permissionManage")
-@ModelInfo(title = "权限管理", prefix = "jsp/permissionManage")
+@ModelInfo(title = "权限管理", prefix = "authority/permission")
 public class PermissionManageController extends BasicController {
 
 	@Resource

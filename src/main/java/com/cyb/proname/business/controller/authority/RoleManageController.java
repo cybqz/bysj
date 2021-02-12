@@ -11,6 +11,7 @@ import com.cyb.common.tips.TipsPagination;
 import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.business.domain.Model;
+import com.cyb.proname.business.utils.RoleUtilService;
 import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,11 +31,14 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping(value= "/roleManage")
-@ModelInfo(title = "角色管理", prefix = "jsp/roleManage")
+@ModelInfo(title = "角色管理", prefix = "authority/role")
 public class RoleManageController extends BasicController {
 
 	@Resource
 	private RoleService roleService;
+
+	@Resource
+	private RoleUtilService roleUtilService;
 
 	@RequestMapping("/editPermission")
 	public String editPermission(String id, HttpServletRequest request) {
@@ -117,17 +121,7 @@ public class RoleManageController extends BasicController {
 	public TipsPagination<Model> page(@RequestBody JSONObject param) {
 		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
 		tipsPagination.convertFromTips(tips);
-		Role role = param.getObject("role", Role.class);
-		Pagination pagination = param.getObject("pagination", Pagination.class);
-		int count = roleService.selectCount(role);
-		if(count > 0){
-			IPage<Role> page = roleService.selectPage(role, pagination);
-			pagination.setDatas(page.getRecords());
-			pagination.setTotal(count);
-			tipsPagination.setPagination(pagination);
-			tipsPagination.setValidate(true);
-			tipsPagination.setMsg("查询成功");
-		}
+		roleUtilService.page(param, tipsPagination);
 		return tipsPagination;
 	}
 
@@ -136,8 +130,6 @@ public class RoleManageController extends BasicController {
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
 	public Tips count(@RequestBody Role role) {
-		int count = roleService.selectCount(role);
-		tips = new Tips("查询成功",  true, count);
-		return tips;
+		return roleUtilService.selectCount(role);
 	}
 }

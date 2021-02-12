@@ -4,14 +4,18 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.domain.Permission;
+import com.cyb.authority.domain.Role;
 import com.cyb.authority.domain.RolePermission;
 import com.cyb.authority.service.PermissionService;
 import com.cyb.authority.service.RolePermissionService;
+import com.cyb.authority.service.RoleService;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
 import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
+import com.cyb.proname.business.domain.Model;
+import com.cyb.proname.business.utils.RoleUtilService;
 import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,8 +33,14 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping(value= "/rolePermissionManage")
-@ModelInfo(title = "角色权限管理", prefix = "jsp/rolePermissionManage")
+@ModelInfo(title = "角色权限管理", prefix = "authority/role")
 public class RolePermissionManageController extends BasicController {
+
+	@Resource
+	private RoleService roleService;
+
+	@Resource
+	private RoleUtilService roleUtilService;
 
 	@Resource
 	private PermissionService permissionService;
@@ -144,5 +154,22 @@ public class RolePermissionManageController extends BasicController {
 		int count = rolePermissionService.selectCount(rolePermission);
 		tips = new Tips("查询成功",  true, count);
 		return tips;
+	}
+
+	@Authentication(name = "查询角色列表", roleNames = {SysCfgConstant.ROLE_ADMIN})
+	@PostMapping(value = SysCfgConstant.METHOD_URL_PAGE)
+	@ResponseBody
+	public TipsPagination<Model> page(@RequestBody JSONObject param) {
+		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
+		tipsPagination.convertFromTips(tips);
+		roleUtilService.page(param, tipsPagination);
+		return tipsPagination;
+	}
+
+	@Authentication(name = "查询角色总数", roleNames = {SysCfgConstant.ROLE_ADMIN})
+	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
+	@ResponseBody
+	public Tips count(@RequestBody Role role) {
+		return roleUtilService.selectCount(role);
 	}
 }

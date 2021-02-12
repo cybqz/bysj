@@ -1,26 +1,22 @@
 package com.cyb.proname.business.controller.user;
 
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.domain.User;
 import com.cyb.authority.service.UserService;
-import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
 import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.business.domain.Model;
+import com.cyb.proname.business.utils.UserUtilService;
 import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -35,6 +31,9 @@ public class UserBasicManageController extends BasicController {
 
 	@Resource
 	private UserService userService;
+
+	@Resource
+	private UserUtilService userUtilService;
 
 	@Authentication(name = "保存用户", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
@@ -109,17 +108,7 @@ public class UserBasicManageController extends BasicController {
 	public TipsPagination<Model> page(@RequestBody JSONObject param) {
 		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
 		tipsPagination.convertFromTips(tips);
-		User user = param.getObject("user", User.class);
-		Pagination pagination = param.getObject("pagination", Pagination.class);
-		int count = userService.selectCount(user);
-		if(count > 0){
-			IPage<User> page = userService.selectPage(user, pagination);
-			pagination.setDatas(page.getRecords());
-			pagination.setTotal(count);
-			tipsPagination.setPagination(pagination);
-			tipsPagination.setValidate(true);
-			tipsPagination.setMsg("查询成功");
-		}
+		userUtilService.page(param, tipsPagination);
 		return tipsPagination;
 	}
 
@@ -127,8 +116,6 @@ public class UserBasicManageController extends BasicController {
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
 	public Tips count(@RequestBody User user) {
-		int count = userService.selectCount(user);
-		tips = new Tips("查询成功",  true, count);
-		return tips;
+		return userUtilService.selectCount(user);
 	}
 }

@@ -15,6 +15,7 @@ import com.cyb.common.tips.TipsPagination;
 import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.business.domain.Model;
+import com.cyb.proname.business.utils.UserUtilService;
 import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,6 +45,9 @@ public class UserRoleManageController extends BasicController {
 
 	@Resource
 	private UserRoleService userRoleService;
+
+	@Resource
+	private UserUtilService userUtilService;
 
 	@RequestMapping("/editRole")
 	public String updateAuthority(String id, HttpServletRequest request) {
@@ -169,17 +172,7 @@ public class UserRoleManageController extends BasicController {
 	public TipsPagination<Model> page(@RequestBody JSONObject param) {
 		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
 		tipsPagination.convertFromTips(tips);
-		User user = param.getObject("user", User.class);
-		Pagination pagination = param.getObject("pagination", Pagination.class);
-		int count = userService.selectCount(user);
-		if(count > 0){
-			IPage<User> page = userService.selectPage(user, pagination);
-			pagination.setDatas(page.getRecords());
-			pagination.setTotal(count);
-			tipsPagination.setPagination(pagination);
-			tipsPagination.setValidate(true);
-			tipsPagination.setMsg("查询成功");
-		}
+		userUtilService.page(param, tipsPagination);
 		return tipsPagination;
 	}
 
@@ -187,8 +180,6 @@ public class UserRoleManageController extends BasicController {
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
 	public Tips count(@RequestBody User user) {
-		int count = userService.selectCount(user);
-		tips = new Tips("查询成功",  true, count);
-		return tips;
+		return userUtilService.selectCount(user);
 	}
 }

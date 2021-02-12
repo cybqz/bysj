@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ taglib prefix="c"   uri="/WEB-INF/tlds/c.tld" %>
-<%@ taglib prefix="fn"  uri="/WEB-INF/tlds/fn.tld"  %>
-<%@ taglib prefix="fmt" uri="/WEB-INF/tlds/fmt.tld"  %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <c:set var="title" value="${pageContext.request.getAttribute('title')}"/>
 <c:set var="model" value="${pageContext.request.getAttribute('model')}"/>

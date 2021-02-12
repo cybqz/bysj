@@ -77,10 +77,9 @@
     function loadTable(param) {
         let columns = [{key:'name',title:'名称'},
                       {key:'remarks',title:'备注'}];
-        let operation = {width: '220px',
+        let operation = {width: '120px',
             menus:[{title: '修改',funName: 'update',class: 'edit'},
-                   {title: '删除',funName: 'remove',class: 'delete'},
-                   {title: '编辑权限',funName: 'editPermission',class: 'edit'}]};
+                   {title: '删除',funName: 'remove',class: 'delete'}]};
         let option = {columns: columns, operation: operation};
         new Table('#list', option, param, ctx, modelUrl + "/page").renderingTable();
     }
@@ -96,10 +95,6 @@
             }, function () {
                 console.log("error");
             }).ajaxPost();
-    }
-
-    function editPermission(roleId){
-        window.location.href = ctx + modelUrl + "/editPermission?id=" + roleId;
     }
 
     function pagination_to_first() {

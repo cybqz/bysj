@@ -41,9 +41,6 @@ public class UserRoleManageController extends BasicController {
 	private RoleService roleService;
 
 	@Resource
-	private UserService userService;
-
-	@Resource
 	private UserRoleService userRoleService;
 
 	@Resource
@@ -100,6 +97,19 @@ public class UserRoleManageController extends BasicController {
 			}else{
 				tips.setMsg("当前用户未拥有此角色");
 			}
+		}
+		return tips;
+	}
+
+	@Authentication(name = "查询用户详情", roleNames = {SysCfgConstant.ROLE_ADMIN})
+	@PostMapping(SysCfgConstant.METHOD_URL_USER_DETAIL)
+	@ResponseBody
+	public Tips detail(@RequestBody JSONObject param) {
+
+		tips.setMsg("查询失败");
+		User user = userUtilService.detail(param);
+		if(null != user){
+			tips = new Tips("查询成功",  true, user);
 		}
 		return tips;
 	}

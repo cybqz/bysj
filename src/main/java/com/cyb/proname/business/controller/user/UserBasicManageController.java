@@ -92,12 +92,9 @@ public class UserBasicManageController extends BasicController {
 	public Tips detail(@RequestBody JSONObject param) {
 
 		tips.setMsg("查询失败");
-		String id = MyUtils.getByJSONObject(param, "id");
-		if(StringUtils.isNotEmpty(id)){
-			User user = userService.selectById(id);
-			if(null != user){
-				tips = new Tips("查询成功",  true, user);
-			}
+		User user = userUtilService.detail(param);
+		if(null != user){
+			tips = new Tips("查询成功",  true, user);
 		}
 		return tips;
 	}

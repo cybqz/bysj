@@ -22,10 +22,10 @@
         $(document).ready(function () {
 
             //获取用户详情
-            new BeastRequest(ctx, modelUrl + "/detail", {id:operationId}, false,
+            new BeastRequest(ctx, modelUrl + "/userDetail", {id:operationId}, false,
                 function (data) {
                     if(data && data.validate && data.data){
-                        $("#userName").val(data.data['userName']);
+                        $("#userName").html(data.data['userName']);
                     }
                 }, function () {
                     console.log("error");
@@ -36,13 +36,14 @@
         });
 
         function loadTable(param){
+            let headClass = 'table_header_inner';
             let columns = [{key:'name',title:'名称'},{key:'remarks',title:'备注'}];
             let operationHav = {width: '70px',
                 menus:[{title: '删除',funName: 'deleteUserRole',class: 'delete'}]};
-            let optionHav = {columns: columns, operation: operationHav};
+            let optionHav = {headClass: headClass, columns: columns, operation: operationHav};
             let operationNo = {width: '70px',
                 menus:[{title: '添加',funName: 'addUserRole',class: 'edit'}]};
-            let optionNo = {columns: columns, operation: operationNo};
+            let optionNo = {headClass: headClass, columns: columns, operation: operationNo};
 
             new Table('#listHav', optionHav, param, ctx, "/userRoleManage/selectPageHav").renderingTable();
             new Table('#listHavNo', optionNo, param, ctx, "/userRoleManage/selectPageHavNo").renderingTable();

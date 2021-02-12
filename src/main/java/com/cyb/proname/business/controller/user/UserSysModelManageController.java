@@ -80,6 +80,19 @@ public class UserSysModelManageController extends BasicController {
 		return tips;
 	}
 
+	@Authentication(name = "查询用户详情", roleNames = {SysCfgConstant.ROLE_ADMIN})
+	@PostMapping(SysCfgConstant.METHOD_URL_USER_DETAIL)
+	@ResponseBody
+	public Tips detail(@RequestBody JSONObject param) {
+
+		tips.setMsg("查询失败");
+		User user = userUtilService.detail(param);
+		if(null != user){
+			tips = new Tips("查询成功",  true, user);
+		}
+		return tips;
+	}
+
 	@Authentication(name = "删除系统模块", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping("deleteUserSysModel")
 	@ResponseBody

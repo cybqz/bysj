@@ -1,11 +1,9 @@
 package com.cyb.proname.business.controller.authority;
 
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.domain.Role;
 import com.cyb.authority.service.RoleService;
-import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
 import com.cyb.proname.annotation.ModelInfo;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -39,15 +36,6 @@ public class RoleManageController extends BasicController {
 
 	@Resource
 	private RoleUtilService roleUtilService;
-
-	@RequestMapping("/editPermission")
-	public String editPermission(String id, HttpServletRequest request) {
-		setModelInfo("/roleManage");
-		request.setAttribute("operationId", id);
-		request.setAttribute("modelUrl", modelUrl);
-		request.setAttribute("title", modelName +"-权限编辑");
-		return prefix + "/editPermission";
-	}
 
 	@Authentication(name = "保存角色", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)

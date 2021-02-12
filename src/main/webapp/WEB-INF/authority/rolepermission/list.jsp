@@ -56,7 +56,7 @@
 
     $(document).ready(function () {
         //加载列表数据并渲染
-        loadTable({permission: {},pagination:{limit:8}});
+        loadTable({role: {},pagination:{limit:8}});
 
         //获取总条数
         let request = new BeastRequest(ctx, modelUrl + "/count", {}, true,
@@ -70,32 +70,17 @@
         request.ajaxPost();
     })
 
-    function add() {
-        window.location.href = ctx + modelUrl + "/add"
-    }
-
     function loadTable(param) {
         let columns = [{key:'name',title:'名称'},
                       {key:'remarks',title:'备注'}];
-        let operation = {width: '120px',
-            menus:[{title: '修改',funName: 'update',class: 'edit'},
-                {title: '删除',funName: 'remove',class: 'delete'}]};
+        let operation = {width: '100px',
+            menus:[{title: '设置权限',funName: 'editPermission',class: 'edit'}]};
         let option = {columns: columns, operation: operation};
         new Table('#list', option, param, ctx, modelUrl + "/page").renderingTable();
     }
-    function update(id){
 
-        window.location.href = ctx + modelUrl + "/update?id=" + id;
-    }
-    function remove(id){
-
-        new BeastRequest(ctx, modelUrl + "/delete", {id:id}, false,
-            function (data) {
-                tips(data.msg);
-                loadTable({permission: {},pagination:{limit:8}});
-            }, function () {
-                console.log("error");
-            }).ajaxPost();
+    function editPermission(roleId) {
+        window.location.href = ctx + modelUrl + "/editPermission?id=" + roleId;
     }
 
     function pagination_to_first() {

@@ -22,10 +22,10 @@
         $(document).ready(function () {
 
             //获取用户详情
-            new BeastRequest(ctx, modelUrl + "/detail", {id:operationId}, false,
+            new BeastRequest(ctx, modelUrl + "/roleDetail", {id:operationId}, false,
                 function (data) {
                     if(data && data.validate && data.data){
-                        $("#name").val(data.data['name']);
+                        $("#roleName").html(data.data['name']);
                     }
                 }, function () {
                     console.log("error");
@@ -36,13 +36,14 @@
         });
 
         function loadTable(param){
+            let headClass = 'table_header_inner';
             let columns = [{key:'name',title:'名称'},{key:'remarks',title:'备注'}];
             let operationHav = {width: '70px',
                 menus:[{title: '删除',funName: 'deleteRolePermission',class: 'delete'}]};
-            let optionHav = {columns: columns, operation: operationHav};
+            let optionHav = {headClass: headClass, columns: columns, operation: operationHav};
             let operationNo = {width: '70px',
                 menus:[{title: '添加',funName: 'addRolePermission',class: 'edit'}]};
-            let optionNo = {columns: columns, operation: operationNo};
+            let optionNo = {headClass: headClass, columns: columns, operation: operationNo};
 
             new Table('#listHav', optionHav, param, ctx, "/rolePermissionManage/selectPageHav").renderingTable();
             new Table('#listHavNo', optionNo, param, ctx, "/rolePermissionManage/selectPageHavNo").renderingTable();
@@ -94,7 +95,7 @@
 <%@include file="../../common/header.jsp"%>
 
 <div class="wrap" style="width: 80%;">
-    <div class="header_title">${title}：<span id="name"></span></div>
+    <div class="header_title">${title}：<span id="roleName"></span></div>
 
     <!-- 用户角色表格内容展示-->
     <div style="display: flex">

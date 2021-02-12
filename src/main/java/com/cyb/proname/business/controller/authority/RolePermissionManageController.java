@@ -8,7 +8,6 @@ import com.cyb.authority.domain.Role;
 import com.cyb.authority.domain.RolePermission;
 import com.cyb.authority.service.PermissionService;
 import com.cyb.authority.service.RolePermissionService;
-import com.cyb.authority.service.RoleService;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author 陈迎博
@@ -33,11 +33,8 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping(value= "/rolePermissionManage")
-@ModelInfo(title = "角色权限管理", prefix = "authority/role")
+@ModelInfo(title = "角色权限管理", prefix = "authority/rolepermission")
 public class RolePermissionManageController extends BasicController {
-
-	@Resource
-	private RoleService roleService;
 
 	@Resource
 	private RoleUtilService roleUtilService;
@@ -47,6 +44,15 @@ public class RolePermissionManageController extends BasicController {
 
 	@Resource
 	private RolePermissionService rolePermissionService;
+
+	@RequestMapping("/editPermission")
+	public String updateAuthority(String id, HttpServletRequest request) {
+		setModelInfo("/rolePermissionManage");
+		request.setAttribute("operationId", id);
+		request.setAttribute("modelUrl", modelUrl);
+		request.setAttribute("title", modelName +"-权限编辑");
+		return prefix + "/editPermission";
+	}
 
 	@Authentication(name = "添加角色权限", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping("addRolePermission")
@@ -90,6 +96,18 @@ public class RolePermissionManageController extends BasicController {
 			}else{
 				tips.setMsg("当前角色未拥有此权限");
 			}
+		}
+		return tips;
+	}
+
+	@Authentication(name = "查询角色详情", roleNames = {SysCfgConstant.ROLE_ADMIN})
+	@PostMapping("roleDetail")
+	@ResponseBody
+	public Tips roleDetail(@RequestBody JSONObject param) {
+		tips.setMsg("查询失败");
+		Role role = roleUtilService.detail(param);
+		if(null != role){
+			tips = new Tips("查询成功",  true, role);
 		}
 		return tips;
 	}

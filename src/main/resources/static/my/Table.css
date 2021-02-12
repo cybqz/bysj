@@ -2,20 +2,20 @@
  * ------------------------------------------------------------------------------
  * 表格头部样式
  */
-.table_header{
+.table_header_outer{
     background: #0F5F7E;
     color: white;
     font-size: 16px;
     height: 60px;
 }
-.table_header > .ul_wrap{
+.table_header_outer > .ul_wrap{
     list-style: none;
     display: flex;
     padding: 0;
     margin: 0;
     border-bottom: 1px #909090 solid;
 }
-.table_header > .ul_wrap > .li_wrap{
+.table_header_outer > .ul_wrap > .li_wrap{
     flex: 1;
     padding: 0 20px;
     text-align: center;
@@ -27,9 +27,42 @@
     white-space: nowrap;
     font-size: larger;
 }
-.table_header > .ul_wrap > .operation{
+.table_header_outer > .ul_wrap > .operation{
     height: 60px;
     line-height: 60px;
+    text-align: center;
+    padding: 2px;
+    font-size: larger;
+}
+
+.table_header_inner{
+    background: #62696c;
+    color: white;
+    font-size: 15px;
+    height: 50px;
+}
+.table_header_inner > .ul_wrap{
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px #909090 solid;
+}
+.table_header_inner > .ul_wrap > .li_wrap{
+    flex: 1;
+    padding: 0 20px;
+    text-align: center;
+    font-size: 14px;
+    height: 50px;
+    line-height: 50px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    font-size: larger;
+}
+.table_header_inner > .ul_wrap > .operation{
+    height: 50px;
+    line-height: 50px;
     text-align: center;
     padding: 2px;
     font-size: larger;

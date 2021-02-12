@@ -14,15 +14,22 @@ let Table = (function(window) {
             this.param = param;
             let columns = option.columns;
             let operation = option.operation;
+            let headClass = option.headClass;
+
+            //设置默认操作栏宽度
             if(!operation.width){
                 operation.width = '180px;';
+            }
+            //设置默认表格样式
+            if(undefined == headClass || null == headClass || headClass === ""){
+                headClass = 'table_header_outer';
             }
             //渲染表格
             this.renderingTable= function () {
 
                 //清空历史数据
                 $(element + " > .table_content").html("");
-                let table_header = '<div class="table_header"><ul class="ul_wrap">';
+                let table_header = '<div class="' + headClass + '"><ul class="ul_wrap">';
                 let table_content = '<div class="table_content">';
                 let table_pagination = '<div class="table_pagination"><ul class="pageWrap">\n' +
                         '<li class="page_text " id="page_pre">上一页</li>\n' +

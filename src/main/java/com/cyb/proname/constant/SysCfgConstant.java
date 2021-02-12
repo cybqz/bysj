@@ -13,7 +13,7 @@ public class SysCfgConstant {
 	//页面URL配置
 	public final static String DEFAULT_LIST_PAGE_SUFFIX = "/list";
 
-	//方法名配置
+	//默认方法名配置
 	public final static String METHOD_URL_ADD = "/add";
 	public final static String METHOD_URL_SAVE = "/save";
 	public final static String METHOD_URL_DELETE = "/delete";
@@ -23,4 +23,7 @@ public class SysCfgConstant {
 	public final static String METHOD_URL_VIEW = "/view";
 	public final static String METHOD_URL_COUNT = "/count";
 	public final static String METHOD_URL_PAGE = "/page";
+
+	//方法名配置
+	public final static String METHOD_URL_USER_DETAIL = "/userDetail";
 }

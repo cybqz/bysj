@@ -22,10 +22,10 @@
         $(document).ready(function () {
 
             //获取用户详情
-            new BeastRequest(ctx, modelUrl + "/detail", {id:operationId}, false,
+            new BeastRequest(ctx, modelUrl + "/userDetail", {id:operationId}, false,
                 function (data) {
                     if(data && data.validate && data.data){
-                        $("#title").val(data.data['title']);
+                        $("#userName").html(data.data['userName']);
                     }
                 }, function () {
                     console.log("error");
@@ -36,13 +36,14 @@
         });
 
         function loadTable(param){
+            let headClass = 'table_header_inner';
             let columns = [{key:'title',title:'标题'},{key:'remarks',title:'备注'}];
             let operationHav = {width: '70px',
                 menus:[{title: '删除',funName: 'deleteUserSysModel',class: 'delete'}]};
-            let optionHav = {columns: columns, operation: operationHav};
+            let optionHav = {headClass: headClass, columns: columns, operation: operationHav};
             let operationNo = {width: '70px',
                 menus:[{title: '添加',funName: 'addUserSysModel',class: 'edit'}]};
-            let optionNo = {columns: columns, operation: operationNo};
+            let optionNo = {headClass: headClass, columns: columns, operation: operationNo};
 
             new Table('#listHav', optionHav, param, ctx, "/userSysModelManage/selectPageHav").renderingTable();
             new Table('#listHavNo', optionNo, param, ctx, "/userSysModelManage/selectPageHavNo").renderingTable();
@@ -93,7 +94,7 @@
 <%@include file="../../common/header.jsp"%>
 
 <div class="wrap" style="width: 80%;">
-    <div class="header_title">${title}：<span id="title"></span></div>
+    <div class="header_title">${title}：<span id="userName"></span></div>
 
     <!-- 用户系统模块表格内容展示-->
     <div style="display: flex">

@@ -6,6 +6,8 @@ import com.cyb.authority.domain.User;
 import com.cyb.authority.service.UserService;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
+import com.cyb.common.validation.group.AddValid;
+import com.cyb.common.validation.group.UpdateValid;
 import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.business.domain.Model;
@@ -14,8 +16,8 @@ import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -38,7 +40,7 @@ public class UserBasicManageController extends BasicController {
 	@Authentication(name = "保存用户", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
 	@ResponseBody
-	public Tips save(@RequestBody User user, HttpSession session) {
+	public Tips save(@RequestBody @Validated(AddValid.class) User user, HttpSession session) {
 		tips = new Tips("新增失败", true, false);
 		User userTemp = userService.selectByUserName(user.getUserName());
 		if(null == userTemp){
@@ -73,7 +75,7 @@ public class UserBasicManageController extends BasicController {
 	@Authentication(name = "更新用户", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_DO_UPDATE)
 	@ResponseBody
-	public Tips doUpdate(@RequestBody User user) {
+	public Tips doUpdate(@RequestBody @Validated(UpdateValid.class) User user) {
 		tips = new Tips("更新失败", true, false);
 		if(StringUtils.isNotEmpty(user.getId())){
 			boolean success = userService.updateById(user);

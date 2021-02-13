@@ -8,6 +8,8 @@ import com.cyb.authority.service.PermissionService;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
+import com.cyb.common.validation.group.AddValid;
+import com.cyb.common.validation.group.UpdateValid;
 import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.business.domain.Model;
@@ -15,6 +17,7 @@ import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +40,7 @@ public class PermissionManageController extends BasicController {
 	@Authentication(name = "保存权限", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
 	@ResponseBody
-	public Tips save(@RequestBody Permission permission) {
+	public Tips save(@RequestBody @Validated(AddValid.class) Permission permission) {
 		tips = new Tips("新增失败", true, false);
 		Permission permissionTemp = permissionService.selectByName(permission.getName());
 		if(null == permissionTemp){
@@ -71,7 +74,7 @@ public class PermissionManageController extends BasicController {
 	@Authentication(name = "更新权限", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_DO_UPDATE)
 	@ResponseBody
-	public Tips doUpdate(@RequestBody Permission permission) {
+	public Tips doUpdate(@RequestBody @Validated(UpdateValid.class) Permission permission) {
 		tips = new Tips("更新失败", true, false);
 		if(StringUtils.isNotEmpty(permission.getId())){
 			boolean success = permissionService.updateById(permission);

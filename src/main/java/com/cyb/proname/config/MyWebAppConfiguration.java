@@ -61,5 +61,4 @@ public class MyWebAppConfiguration extends WebMvcConfigurationSupport {
         );
         log.info("自定义拦截器注册完成......");
     }
-
 }

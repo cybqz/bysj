@@ -6,6 +6,8 @@ import com.cyb.authority.domain.Role;
 import com.cyb.authority.service.RoleService;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
+import com.cyb.common.validation.group.AddValid;
+import com.cyb.common.validation.group.UpdateValid;
 import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.business.domain.Model;
@@ -14,6 +16,7 @@ import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +43,7 @@ public class RoleManageController extends BasicController {
 	@Authentication(name = "保存角色", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
 	@ResponseBody
-	public Tips save(@RequestBody Role role, HttpSession session) {
+	public Tips save(@RequestBody @Validated(AddValid.class) Role role, HttpSession session) {
 		tips = new Tips("新增失败", true, false);
 		Role roleTemp = roleService.selectByName(role.getName());
 		if(null == roleTemp){
@@ -74,7 +77,7 @@ public class RoleManageController extends BasicController {
 	@Authentication(name = "更新角色", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_DO_UPDATE)
 	@ResponseBody
-	public Tips doUpdate(@RequestBody Role role) {
+	public Tips doUpdate(@RequestBody @Validated(UpdateValid.class) Role role) {
 		tips = new Tips("更新失败", true, false);
 		if(StringUtils.isNotEmpty(role.getId())){
 			boolean success = roleService.updateById(role);

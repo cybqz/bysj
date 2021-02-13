@@ -11,6 +11,7 @@ import com.cyb.authority.vo.SysModelVO;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
+import com.cyb.common.validation.group.AddValid;
 import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.business.domain.Model;
@@ -20,6 +21,7 @@ import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,7 +61,7 @@ public class UserSysModelManageController extends BasicController {
 	@Authentication(name = "保存系统模块", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping("addUserSysModel")
 	@ResponseBody
-	public Tips addUserSysModel(@RequestBody UserSysModel userSysModel) {
+	public Tips addUserSysModel(@RequestBody @Validated(AddValid.class) UserSysModel userSysModel) {
 		tips = new Tips("新增失败", true, false);
 
 		if(StringUtils.isBlank(userSysModel.getUserId())){

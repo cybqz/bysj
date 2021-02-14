@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.domain.User;
 import com.cyb.authority.service.UserService;
+import com.cyb.authority.vo.UserSearchVO;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
 import com.cyb.common.validation.group.AddValid;
@@ -20,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 
 /**
  * @Author 陈迎博
@@ -78,6 +80,7 @@ public class UserBasicManageController extends BasicController {
 	public Tips doUpdate(@RequestBody @Validated(UpdateValid.class) User user) {
 		tips = new Tips("更新失败", true, false);
 		if(StringUtils.isNotEmpty(user.getId())){
+			user.setUpdateDateTime(LocalDateTime.now());
 			boolean success = userService.updateById(user);
 			if(success){
 				tips = new Tips("更新成功", true, true);
@@ -114,7 +117,7 @@ public class UserBasicManageController extends BasicController {
 	@Authentication(name = "查询用户总数", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
-	public Tips count(@RequestBody User user) {
+	public Tips count(@RequestBody UserSearchVO user) {
 		return userUtilService.selectCount(user);
 	}
 }

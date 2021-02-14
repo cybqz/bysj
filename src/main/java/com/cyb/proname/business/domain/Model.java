@@ -7,11 +7,14 @@ import com.cyb.proname.constant.SexEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @TableName(value = "model")
 public class Model implements Serializable {
@@ -34,12 +37,10 @@ public class Model implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @TableField(value = "create_date_time")
-    private Date createDateTime;
+    private LocalDateTime createDateTime;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @TableField(value = "update_date_time")
-    private Date updateDateTime;
-
-    public Model(){}
+    private LocalDateTime updateDateTime;
 }

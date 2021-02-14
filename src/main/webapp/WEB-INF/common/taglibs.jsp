@@ -8,6 +8,18 @@
 <c:set var="operationId" value="${pageContext.request.getAttribute('operationId')}"/>
 <c:set var="isShowSideMenu" value="${pageContext.request.getAttribute('isShowSideMenu')}"/>
 <c:set var="parentPageName" value="${pageContext.request.getAttribute('parentPageName')}"/>
+
+<script src="${ctx}/js/jquery.js"></script>
+<script src="${ctx}/js/jquery.slimscroll.min.js"></script>
+<script src="${ctx}/js/pintuer.js"></script>
+<script src="${ctx}/js/cookie_util.js"></script>
+<script src="${ctx}/js/notice.js"></script>
+<script src="${ctx}/laydate/laydate.js"></script>
+<script src="${ctx}/my/BeastRequest.js"></script>
+<script src="${ctx}/my/SideMenu.js"></script>
+<script src="${ctx}/my/Table.js"></script>
+<script src="${ctx}/my/Util.js"></script>
+
 <script type="text/javascript">
     let ctx = "${ctx}";
     let model = "${model}";

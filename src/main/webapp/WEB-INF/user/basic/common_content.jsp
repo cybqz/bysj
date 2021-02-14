@@ -6,10 +6,6 @@
     <input id="name" type="text" class="content">
 </div>
 <div class="list">
-    <span class="title">用户名称：</span>
-    <input id="userName" type="text" class="content">
-</div>
-<div class="list">
     <span class="title">密码：</span>
     <input id="password" type="text" class="content">
 </div>
@@ -25,12 +21,20 @@
     </div>
 </div>
 <div class="list">
-    <span class="radio_wrap">手机号码：</span>
+    <span class="radio_wrap">用户名：</span>
+    <input id="userName" type="text" class="content">
+</div>
+<div class="list">
+    <span class="radio_wrap">手机号：</span>
     <input id="phone" type="text" class="content">
 </div>
 <div class="list">
     <span class="radio_wrap">邮箱：</span>
     <input id="email" type="text" class="content">
+</div>
+<div class="list">
+    <span class="radio_wrap">地址：</span>
+    <textarea id="address" type="text" class="content"></textarea>
 </div>
 <div class="list">
     <span class="radio_wrap">介绍：</span>

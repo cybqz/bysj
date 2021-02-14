@@ -8,6 +8,7 @@ import com.cyb.authority.domain.Role;
 import com.cyb.authority.domain.RolePermission;
 import com.cyb.authority.service.PermissionService;
 import com.cyb.authority.service.RolePermissionService;
+import com.cyb.authority.vo.RoleSearchVO;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
@@ -189,7 +190,7 @@ public class RolePermissionManageController extends BasicController {
 	@Authentication(name = "查询角色总数", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
-	public Tips count(@RequestBody Role role) {
+	public Tips count(@RequestBody RoleSearchVO role) {
 		return roleUtilService.selectCount(role);
 	}
 }

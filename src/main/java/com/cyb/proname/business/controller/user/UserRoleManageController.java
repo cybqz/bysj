@@ -9,6 +9,7 @@ import com.cyb.authority.domain.UserRole;
 import com.cyb.authority.service.RoleService;
 import com.cyb.authority.service.UserRoleService;
 import com.cyb.authority.service.UserService;
+import com.cyb.authority.vo.UserSearchVO;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
@@ -191,7 +192,7 @@ public class UserRoleManageController extends BasicController {
 	@Authentication(name = "查询用户总数", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
-	public Tips count(@RequestBody User user) {
+	public Tips count(@RequestBody UserSearchVO user) {
 		return userUtilService.selectCount(user);
 	}
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -37,7 +38,7 @@ public class ModelController extends BasicController {
 	public Tips save(@RequestBody Model model) {
 		tips = new Tips("新增失败", true, false);
 		model.setId(MyUtils.getPrimaryKey());
-		model.setCreateDateTime(new Date());
+		model.setCreateDateTime(LocalDateTime.now());
 		int count = modelService.insert(model);
 		if(count > 0){
 			tips = new Tips("新增成功", true, true);
@@ -68,6 +69,7 @@ public class ModelController extends BasicController {
 	public Tips doUpdate(@RequestBody Model model) {
 		tips = new Tips("更新失败", true, false);
 		if(StringUtils.isNotEmpty(model.getId())){
+			model.setUpdateDateTime(LocalDateTime.now());
 			boolean success = modelService.updateById(model);
 			if(success){
 				tips = new Tips("更新成功", true, true);

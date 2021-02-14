@@ -11,11 +11,6 @@
     <link rel="stylesheet" type="text/css" href="${ctx}/css/noticejs.css" />
     <link rel="stylesheet" type="text/css" href="${ctx}/css/styles.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/my/add.css">
- 	<script src="${ctx}/js/jquery.js"></script>
-    <script src="${ctx}/js/pintuer.js"></script>
-    <script src="${ctx}/js/cookie_util.js"></script>
-    <script src="${ctx}/js/notice.js"></script>
-    <script src="${ctx}/my/BeastRequest.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
 

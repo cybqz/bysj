@@ -19,30 +19,51 @@
     display: flex;
     align-items: center;
 }
-#top_text > .title{
-    height: 40px;
-    line-height: 40px;
-    font-size: 22px;
-    position: relative;
-    display: flex;
-    align-items: center;
-}
 .message_wrap{
     flex: 1;
+    font-size: 18px;
 }
 .search_wrap{
-    width: 50%;
+    width: 70%;
     align-items: center;
     justify-content: flex-start;
     display: flex;
     margin-right: 100px;
 }
-.searchInput{
+.searchInput_Flex{
     height: 40px;
     flex: 1;
     border:gainsboro 1px solid;
     border-radius:  3px 0 0 3px;
     padding: 15px 5px;
+    margin-right: 5px;
+
+}
+.searchInput_120{
+    height: 40px;
+    width: 120px;
+    border:gainsboro 1px solid;
+    border-radius:  3px 0 0 3px;
+    padding: 15px 5px;
+    margin-right: 5px;
+
+}
+.searchInput_160{
+    height: 40px;
+    width: 160px;
+    border:gainsboro 1px solid;
+    border-radius:  3px 0 0 3px;
+    padding: 15px 5px;
+    margin-right: 5px;
+
+}
+.searchInput_275{
+    height: 40px;
+    width: 275px;
+    border:gainsboro 1px solid;
+    border-radius:  3px 0 0 3px;
+    padding: 15px 5px;
+    margin-right: 5px;
 
 }
 .searchBtn{

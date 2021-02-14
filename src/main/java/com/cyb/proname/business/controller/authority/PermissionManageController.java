@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.domain.Permission;
 import com.cyb.authority.service.PermissionService;
+import com.cyb.authority.vo.PermissionSearchVO;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 
 /**
  * @Author 陈迎博
@@ -77,6 +79,7 @@ public class PermissionManageController extends BasicController {
 	public Tips doUpdate(@RequestBody @Validated(UpdateValid.class) Permission permission) {
 		tips = new Tips("更新失败", true, false);
 		if(StringUtils.isNotEmpty(permission.getId())){
+			permission.setUpdateDateTime(LocalDateTime.now());
 			boolean success = permissionService.updateById(permission);
 			if(success){
 				tips = new Tips("更新成功", true, true);
@@ -109,7 +112,7 @@ public class PermissionManageController extends BasicController {
 	public TipsPagination<Model> page(@RequestBody JSONObject param) {
 		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
 		tipsPagination.convertFromTips(tips);
-		Permission permission = param.getObject("permission", Permission.class);
+		PermissionSearchVO permission = param.getObject("permission", PermissionSearchVO.class);
 		Pagination pagination = param.getObject("pagination", Pagination.class);
 		int count = permissionService.selectCount(permission);
 		if(count > 0){
@@ -126,7 +129,7 @@ public class PermissionManageController extends BasicController {
 	@Authentication(name = "查询权限总数", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
-	public Tips count(@RequestBody Permission permission) {
+	public Tips count(@RequestBody PermissionSearchVO permission) {
 		int count = permissionService.selectCount(permission);
 		tips = new Tips("查询成功",  true, count);
 		return tips;

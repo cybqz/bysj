@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.domain.Role;
 import com.cyb.authority.service.RoleService;
+import com.cyb.authority.vo.RoleSearchVO;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
 import com.cyb.common.validation.group.AddValid;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 
 /**
  * @Author 陈迎博
@@ -80,6 +82,7 @@ public class RoleManageController extends BasicController {
 	public Tips doUpdate(@RequestBody @Validated(UpdateValid.class) Role role) {
 		tips = new Tips("更新失败", true, false);
 		if(StringUtils.isNotEmpty(role.getId())){
+			role.setUpdateDateTime(LocalDateTime.now());
 			boolean success = roleService.updateById(role);
 			if(success){
 				tips = new Tips("更新成功", true, true);
@@ -120,7 +123,7 @@ public class RoleManageController extends BasicController {
 	@Authentication(name = "查询角色总数", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
-	public Tips count(@RequestBody Role role) {
+	public Tips count(@RequestBody RoleSearchVO role) {
 		return roleUtilService.selectCount(role);
 	}
 }

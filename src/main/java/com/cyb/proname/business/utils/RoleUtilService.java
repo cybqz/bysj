@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.domain.Role;
 import com.cyb.authority.service.RoleService;
+import com.cyb.authority.vo.RoleSearchVO;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
@@ -31,7 +32,7 @@ public class RoleUtilService {
 	private RoleService roleService;
 
 	public void page(JSONObject param, TipsPagination<Model> tipsPagination) {
-		Role role = param.getObject("role", Role.class);
+		RoleSearchVO role = param.getObject("role", RoleSearchVO.class);
 		Pagination pagination = param.getObject("pagination", Pagination.class);
 		int count = roleService.selectCount(role);
 		if(count > 0){
@@ -53,7 +54,7 @@ public class RoleUtilService {
 		return null;
 	}
 
-	public Tips selectCount(Role role) {
+	public Tips selectCount(RoleSearchVO role) {
 		int count = roleService.selectCount(role);
 		return new Tips("查询成功",  true, count);
 	}

@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <link rel="stylesheet" type="text/css" href="${ctx}/css/left-side-menu.css">
 <link rel="stylesheet" type="text/css" href="${ctx}/font/iconfont.css">
-<script src="${ctx}/js/jquery.js"></script>
-<script src="${ctx}/js/jquery.slimscroll.min.js"></script>
-<script src="${ctx}/my/SideMenu.js"></script>
+<link rel="stylesheet" type="text/css" href="${ctx}/css/noticejs.css" />
+<link rel="stylesheet" type="text/css" href="${ctx}/css/styles.css">
+<link rel="stylesheet" type="text/css" href="${ctx}/my/Search.css">
+<link rel="stylesheet" type="text/css" href="${ctx}/my/Table.css">
+
 <div class="left-side-menu" >
     <div class="lsm-expand-btn">
         <div class="lsm-mini-btn">

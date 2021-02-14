@@ -11,16 +11,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/noticejs.css" />
-    <link rel="stylesheet" type="text/css" href="${ctx}/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="${ctx}/my/Search.css">
-    <link rel="stylesheet" type="text/css" href="${ctx}/my/Table.css">
- 	<script src="${ctx}/js/jquery.js"></script>
-    <script src="${ctx}/js/pintuer.js"></script>
-    <script src="${ctx}/js/cookie_util.js"></script>
-    <script src="${ctx}/js/notice.js"></script>
-    <script src="${ctx}/my/BeastRequest.js"></script>
-    <script src="${ctx}/my/Table.js"></script>
 </head>
 <body>
     <!-- 引入头部 -->
@@ -34,8 +24,15 @@
         <div  id="content">
             <!-- 表格的公共信息展示 -->
             <div id="top_text">
-                 <span class="title">
+                <span class="message_wrap">
                    ${model}共 &nbsp;<span id="count" class="color_blue">0</span>&nbsp; 条
+                </span>
+                <span class="search_wrap">
+                    <input id="name" class="searchInput_120" placeholder="请输入姓名" type="text"/>
+                    <input id="userName" class="searchInput_120" placeholder="请输入用户名" type="text"/>
+                    <input id="phone" class="searchInput_120" placeholder="请输入手机号" type="text"/>
+                    <input id="dateTime" class = "searchInput_275" placeholder="请选择创建时间" type="text"/>
+                    <span class="searchBtn">搜索</span>
                 </span>
             </div>
             <!-- 表格内容展示-->
@@ -54,15 +51,35 @@
         loadTable({user: {},pagination:{limit:8}});
 
         //获取总条数
-        let request = new BeastRequest(ctx, modelUrl + "/count", {}, true,
+        new BeastRequest(ctx, modelUrl + "/count", {}, true,
             function (data) {
                 if(data && data.validate && data.data){
                     $("#count").html(data.data);
                 }
             }, function () {
                 console.log("error");
+            }).ajaxPost();
+
+        //渲染时间搜索框
+        laydate.render({
+            elem: '#dateTime'
+            ,type: 'datetime'
+            ,theme: '#0F5F7E'
+            ,range: true
+        });
+
+        //搜索事件
+        $(".searchBtn").click(function () {
+            let user = {};
+            $.each($(".search_wrap").children(), function (k, v){
+                let id = $(v).attr("id");
+                let val = $(v).val();
+                if(Util.isNotBlankStr(id) && Util.isNotBlankStr(val)){
+                    user[id] = val;
+                }
             });
-        request.ajaxPost();
+            loadTable({user: user,pagination:{limit:8}});
+        });
     })
 
     function loadTable(param) {

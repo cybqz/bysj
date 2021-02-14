@@ -2,21 +2,16 @@ package com.cyb.proname.business.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.domain.User;
 import com.cyb.authority.service.UserService;
+import com.cyb.authority.vo.UserSearchVO;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
 import com.cyb.proname.business.domain.Model;
-import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.annotation.Resource;
 
 /**
@@ -31,7 +26,7 @@ public class UserUtilService {
 	private UserService userService;
 
 	public void page(JSONObject param, TipsPagination<Model> tipsPagination) {
-		User user = param.getObject("user", User.class);
+		UserSearchVO user = param.getObject("user", UserSearchVO.class);
 		Pagination pagination = param.getObject("pagination", Pagination.class);
 		int count = userService.selectCount(user);
 		if(count > 0){
@@ -53,7 +48,7 @@ public class UserUtilService {
 		return null;
 	}
 
-	public Tips selectCount(User user) {
+	public Tips selectCount(UserSearchVO user) {
 		int count = userService.selectCount(user);
 		return new Tips("查询成功",  true, count);
 	}

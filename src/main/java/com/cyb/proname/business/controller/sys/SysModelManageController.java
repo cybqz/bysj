@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 
 /**
  * @Author 陈迎博
@@ -90,8 +91,10 @@ public class SysModelManageController extends BasicController {
 					if(StringUtils.isNotBlank(sysModel.getParentId())){
 						updater.setParentId(sysModel.getParentId());
 					}
+
 					updater.setSort(sysModel.getSort());
 					updater.setTitle(sysModel.getTitle());
+					updater.setUpdateDateTime(LocalDateTime.now());
 
 					boolean success = sysModelService.updateById(sysModel);
 					if(success){

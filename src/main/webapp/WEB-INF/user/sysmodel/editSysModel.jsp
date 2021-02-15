@@ -26,7 +26,7 @@
                 }).ajaxPost();
 
             //加载系统模块页列表
-            loadTable({userSysModel: {userId: operationId},pagination:{limit:8}});
+            loadTable({userSysModel: {userId: operationId},pagination:{limit:tableSizeDefault}});
         });
 
         function loadTable(param){
@@ -50,7 +50,7 @@
                 new BeastRequest(ctx, "/userSysModelManage/addUserSysModel", {userId: operationId, sysModelId: sysModelId}, false,
                     function (data) {
                         if(data && data.validate){
-                            loadTable({userSysModel: {userId: operationId},pagination:{limit:8}});
+                            loadTable({userSysModel: {userId: operationId},pagination:{limit:tableSizeDefault}});
                         }
                     }, function () {
                         console.log("error");
@@ -68,7 +68,7 @@
                 new BeastRequest(ctx, "/userSysModelManage/deleteUserSysModel", {userId: operationId, sysModelId: sysModelId}, false,
                     function (data) {
                         if(data && data.validate){
-                            loadTable({userSysModel: {userId: operationId},pagination:{limit:8}});
+                            loadTable({userSysModel: {userId: operationId},pagination:{limit:tableSizeDefault}});
                         }
                     }, function () {
                         console.log("error");

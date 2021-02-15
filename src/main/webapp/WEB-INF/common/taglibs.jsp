@@ -31,6 +31,7 @@
     let parentPageName = "${parentPageName}";
     let signedIndUserId = null;
     let userSysModelList = null;
+    let tableSizeDefault = 6;
 
     document.onreadystatechange = function() {
         if(document.readyState == "complete") {

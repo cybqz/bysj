@@ -26,7 +26,7 @@
                 }).ajaxPost();
 
             //加载角色页列表
-            loadTable({userRole: {userId: operationId},pagination:{limit:8}});
+            loadTable({userRole: {userId: operationId},pagination:{limit:tableSizeDefault}});
         });
 
         function loadTable(param){
@@ -50,7 +50,7 @@
                 new BeastRequest(ctx, "/userRoleManage/addUserRole", {userId: operationId, roleId: roleId}, false,
                     function (data) {
                         if(data && data.validate){
-                            loadTable({userRole: {userId: operationId},pagination:{limit:8}});
+                            loadTable({userRole: {userId: operationId},pagination:{limit:tableSizeDefault}});
                         }
                     }, function () {
                         console.log("error");
@@ -68,7 +68,7 @@
                 new BeastRequest(ctx, "/userRoleManage/deleteUserRole", {userId: operationId, roleId: roleId}, false,
                     function (data) {
                         if(data && data.validate){
-                            loadTable({userRole: {userId: operationId},pagination:{limit:8}});
+                            loadTable({userRole: {userId: operationId},pagination:{limit:tableSizeDefault}});
                         }
                     }, function () {
                         console.log("error");

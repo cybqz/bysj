@@ -28,7 +28,9 @@
                    ${model} 共 &nbsp;<span id="count" class="color_blue">0</span>&nbsp; 条
                 </span>
                 <span class="search_wrap">
-                    <input id="name" class="searchInput_120" placeholder="请输入名称" type="text"/>
+                    <input id="title" class="searchInput_160" placeholder="请输入标题" type="text"/>
+                    <input id="navbar" class="searchInput_160" placeholder="请输入导航栏名称" type="text"/>
+                    <input id="url" class="searchInput_160" placeholder="请输入访问路径" type="text"/>
                     <input id="dateTime" class = "searchInput_275" placeholder="请选择创建时间" type="text"/>
                     <span class="searchBtn">搜索</span>
                 </span>
@@ -51,7 +53,7 @@
 
     $(document).ready(function () {
         //加载列表数据并渲染
-        loadTable({sysModel: {},pagination:{limit:7}});
+        loadTable({sysModel: {},pagination:{limit:tableSizeDefault}});
 
         //获取总条数
         new BeastRequest(ctx, modelUrl + "/count", {}, true,
@@ -73,15 +75,15 @@
 
         //搜索事件
         $(".searchBtn").click(function () {
-            let user = {};
+            let sysModel = {};
             $.each($(".search_wrap").children(), function (k, v){
                 let id = $(v).attr("id");
                 let val = $(v).val();
                 if(Util.isNotBlankStr(id) && Util.isNotBlankStr(val)){
-                    user[id] = val;
+                    sysModel[id] = val;
                 }
             });
-            loadTable({user: user,pagination:{limit:8}});
+            loadTable({sysModel: sysModel,pagination:{limit:tableSizeDefault}});
         });
     })
 
@@ -111,7 +113,7 @@
         new BeastRequest(ctx, modelUrl + "/delete", {id:id}, false,
             function (data) {
                 tips(data.msg);
-                loadTable({sysModel: {},pagination:{limit:7}});
+                loadTable({sysModel: {},pagination:{limit:tableSizeDefault}});
             }, function () {
                 console.log("error");
             }).ajaxPost();

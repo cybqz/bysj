@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cyb.authority.annotation.Authentication;
 import com.cyb.authority.domain.SysModel;
 import com.cyb.authority.service.SysModelService;
+import com.cyb.authority.vo.SysModelSearchVO;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
@@ -134,7 +135,7 @@ public class SysModelManageController extends BasicController {
 	public TipsPagination<Model> page(@RequestBody JSONObject param) {
 		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
 		tipsPagination.convertFromTips(tips);
-		SysModel sysModel = param.getObject("sysModel", SysModel.class);
+		SysModelSearchVO sysModel = param.getObject("sysModel", SysModelSearchVO.class);
 		Pagination pagination = param.getObject("pagination", Pagination.class);
 		int count = sysModelService.selectCount(sysModel);
 		if(count > 0){
@@ -154,7 +155,7 @@ public class SysModelManageController extends BasicController {
 	public TipsPagination<Model> parentPage(@RequestBody JSONObject param) {
 		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
 		tipsPagination.convertFromTips(tips);
-		SysModel sysModel = param.getObject("sysModel", SysModel.class);
+		SysModelSearchVO sysModel = param.getObject("sysModel", SysModelSearchVO.class);
 		Pagination pagination = param.getObject("pagination", Pagination.class);
 		int count = sysModelService.selectParentCount(sysModel);
 		if(count > 0){
@@ -171,7 +172,7 @@ public class SysModelManageController extends BasicController {
 	@Authentication(name = "查询系统模块总数", roleNames = {SysCfgConstant.ROLE_ADMIN})
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
-	public Tips count(@RequestBody SysModel sysModel) {
+	public Tips count(@RequestBody SysModelSearchVO sysModel) {
 		int count = sysModelService.selectCount(sysModel);
 		tips = new Tips("查询成功",  true, count);
 		return tips;

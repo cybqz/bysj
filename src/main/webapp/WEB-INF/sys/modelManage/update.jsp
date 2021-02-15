@@ -31,7 +31,7 @@
                 }).ajaxPost();
 
             //加载列表数据并渲染
-            loadTable({sysModel: {},pagination:{limit:7}});
+            loadTable({sysModel: {},pagination:{limit:tableSizeDefault}});
         });
         function doUpdate() {
             let param = {

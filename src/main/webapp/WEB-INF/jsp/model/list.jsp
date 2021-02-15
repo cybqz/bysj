@@ -51,7 +51,7 @@
 
     $(document).ready(function () {
         //加载列表数据并渲染
-        loadTable({model: {},pagination:{limit:8}});
+        loadTable({model: {},pagination:{limit:tableSizeDefault}});
 
         //获取总条数
         new BeastRequest(ctx, modelUrl + "/count", {}, true,
@@ -81,7 +81,7 @@
                     user[id] = val;
                 }
             });
-            loadTable({user: user,pagination:{limit:8}});
+            loadTable({user: user,pagination:{limit:tableSizeDefault}});
         });
     })
 
@@ -109,7 +109,7 @@
         new BeastRequest(ctx, modelUrl + "/delete", {id:id}, false,
             function (data) {
                 tips(data.msg);
-                loadTable({model: {},pagination:{limit:8}});
+                loadTable({model: {},pagination:{limit:tableSizeDefault}});
             }, function () {
                 console.log("error");
             }).ajaxPost();

@@ -3,7 +3,6 @@ package com.cyb.proname.business.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cyb.authority.annotation.Authentication;
-import com.cyb.authority.base.BaseController;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
@@ -11,26 +10,24 @@ import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
 import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.business.domain.Model;
-import com.cyb.proname.business.service.ModelService;
+import com.cyb.proname.business.service.TemplatesService;
 import com.cyb.proname.utils.MyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * 模块管理控制层
  */
 @Controller
-@RequestMapping(value= "/model")
-@ModelInfo(title = "模板模块管理", navbar ="", prefix = "jsp/model")
-public class ModelController extends BasicController {
+@RequestMapping(value= "/templates")
+@ModelInfo(title = "模板模块管理", navbar ="", prefix = "/templates")
+public class TemplatesController extends BasicController {
 
 	@Resource
-	private ModelService modelService;
+	private TemplatesService templatesService;
 
 	@Authentication(name = "保存", roleNames = {"teamMeb"})
 	@PostMapping(SysCfgConstant.METHOD_URL_SAVE)
@@ -39,7 +36,7 @@ public class ModelController extends BasicController {
 		tips = new Tips("新增失败", true, false);
 		model.setId(MyUtils.getPrimaryKey());
 		model.setCreateDateTime(LocalDateTime.now());
-		int count = modelService.insert(model);
+		int count = templatesService.insert(model);
 		if(count > 0){
 			tips = new Tips("新增成功", true, true);
 		}
@@ -53,7 +50,7 @@ public class ModelController extends BasicController {
 		tips = new Tips("删除失败", true, false);
 		String id = MyUtils.getByJSONObject(param, "id");
 		if(StringUtils.isNotEmpty(id)){
-			int count = modelService.deleteById(id);
+			int count = templatesService.deleteById(id);
 			if(count > 0){
 				tips = new Tips("删除成功", true, true);
 			}
@@ -70,7 +67,7 @@ public class ModelController extends BasicController {
 		tips = new Tips("更新失败", true, false);
 		if(StringUtils.isNotEmpty(model.getId())){
 			model.setUpdateDateTime(LocalDateTime.now());
-			boolean success = modelService.updateById(model);
+			boolean success = templatesService.updateById(model);
 			if(success){
 				tips = new Tips("更新成功", true, true);
 			}
@@ -88,7 +85,7 @@ public class ModelController extends BasicController {
 		tips.setMsg("查询失败");
 		String id = MyUtils.getByJSONObject(param, "id");
 		if(StringUtils.isNotEmpty(id)){
-			Model customerInfo = modelService.selectById(id);
+			Model customerInfo = templatesService.selectById(id);
 			if(null != customerInfo){
 				tips = new Tips("查询成功",  true, customerInfo);
 			}
@@ -104,9 +101,9 @@ public class ModelController extends BasicController {
 		tipsPagination.convertFromTips(tips);
 		Model model = param.getObject("model", Model.class);
 		Pagination pagination = param.getObject("pagination", Pagination.class);
-		int count = modelService.count(model);
+		int count = templatesService.count(model);
 		if(count > 0){
-			IPage<Model> page = modelService.selectPage(model, pagination);
+			IPage<Model> page = templatesService.selectPage(model, pagination);
 			pagination.setDatas(page.getRecords());
 			pagination.setTotal(count);
 			tipsPagination.setPagination(pagination);
@@ -120,7 +117,7 @@ public class ModelController extends BasicController {
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
 	public Tips count(@RequestBody Model model) {
-		int count = modelService.count(model);
+		int count = templatesService.count(model);
 		tips = new Tips("查询成功",  true, count);
 		return tips;
 	}

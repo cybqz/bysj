@@ -2,7 +2,7 @@
 <%
     request.setAttribute("isShowSideMenu",true);
 %>
-<%@include file="../../common/taglibs.jsp"%>
+<%@include file="../common/taglibs.jsp"%>
 
 <!doctype html>
 <html lang="zh">
@@ -14,12 +14,12 @@
 </head>
 <body>
     <!-- 引入头部 -->
-    <%@include file="../../common/header.jsp"%>
+    <%@include file="../common/header.jsp"%>
 
     <div class="wrap">
         <div  id="tab_wrap">
             <!-- 引入模块导航栏 -->
-            <%@include file="../../common/model_bar.jsp"%>
+            <%@include file="../common/model_bar.jsp"%>
         </div>
         <div  id="content">
             <!-- 表格的公共信息展示 -->

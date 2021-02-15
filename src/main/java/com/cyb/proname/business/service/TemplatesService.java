@@ -17,7 +17,7 @@ import javax.annotation.Resource;
    * @Date 2021/1/16
    */
 @Service
-public class ModelService extends ServiceImpl<ModelMapper,Model> {
+public class TemplatesService extends ServiceImpl<ModelMapper,Model> {
 
     @Resource
     private ModelMapper modelMapper;

@@ -8,7 +8,6 @@ import com.cyb.authority.domain.User;
 import com.cyb.authority.domain.UserRole;
 import com.cyb.authority.service.RoleService;
 import com.cyb.authority.service.UserRoleService;
-import com.cyb.authority.service.UserService;
 import com.cyb.authority.vo.UserSearchVO;
 import com.cyb.common.pagination.Pagination;
 import com.cyb.common.tips.Tips;

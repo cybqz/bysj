@@ -73,15 +73,15 @@
 
         //搜索事件
         $(".searchBtn").click(function () {
-            let user = {};
+            let model = {};
             $.each($(".search_wrap").children(), function (k, v){
                 let id = $(v).attr("id");
                 let val = $(v).val();
                 if(Util.isNotBlankStr(id) && Util.isNotBlankStr(val)){
-                    user[id] = val;
+                    model[id] = val;
                 }
             });
-            loadTable({user: user,pagination:{limit:tableSizeDefault}});
+            loadTable({model: model,pagination:{limit:tableSizeDefault}});
         });
     })
 
@@ -91,9 +91,10 @@
 
     function loadTable(param) {
         let columns = [{key:'name',title:'姓名'},
-                      {key:'sex',title:'性别',format:function (value) {return value == 1?'男':'女';}},
-                      {key:'age',title:'年龄'},
-                      {key:'description',title:'描述'}];
+                       {key:'sex',title:'性别',format:function (value) {return value == 1?'男':'女';}},
+                       {key:'age',title:'年龄'},
+                       {key:'createDateTime',title:'创建时间'},
+                       {key:'description',title:'描述'}];
         let operation = {width: '160px',
             menus:[{title: '修改',funName: 'update',class: 'edit'},
                 {title: '删除',funName: 'remove',class: 'delete'}]};

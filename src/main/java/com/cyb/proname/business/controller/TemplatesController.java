@@ -8,6 +8,7 @@ import com.cyb.common.tips.Tips;
 import com.cyb.common.tips.TipsPagination;
 import com.cyb.proname.annotation.ModelInfo;
 import com.cyb.proname.business.controller.base.BasicController;
+import com.cyb.proname.business.vo.ModelSearchVO;
 import com.cyb.proname.constant.SysCfgConstant;
 import com.cyb.proname.business.domain.Model;
 import com.cyb.proname.business.service.TemplatesService;
@@ -99,7 +100,7 @@ public class TemplatesController extends BasicController {
 	public TipsPagination<Model> page(@RequestBody JSONObject param) {
 		TipsPagination<Model> tipsPagination = new TipsPagination<Model>();
 		tipsPagination.convertFromTips(tips);
-		Model model = param.getObject("model", Model.class);
+		ModelSearchVO model = param.getObject("model", ModelSearchVO.class);
 		Pagination pagination = param.getObject("pagination", Pagination.class);
 		int count = templatesService.count(model);
 		if(count > 0){
@@ -116,7 +117,7 @@ public class TemplatesController extends BasicController {
 	@Authentication(name = "查询总数", roleNames = {"teamMeb"})
 	@PostMapping(SysCfgConstant.METHOD_URL_COUNT)
 	@ResponseBody
-	public Tips count(@RequestBody Model model) {
+	public Tips count(@RequestBody ModelSearchVO model) {
 		int count = templatesService.count(model);
 		tips = new Tips("查询成功",  true, count);
 		return tips;

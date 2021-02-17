@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 192.168.1.4-123456
+ Source Server         : 192.168.1.19-123456
  Source Server Type    : MySQL
  Source Server Version : 50730
- Source Host           : 192.168.1.4:3306
+ Source Host           : 192.168.1.19:3306
  Source Schema         : templates
 
  Target Server Type    : MySQL
  Target Server Version : 50730
  File Encoding         : 65001
 
- Date: 12/02/2021 23:01:34
+ Date: 17/02/2021 10:53:41
 */
 
 SET NAMES utf8mb4;
@@ -72,8 +72,8 @@ CREATE TABLE `permission`  (
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
-INSERT INTO `permission` VALUES ('ea326528-650a-4307-b601-142f7fe716cb', '删除数据', '删除数据', NULL, NULL);
-INSERT INTO `permission` VALUES ('f4213357-8c7d-4237-ac29-0d838f6ba6a7', '新增数据', '新增数据', NULL, NULL);
+INSERT INTO `permission` VALUES ('ea326528-650a-4307-b601-142f7fe716cb', '删除数据', '删除数据', '2021-02-18 22:05:31', NULL);
+INSERT INTO `permission` VALUES ('f4213357-8c7d-4237-ac29-0d838f6ba6a7', '新增数据', '新增数据', '2021-02-23 22:05:35', NULL);
 
 -- ----------------------------
 -- Table structure for role
@@ -91,8 +91,8 @@ CREATE TABLE `role`  (
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES ('64b37fea-0e4f-49bf-b788-a1be52fc6d21', 'admin', '管理员', NULL, NULL);
-INSERT INTO `role` VALUES ('a1f9bda4-db0f-4214-a8dd-ac33b3197dd2', 'teamMeb', '组员', NULL, NULL);
+INSERT INTO `role` VALUES ('64b37fea-0e4f-49bf-b788-a1be52fc6d21', 'admin', '管理员', '2021-02-24 22:05:17', NULL);
+INSERT INTO `role` VALUES ('a1f9bda4-db0f-4214-a8dd-ac33b3197dd2', 'teamMeb', '组员', '2021-02-25 22:05:21', NULL);
 
 -- ----------------------------
 -- Table structure for role_permission
@@ -138,12 +138,12 @@ CREATE TABLE `sys_model`  (
 -- ----------------------------
 -- Records of sys_model
 -- ----------------------------
-INSERT INTO `sys_model` VALUES ('10339aaf-d26f-4d52-be81-9056ae2f8df8', '', '模板模块管理', '模板模块管理', NULL, '/model', 100, '模板模块管理', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
-INSERT INTO `sys_model` VALUES ('83426a96-bda6-42d2-931a-8c19e25a7e6a', '9c2c95ee-38a4-4167-af34-c957c0d4f2cd', '用户系统模块管理', '系统模块管理', NULL, '/userSysModelManage', 100, '用户系统模块管理', '2021-02-06 22:39:11', '2021-02-06 22:39:11');
-INSERT INTO `sys_model` VALUES ('8f459dbd-ffc6-4423-b84c-c8fee4a108d4', '9c2c95ee-38a4-4167-af34-c957c0d4f2cd', '用户基础信息管理', '基础信息管理', NULL, '/userBasicManage', 100, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
+INSERT INTO `sys_model` VALUES ('10339aaf-d26f-4d52-be81-9056ae2f8df8', '', '模板模块管理', '模板模块管理', NULL, '/templates', 100, '模板模块管理', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
+INSERT INTO `sys_model` VALUES ('83426a96-bda6-42d2-931a-8c19e25a7e6a', '9c2c95ee-38a4-4167-af34-c957c0d4f2cd', '用户系统模块管理', '系统模块管理', '', '/userSysModelManage', 11, '用户系统模块管理', '2021-02-06 22:39:11', '2021-02-06 22:39:11');
+INSERT INTO `sys_model` VALUES ('8f459dbd-ffc6-4423-b84c-c8fee4a108d4', '9c2c95ee-38a4-4167-af34-c957c0d4f2cd', '用户基础信息管理', '基础信息管理', '', '/userBasicManage', 10, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
 INSERT INTO `sys_model` VALUES ('9999e044-35b2-48bb-b41e-e6a7b4cab464', 'a28d7764-1383-4d47-994b-afac6e19f4ec', '角色管理', '角色管理', NULL, '/roleManage', 100, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
 INSERT INTO `sys_model` VALUES ('9c2c95ee-38a4-4167-af34-c957c0d4f2cd', '', '用户管理', '用户管理', 'icon_1', '', 1, '用户管理', '2021-02-06 20:18:29', '2021-02-06 20:18:29');
-INSERT INTO `sys_model` VALUES ('9e6113cd-9edd-44f4-a6f1-0076c4b37232', '9c2c95ee-38a4-4167-af34-c957c0d4f2cd', '用户角色管理', '角色管理', NULL, '/userRoleManage', 100, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
+INSERT INTO `sys_model` VALUES ('9e6113cd-9edd-44f4-a6f1-0076c4b37232', '9c2c95ee-38a4-4167-af34-c957c0d4f2cd', '用户角色管理', '角色管理', '', '/userRoleManage', 12, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
 INSERT INTO `sys_model` VALUES ('a28d7764-1383-4d47-994b-afac6e19f4ec', '', '访问控制', '访问控制', 'icon_2', '', 2, '访问控制', '2021-02-06 19:06:32', '2021-02-06 19:06:32');
 INSERT INTO `sys_model` VALUES ('a8f41f09-fe60-4259-b833-16a8281ee44b', 'a28d7764-1383-4d47-994b-afac6e19f4ec', '权限管理', '权限管理', NULL, '/permissionManage', 100, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
 INSERT INTO `sys_model` VALUES ('d89f9f27-b6c1-416f-adbc-83bcf5ad3ad3', 'a28d7764-1383-4d47-994b-afac6e19f4ec', '角色权限管理', '角色权限管理', NULL, '/rolePermissionManage', 100, '', '2021-02-06 20:11:41', '2021-02-06 20:11:41');
@@ -185,6 +185,7 @@ CREATE TABLE `user`  (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('0e1fb753-ee35-4b2e-be16-b1c44c65bf29', 'cyb', 'cyb', '64c8b1e43d8ba3115ab40bcea57f010b', '123', 'cyb', 1, NULL, 'F:\\Work\\IdeaWorkspace\\bysj\\SpringBootJSPWebTemp\\src\\main\\webapp\\/headportrait/boy.png', 'cyb', NULL, NULL);
+INSERT INTO `user` VALUES ('5d544316-dcbc-4d57-921b-3bfabfe5a4b8', 'test', 'test', 'fc1709d0a95a6be30bc5926fdb7f22f4', '18220765414', '', NULL, '12345', 'F:\\Work\\IdeaWorkspace\\bysj\\SpringBootJSPWebTemp\\src\\main\\webapp\\/headportrait/girl.png', '', '2021-02-14 09:19:26', NULL);
 INSERT INTO `user` VALUES ('9a068790-73c9-4f13-93a5-20ea7d9149a7', 'admin', 'admin', 'fc1709d0a95a6be30bc5926fdb7f22f4', '182208', 'test@163.com', 1, NULL, 'F:\\Work\\IdeaWorkspace\\bysj\\SpringBootJSPWebTemp\\src\\main\\webapp\\/headportrait/boy.png', 'hhhh', '2021-01-24 17:51:11', NULL);
 
 -- ----------------------------

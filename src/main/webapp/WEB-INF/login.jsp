@@ -15,12 +15,6 @@
 	<link rel="stylesheet" type="text/css" href="${ctx}/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="${ctx}/css/animate.css">
 	<link rel="stylesheet" type="text/css" href="${ctx}/css/noticejs.css" />
- 	<script src="${ctx}/js/jquery.js"></script>
-    <script src="${ctx}/js/pintuer.js"></script>
-    <script src="${ctx}/js/cookie_util.js"></script>
-	<script src="${ctx}/js/notice.js"></script>
-	<script src="${ctx}/my/SideMenu.js"></script>
-	<script src="${ctx}/my/BeastRequest.js"></script>
 </head>
 <body>
 	<div class="jq22-container" style="padding-top:10px">

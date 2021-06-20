@@ -1,4 +1,4 @@
-let SideMenu = (function(window) {
+let SideMenu = (function(window, document) {
 
     let SideMenu = function(element, data) {
         return new SideMenu.fn.init(element, data);
@@ -172,4 +172,4 @@ let SideMenu = (function(window) {
     }
     SideMenu.fn.init.prototype = SideMenu.fn;
     return SideMenu;
-})();
+})(window, document);

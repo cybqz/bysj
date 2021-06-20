@@ -1,7 +1,7 @@
 /**
  * 请求封装类
  */
-let BeastRequest = (function(window) {
+let BeastRequest = (function(window, document) {
 
     let BestRequest = function(baseURL, methodURL, data, async, successCallback, errorCallback) {
         return new BestRequest.fn.init(baseURL, methodURL, data, async, successCallback, errorCallback);
@@ -66,4 +66,4 @@ let BeastRequest = (function(window) {
 
     BestRequest.fn.init.prototype = BestRequest.fn;
     return BestRequest;
-})();
+})(window, document);

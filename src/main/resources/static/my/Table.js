@@ -1,7 +1,7 @@
 /**
  * 请求封装类
  */
-let Table = (function(window) {
+let Table = (function(window, document) {
 
     let Table = function(element, option, param, baseurl, methodUrl) {
         return new Table.fn.init(element, option, param, baseurl, methodUrl);
@@ -170,4 +170,4 @@ let Table = (function(window) {
     }
     Table.fn.init.prototype = Table.fn;
     return Table;
-})();
+})(window, document);
